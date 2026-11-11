@@ -1,0 +1,33 @@
+{
+  "name": "@goyoung2/access-kit",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "access-kit": "./bin/access-kit.mjs"
+  },
+  "exports": {
+    "./server": {
+      "types": "./server/gate.d.ts",
+      "import": "./server/gate.mjs"
+    },
+    "./browser": "./browser.js"
+  },
+  "files": [
+    "server",
+    "bin",
+    "browser.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goyoung2/access-kit.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}

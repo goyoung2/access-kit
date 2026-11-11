@@ -1,0 +1,1 @@
+Preserve member IDs and restrictions. Firebase Google identity only. Never connect to the legacy auth host. No private credentials or member exports in Git. Feature branches; local validation before deployment. SDK defaults: seven-day bounded session, request-driven five-minute permission lease.

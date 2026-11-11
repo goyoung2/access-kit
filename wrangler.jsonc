@@ -1,0 +1,25 @@
+{
+  "name": "access-kit",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-24",
+  "vars": {
+    "AUTH_PROVIDER": "firebase"
+  },
+  "rules": [
+    {
+      "type": "Text",
+      "globs": [
+        "**/*.js.txt"
+      ],
+      "fallthrough": true
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "access-kit",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

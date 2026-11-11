@@ -1,0 +1,1 @@
+Derived crypto, PKCE, server gate and membership components from goyoung2/nakwol-auth commit 78f6b3b89551bc807d0d41e2b664496147998824 under MIT. Access Kit is independently built and hosted; no runtime dependency on the original service.
