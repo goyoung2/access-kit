@@ -2,6 +2,7 @@ import {Hono} from 'hono';
 import {z} from 'zod';
 import type {Env} from './types';
 import {registerCommonRoutes} from './common-routes';
+import {MembershipConflict} from './common-admin';
 import {registerConsole} from './console';
 import {registerDeveloperRoutes} from './developer';
 import {randomToken} from './crypto';
@@ -20,6 +21,7 @@ app.use('*',async(c,next)=>{
  await next();
 });
 app.onError((error,c)=>{
+ if(error instanceof MembershipConflict)return c.json({error:error.message},409);
  if(error instanceof z.ZodError)return c.json({error:'INVALID_INPUT'},400);
  console.error('access-kit request failed',{type:error.name,path:c.req.path});
  return c.json({error:'SERVICE_UNAVAILABLE'},503);

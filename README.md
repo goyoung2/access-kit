@@ -35,3 +35,7 @@ npm run dev
 [새 프로젝트 시작](docs/QUICKSTART.md) → [설치 안내](docs/INSTALL.md) → [업데이트·복구](docs/UPGRADE.md).
 기존 서버/Pages middleware는 [어댑터 예제](docs/ADAPTERS.md)를 사용합니다.
 개발자 초대·권한 관리는 `/developer/admin`, 초대 수락 후 설치는 `/developer/install`입니다.
+
+## 0.3 운영 콘솔
+
+회원·권한·시즌·서비스·로그인 디자인은 `/console`에서 관리합니다. [운영 안내](docs/CONSOLE.md)를 참고하세요. 일반 로그인에는 관리 메뉴가 없습니다. 기존 회원 ID와 정책을 보존하는 추가 마이그레이션만 사용합니다.

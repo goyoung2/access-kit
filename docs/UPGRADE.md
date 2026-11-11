@@ -35,3 +35,7 @@ v0.1 CLI가 생성한 프로젝트에는 install 기록이 없습니다. 기존 
 ## GitHub Actions
 
 `npx access-kit automate`가 기존 workflow를 덮어쓰지 않고 수동 배포 workflow를 추가합니다. private 프로젝트에 SDK tarball과 lock을 커밋하고 `access-kit` environment에 CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID를 등록합니다. 필요하면 이 environment에 배포 승인자를 지정합니다. 기존 Worker에 세션 secret은 한 번 등록해 둡니다. 실행 결과에 보호 검사 JSON을 첨부합니다. 자동 반복 실행이나 방문자 polling은 없습니다.
+
+## 0.3 업데이트
+
+DB를 백업한 뒤 `0003_console.sql`까지 마이그레이션을 적용하고 인증기를 배포합니다. 기존 운영자는 최고 관리자 권한을 그대로 유지합니다. 관리자 주소는 `/console`입니다. 새 SDK0.3은 비로그인 접속을 중앙 로그인으로 바로 연결하며, 기존SDK0.2도 중앙 인증과 호환됩니다. 자세한 역할·관리 화면은 [CONSOLE.md](CONSOLE.md)를 참고하세요.
