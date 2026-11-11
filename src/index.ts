@@ -27,7 +27,7 @@ registerCommonRoutes(app);
 registerDeveloperRoutes(app);
 app.get('/',c=>c.redirect('/auth/firebase'));
 app.get('/robots.txt',c=>c.text('User-agent: *\nDisallow: /\n'));
-app.get('/api/health',c=>c.json({ok:true,service:'access-kit',version:'0.1.0'}));
+app.get('/api/health',c=>c.json({ok:true,service:'access-kit',version:'0.2.0'}));
 // The browser runtime contains no member data, keys, or fixed authentication host.
 app.get('/sdk/v0.1.0/access-kit.js',c=>new Response(browserSource,{headers:{'Content-Type':'text/javascript; charset=utf-8','Cache-Control':'public, max-age=31536000, immutable','Access-Control-Allow-Origin':'*','X-Robots-Tag':'noindex'}}));
 for(const route of ['/token','/me','/logout'])app.use(route,async(c,next)=>{

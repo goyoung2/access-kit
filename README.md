@@ -29,3 +29,9 @@ npm run dev
 배포 상태와 검증 범위는 [검증 기록](docs/VALIDATION.md)에 명시합니다. 릴리스 파일은 GitHub 저장소 권한으로 접근합니다. 인증 서버의 개발자 페이지는 별도 개발자/운영자 권한이 필요합니다.
 
 원본에서 재사용한 구성의 출처·라이선스는 [NOTICE](NOTICE.md)에 남깁니다.
+
+## 0.2 설치 도구
+
+[새 프로젝트 시작](docs/QUICKSTART.md) → [설치 안내](docs/INSTALL.md) → [업데이트·복구](docs/UPGRADE.md).
+기존 서버/Pages middleware는 [어댑터 예제](docs/ADAPTERS.md)를 사용합니다.
+개발자 초대·권한 관리는 `/developer/admin`, 초대 수락 후 설치는 `/developer/install`입니다.

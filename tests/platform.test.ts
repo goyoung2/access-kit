@@ -55,3 +55,26 @@ test('HTTP authorization enforces registered callback and PKCE input; SDK has no
  const denied=await app.request(base+'/me?client_id=site',{headers:{Authorization:'Bearer unknown'}},f.env);assert.equal(denied.status,401);
  const cors=await app.request(base+'/token?client_id=site',{method:'OPTIONS',headers:{Origin:'https://evil.test'}},f.env);assert.equal(cors.status,403);
 });
+
+test('operator invites developers once and can revoke access without granting membership',async t=>{
+ const f=await createAuthFixture();t.after(f.dispose);
+ await f.DB.prepare("INSERT INTO auth_operators VALUES('user','operator',0,NULL)").run();
+ const session=await createSession(f.env,'user');
+ const request=(cookie:string,path:string,body:unknown)=>app.request('https://auth.test'+path,{method:'POST',headers:{Cookie:cookie,Origin:'https://auth.test','X-Access-Kit-Action':'1','Content-Type':'application/json'},body:JSON.stringify(body)},f.env);
+ const op='accesskit_sid='+session.token;
+ const invitation=await request(op,'/developer/admin/action',{action:'invite'});
+ assert.equal(invitation.status,200);const payload=await invitation.json();
+ assert.ok(typeof payload==='object'&&payload!==null&&'url' in payload&&typeof payload.url==='string');
+ const token=new URL(payload.url).hash.slice(1);
+ await f.DB.prepare("INSERT INTO users VALUES('dev','Developer',NULL,'active',0,0)").run();
+ const dev='accesskit_sid='+(await createSession(f.env,'dev')).token;
+ assert.equal((await request(dev,'/developer/admin/action',{action:'invite'})).status,403);
+ assert.equal((await request(dev,'/developer/invitation/redeem',{token})).status,200);
+ assert.equal((await request(dev,'/developer/invitation/redeem',{token})).status,409);
+ assert.equal((await f.DB.prepare("SELECT status FROM developers WHERE user_id='dev'").first())?.status,'active');
+ assert.equal(await f.DB.prepare("SELECT user_id FROM common_members WHERE user_id='dev'").first(),null);
+ assert.equal((await request(op,'/developer/admin/action',{action:'permission',userId:'dev',status:'inactive'})).status,200);
+ assert.equal((await app.request('https://auth.test/developer/install',{headers:{Cookie:dev}},f.env)).status,403);
+ assert.equal((await request(dev,'/developer/invitation/redeem',{token})).status,409);
+ assert.equal((await f.DB.prepare("SELECT status FROM developers WHERE user_id='dev'").first())?.status,'inactive');
+});

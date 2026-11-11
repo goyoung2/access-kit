@@ -24,3 +24,13 @@ test('seven day site session reuses identity locally and rechecks season permiss
  assert.equal((await gate(new Request('https://site.test/private.json',{headers}),host)).status,403);
  assert.equal(checks,2);assert.equal(served,5,'season removal never reaches protected handler');
 });
+
+test('authenticated application POST reaches the original handler with its body',async t=>{
+ t.mock.method(globalThis,'fetch',async()=>Response.json({ok:true,data:{id:'post-user',display_name:'User',status:'active',membership:{is_member:true}},expires_at:Date.now()+604800000,application_access:{client_id:'post-app',allowed:true,source:'policy'}}));
+ const gate=createGate({clientId:'post-app',siteUrl:'https://post.test/',authOrigin:'https://auth.test',accessPolicy:'member'});
+ let dispatched=0;const host={sessionSecret:'test-secret-with-at-least-32-characters',serveAsset:async r=>{dispatched++;return new Response(await r.text(),{status:201});}};
+ assert.equal((await gate(new Request('https://post.test/api',{method:'POST',body:'denied'}),host)).status,401);assert.equal(dispatched,0);
+ const login=await gate(new Request('https://post.test/__accesskit/session',{method:'POST',headers:{Origin:'https://post.test','Content-Type':'application/json'},body:JSON.stringify({access_token:'post-test-token'})}),host);
+ const cookie=login.headers.get('Set-Cookie').split(';')[0];const response=await gate(new Request('https://post.test/api',{method:'POST',headers:{Cookie:cookie},body:'original-body'}),host);
+ assert.equal(response.status,201);assert.equal(await response.text(),'original-body');assert.equal(dispatched,1);
+});

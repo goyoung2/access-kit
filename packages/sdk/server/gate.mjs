@@ -1,6 +1,6 @@
 import { loginPage, diagnosticsPage } from './login.mjs';
 
-export const RUNTIME_VERSION = '0.1.0';
+export const RUNTIME_VERSION = '0.2.0';
 export const COOKIE = '__Host-accesskit_connect';
 export const AUTHORIZATION_LEASE_MS = 60 * 60 * 1000;
 const encoder = new TextEncoder();
@@ -58,7 +58,10 @@ async function verify(token, settings, diagnostic) {
       headers: { ...(diagnostic || {}), Authorization: `Bearer ${token}`, ...(settings.accessPolicy === 'member' ? { 'X-Access-Kit-Require-Member': 'true' } : {}) },
       cache: 'no-store', redirect: 'manual', signal: AbortSignal.timeout(30000),
     });
-    if (result.status !== 200) return { status: [401, 403].includes(result.status) ? result.status : 503 };
+    if (result.status !== 200) {
+      if (![401,403].includes(result.status)) console.warn('access-kit AUTH unavailable',{status:result.status,host:new URL(settings.authOrigin).host});
+      return { status: [401, 403].includes(result.status) ? result.status : 503 };
+    }
     const body = await result.json();
     if (body.ok !== true || body.data?.status !== 'active' || typeof body.data.id !== 'string' || !body.data.id || body.data.id.length > 256) return { status: 403 };
     if (body.application_access?.client_id !== settings.clientId || body.application_access?.allowed !== true
@@ -75,7 +78,7 @@ async function verify(token, settings, diagnostic) {
       userId: body.data.id, displayName: typeof body.data.display_name==='string'?body.data.display_name.slice(0,128):'', membershipAdmin:body.data.membershipAdmin===true, allowed: true, source: body.application_access.source,
       verifiedAt, leaseUntil,
     } };
-  } catch { return { status: 503 }; } // AUTH outages fail closed at the request boundary.
+  } catch(error) { console.warn('access-kit AUTH request failed',{type:error instanceof Error?error.name:'unknown',message:error instanceof Error?error.message:'unknown'});return { status: 503 }; }
 }
 
 // Isolate-local, bounded state. Valid encrypted leases never need remote storage.
@@ -187,7 +190,8 @@ export async function serveProtected(request, env, settings) {
     if (isRevoked(sessionId(token, settings))) return denied(request, 401, settings);
     return response(null, 204, { 'Set-Cookie': cookie });
   }
-  if (!['GET', 'HEAD'].includes(request.method)) return response(null, 405);
+  // Existing applications own their API method/CSRF policy. Authentication must
+  // run before dispatch, but must not discard their POST/PUT/DELETE handlers.
   if (url.pathname === '/__accesskit/login' || (url.pathname === '/' && (url.searchParams.has('code') || url.searchParams.has('error')))) return denied(request, 401, settings);
   if (!session) return denied(request, 401, settings);
   if (isRevoked(sessionId(session.token, settings))) return denied(request, 401, settings);

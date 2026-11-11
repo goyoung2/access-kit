@@ -17,4 +17,7 @@ Developer page and service-management API require operator or explicitly granted
 Visible focus, polite status messages, labels in Korean, semantic sections. Verify desktop 1440px and mobile 390px with no horizontal overflow. Copy failures offer manual selection. Verification is an observation, never an automatic deployment-success claim.
 
 ## Accepted scope
-Workers static installer plus Fetch API server adapter. Deployment instructions and private release distribution; no public marketing page or public package registry.
+Workers and Pages installers plus Fetch API server adapter. Deployment instructions and private release distribution; no public marketing page or public package registry.
+
+## Installation studio v0.2
+Single active step (service, environment, install, verify/update); 44px numbered rail buttons with aria-current. Previous/next controls inside each panel. A compact selected-service summary stays visible. Environment inputs precede generated commands. Configuration saved, commands prepared and deployment verified are separate states; never imply terminal actions ran from a next button. Developer administration uses the same neutral palette. Error/status regions stay beside the active action. No external fonts, trackers, animations or new framework.
