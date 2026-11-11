@@ -2,7 +2,7 @@ import {mkdir,readFile,copyFile,writeFile} from 'node:fs/promises';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 const pkg=JSON.parse(await readFile('packages/sdk/package.json','utf8'));
-const browser=await readFile('packages/sdk/browser.js','utf8');
+const browser=(await readFile('packages/sdk/browser.js','utf8')).replaceAll('\r\n','\n');
 const generated='export default '+JSON.stringify(browser)+';\n';
 // Generated runtime is committed so Worker builds do not require the SDK installer.
 await writeFile('src/browser-source.ts',generated);
