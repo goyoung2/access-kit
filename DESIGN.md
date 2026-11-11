@@ -1,23 +1,13 @@
-# Access Kit UI contract
+# Access Kit design contract
 
-## Layout and hierarchy
-Developer installation: 1120px shell, 220px sticky step rail, flexible content. Below 760px: horizontal step navigation, single column with 16px gutters. Decision sequence: service registration, SDK installation, validation, upgrades.
+Independent identity product. Neutral light canvas, charcoal typography, restrained indigo action. No game/alliance colors, imagery or terminology in navigation branding.
 
-## Tokens
-Background #0b1020, panel #111a2b, line #29364b, text #f1f5f9, muted #a6b3c7, action #8395ff. System typography; headings 36/30/22px, body 15px; spacing 8/12/16/24/28/40px; card radius 16px. Restrained radial light, no animation.
-Membership approval retains the existing reviewed dark/gold form palette (#15140f, #211f18, #e4c578) and native controls. No alliance name in shared identity.
+Tokens: background #f6f7fb, surface #ffffff, text #182230, muted #667085, border #e4e7ec, primary #4657cf, danger #b42318, positive #067647. Dark login variant: background #121722, surface #1c2433, text #f4f6fb, muted #a9b4c7. System typography 14/16 body, 24/32 headings. Spacing 8/12/16/24/32; radius 12. Buttons 44px minimum. No external fonts or animations.
 
-## Components and states
-Native labelled inputs/selects; action button at least 44px; current service selector; copyable command panel; details for server adapter code. Explicit loading, saved, rejected and unavailable states. Buttons disable during writes and recover after errors.
+Console: 224px persistent sidebar and bounded content; mobile navigation horizontal, stacked controls. Pages: overview, applications, members, seasons, services, administrators, branding, history. Searchable tables with detail drawer. Action confirmation in HTML dialog, no native browser confirm. Empty, loading, failure, saved and permission-denied states visible. Persistent labels and keyboard focus.
 
-## Access and privacy
-Developer page and service-management API require operator or explicitly granted developer access. Service lists and writes are owner scoped. No tokens or secret key inputs in the installation page. SDK configuration is non-secret. Ordinary login remains Google -> game identity application -> approval -> return to service.
+Login: single centered panel, service branding, Google button, application/status only. No management or SDK navigation. Console login is a separate intent and returns to console. Service branding includes title, safe HTTPS logo, accent, theme and short description, preview before save.
 
-## Accessibility and validation
-Visible focus, polite status messages, labels in Korean, semantic sections. Verify desktop 1440px and mobile 390px with no horizontal overflow. Copy failures offer manual selection. Verification is an observation, never an automatic deployment-success claim.
+Permission: existing operators retain superadmin authority. Scoped member managers only manage their organization; developers only own services. User identities and membership restrictions preserved. Role revocation server enforced. Last operator deletion rejected atomically.
 
-## Accepted scope
-Workers and Pages installers plus Fetch API server adapter. Deployment instructions and private release distribution; no public marketing page or public package registry.
-
-## Installation studio v0.2
-Single active step (service, environment, install, verify/update); 44px numbered rail buttons with aria-current. Previous/next controls inside each panel. A compact selected-service summary stays visible. Environment inputs precede generated commands. Configuration saved, commands prepared and deployment verified are separate states; never imply terminal actions ran from a next button. Developer administration uses the same neutral palette. Error/status regions stay beside the active action. No external fonts, trackers, animations or new framework.
+Verification: desktop1440/mobile390, real role grant/revoke, member approval/suspension, access diagnosis, login and reconnection. Design preview uses same tokens; no mock success labels.

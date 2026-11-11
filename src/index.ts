@@ -2,6 +2,7 @@ import {Hono} from 'hono';
 import {z} from 'zod';
 import type {Env} from './types';
 import {registerCommonRoutes} from './common-routes';
+import {registerConsole} from './console';
 import {registerDeveloperRoutes} from './developer';
 import {randomToken} from './crypto';
 import {getApplication,isAllowedRedirect,isAllowedOrigin,parseCookies} from './http';
@@ -23,11 +24,12 @@ app.onError((error,c)=>{
  console.error('access-kit request failed',{type:error.name,path:c.req.path});
  return c.json({error:'SERVICE_UNAVAILABLE'},503);
 });
+registerConsole(app);
 registerCommonRoutes(app);
 registerDeveloperRoutes(app);
 app.get('/',c=>c.redirect('/auth/firebase'));
 app.get('/robots.txt',c=>c.text('User-agent: *\nDisallow: /\n'));
-app.get('/api/health',c=>c.json({ok:true,service:'access-kit',version:'0.2.0'}));
+app.get('/api/health',c=>c.json({ok:true,service:'access-kit',version:'0.3.0'}));
 // The browser runtime contains no member data, keys, or fixed authentication host.
 app.get('/sdk/v0.1.0/access-kit.js',c=>new Response(browserSource,{headers:{'Content-Type':'text/javascript; charset=utf-8','Cache-Control':'public, max-age=31536000, immutable','Access-Control-Allow-Origin':'*','X-Robots-Tag':'noindex'}}));
 for(const route of ['/token','/me','/logout'])app.use(route,async(c,next)=>{

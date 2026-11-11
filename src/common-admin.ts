@@ -80,7 +80,7 @@ export async function mutateMembership(env:Env,actor:string,action:z.infer<typeo
 }
 
 export async function membershipOverview(env:Env){
- const [applications,members,seasons,organizations,assignments,services]=await env.DB.batch([
+ const [applications,members,seasons,organizations,assignments,services]=await env.DB.batch<Record<string,unknown>>([
   env.DB.prepare(`SELECT r.*,u.display_name,(SELECT COUNT(*) FROM member_applications x WHERE x.realm=r.realm AND x.game_uid=r.game_uid AND x.user_id<>r.user_id AND x.status='pending') AS pending_duplicates,(SELECT user_id FROM game_accounts g WHERE g.realm=r.realm AND g.game_uid=r.game_uid) AS registered_user FROM member_applications r JOIN users u ON u.id=r.user_id ORDER BY requested_at DESC`),
   env.DB.prepare('SELECT u.id,u.display_name,m.status,g.realm,g.game_uid,g.nickname FROM common_members m JOIN users u ON u.id=m.user_id LEFT JOIN game_accounts g ON g.user_id=u.id ORDER BY g.nickname,u.display_name'),
   env.DB.prepare('SELECT * FROM member_seasons ORDER BY rowid DESC'),env.DB.prepare('SELECT * FROM member_organizations'),

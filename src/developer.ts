@@ -21,7 +21,7 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
  app.get('/developer/invitation',c=>c.html(invitationPage()));
  app.get('/developer/admin',async c=>{
   const identity=await developer(c);if(!identity?.admin)return c.text('운영자 로그인이 필요합니다.',403);
-  return c.html(developerAdminPage());
+  return c.redirect('/console#roles');
  });
  app.get('/developer/admin/data',async c=>{
   const identity=await developer(c);if(!identity?.admin)return c.json({error:'ADMIN_REQUIRED'},403);
@@ -71,7 +71,7 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
   const identity=await developer(c);if(!identity)return c.json({error:'DEVELOPER_REQUIRED'},403);
   const services=await c.env.DB.prepare(`SELECT a.*,p.mode,p.organization_id FROM applications a JOIN application_owners o ON o.client_id=a.client_id JOIN common_application_policies p ON p.client_id=a.client_id WHERE ?=1 OR o.user_id=? ORDER BY a.name`).bind(identity.admin?1:0,identity.user).all();
   const organizations=await c.env.DB.prepare('SELECT id,name FROM member_organizations ORDER BY name').all();
-  return c.json({services:services.results,organizations:organizations.results,authOrigin:new URL(c.req.url).origin,version:'0.2.0',admin:identity.admin});
+  return c.json({services:services.results,organizations:organizations.results,authOrigin:new URL(c.req.url).origin,version:'0.3.0',admin:identity.admin});
  });
  app.post('/developer/services',async c=>{
   if(c.req.header('Origin')!==new URL(c.req.url).origin||c.req.header('X-Access-Kit-Action')!=='1')return c.json({error:'ORIGIN_DENIED'},403);
