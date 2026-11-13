@@ -11,6 +11,7 @@ import {findSessionUser,exchangeAuthorizationCode,revokeAccessToken,cleanupExpir
 import {inspectApplicationTokenAccess} from './policy';
 import browserSource from './browser-source';
 import legacyBrowserSource from './browser-source-v010';
+import {publicGuidePage} from './guide-page';
 
 const app=new Hono<{Bindings:Env}>();
 app.use('*',async(c,next)=>{
@@ -18,7 +19,8 @@ app.use('*',async(c,next)=>{
  c.header('X-Content-Type-Options','nosniff');
  c.header('Referrer-Policy','no-referrer');
  c.header('Cache-Control','no-store');
- if(c.env.AUTH_PROVIDER!=='firebase')return c.json({error:'FIREBASE_CONFIGURATION_REQUIRED'},503);
+ const publicGuide=c.req.path==='/guide'&&(c.req.method==='GET'||c.req.method==='HEAD');
+ if(!publicGuide&&c.env.AUTH_PROVIDER!=='firebase')return c.json({error:'FIREBASE_CONFIGURATION_REQUIRED'},503);
  await next();
 });
 app.onError((error,c)=>{
@@ -31,6 +33,7 @@ registerConsole(app);
 registerCommonRoutes(app);
 registerDeveloperRoutes(app);
 app.get('/',c=>c.redirect('/auth/firebase'));
+app.get('/guide',c=>c.html(publicGuidePage()));
 app.get('/robots.txt',c=>c.text('User-agent: *\nDisallow: /\n'));
 app.get('/api/health',c=>c.json({ok:true,service:'access-kit',version:'0.3.1'}));
 // The browser runtime contains no member data, keys, or fixed authentication host.

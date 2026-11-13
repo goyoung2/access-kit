@@ -1,6 +1,7 @@
 {
   "name": "@goyoung2/access-kit",
   "version": "0.3.1",
+  "description": "Google sign-in, approved-member access gates and installation CLI for Access Kit",
   "type": "module",
   "license": "MIT",
   "bin": {
@@ -17,6 +18,7 @@
     "server",
     "bin",
     "browser.js",
+    "docs",
     "README.md",
     "LICENSE"
   ],
@@ -28,7 +30,8 @@
     "url": "git+https://github.com/goyoung2/access-kit.git"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
     "jsonc-parser": "^3.3.1",

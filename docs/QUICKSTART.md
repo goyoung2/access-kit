@@ -1,6 +1,6 @@
 # 새 프로젝트: 처음부터 설치
 
-Node.js 22 LTS, GitHub CLI, Cloudflare 계정, Access Kit 개발자 초대가 필요합니다.
+Node.js 22 LTS와 Cloudflare 계정이 필요합니다. 공개 SDK 설치에는 GitHub 초대·npm 로그인이 필요하지 않습니다. 사용할 Access Kit 서버의 서비스 등록 권한은 운영자에게 별도로 받습니다. 특정 맹에 속해야 개발할 수 있는 구조는 아닙니다.
 
 ## 최소 정적 사이트 만들기
 
@@ -15,7 +15,13 @@ node -e "const fs=require('fs');fs.mkdirSync('dist',{recursive:true});fs.writeFi
 
 Cloudflare 대시보드에서 본인 계정의 workers.dev 하위 도메인을 확인합니다. Worker 이름을 `my-member-site`로 정했다면 서비스 주소는 `https://my-member-site.본인하위도메인.workers.dev/`입니다.
 
-인증기의 설치 스튜디오에서 이 주소로 서비스를 등록하고, 호스팅 Workers / 빌드 폴더 dist / 프로젝트 이름 my-member-site를 선택합니다. 다음 단계가 생성한 명령을 실행합니다. SDK tarball과 package-lock.json은 private 프로젝트에 보관합니다.
+인증기의 `/guide`에서 안내를 읽고, `/developer/install`에서 이 주소로 서비스를 등록합니다. 승인 회원 전체 / 현재 시즌 지정 조직(맹) / 최고 관리자 전용 중 필요한 조건을 선택합니다. 호스팅 Workers / 빌드 폴더 dist / 프로젝트 이름 my-member-site를 선택하고 생성한 명령을 실행합니다.
+
+SDK는 npm에 해당 버전이 게시된 뒤 다음과 같이 설치합니다. `package.json`과 `package-lock.json`을 커밋하세요.
+
+```sh
+npm install --save-exact @goyoung2/access-kit@0.3.1
+```
 
 설치 도중 `secret`이 새 Worker 생성 여부를 물으면 위에서 정한 이름을 확인한 뒤 진행합니다. `deploy`가 출력한 URL과 등록 주소가 일치하는지 확인합니다. 익명 보호 검사 통과 후 브라우저에서 Google 로그인을 눌러 회원 승인 후 입장까지 확인합니다.
 

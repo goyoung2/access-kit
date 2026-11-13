@@ -2,12 +2,16 @@
 
 ## SDK 버전 올리기
 
-1. private Releases에서 새 SDK와 SHA256SUMS를 받습니다. 배포 프로젝트에서 다운로드한 버전과 해시를 사용합니다.
+1. `npm view @goyoung2/access-kit versions --json`으로 게시된 버전을 확인하고 정확한 `X.Y.Z`를 선택합니다. npm 로그인이나 GitHub 초대는 필요 없습니다.
 2. 현재 소스와 package-lock.json을 커밋합니다.
-3. `npx access-kit update --package ./다운로드한-SDK.tgz --sha256 실제64자리해시`를 실행합니다.
-4. 도구가 해시를 확인하고 package.json/lock을 `.access-kit/backups/시간/`에 보관합니다. tarball은 `vendor/`에 해시 이름으로 보관합니다. npm install, 기존 build, 파일/경로 검사를 실행합니다. 실패하면 이전 의존성을 복원하고 실패를 보고합니다.
+3. `npx access-kit update --version X.Y.Z`를 실행합니다. `latest`, 버전 범위, 파일 옵션과 혼합은 거부합니다.
+4. 도구가 package.json/lock을 `.access-kit/backups/시간/`에 보관하고 정확한 npm 버전을 설치합니다. 기존 build, 파일/경로 검사와 설치 버전 검사를 실행합니다. 실패하면 이전 의존성을 복원하고 실패를 보고합니다. 성공 기록은 `.access-kit/last-update.json`입니다.
 5. **새 프로세스**에서 `npx access-kit deploy`를 실행합니다. 설치된 새 런타임으로 배포하고 실제 사이트 버전을 확인합니다.
-6. Google 로그인·미승인 차단·기존 API·재접속을 확인한 후 package.json, lock, vendor, 설정을 커밋합니다.
+6. Google 로그인·미승인 차단·기존 API·재접속을 확인한 후 package.json, lock, 설정을 커밋합니다.
+
+기존 SDK에 `--version` 옵션이 없다면 새 버전을 `npm install --save-exact @goyoung2/access-kit@X.Y.Z`로 설치한 뒤 build와 `npx access-kit doctor`를 실행합니다. 실패하면 이전 package/lock을 복원하고 `npm ci`로 되돌립니다. 설치 기록이 없는 수동 호스팅도 이 방식으로 자체 build/test/deploy를 사용합니다.
+
+파일 배포는 계속 `npx access-kit update --package ./SDK.tgz --sha256 실제64자리해시`로 지원합니다. 파일 해시 검사 후 tarball을 `vendor/`의 해시 이름으로 보관하고 같은 백업·검증·복구 과정을 거칩니다. 이 경우 vendor도 커밋합니다.
 
 인증기 Worker는 별도입니다. 서비스 SDK 업데이트가 인증기 D1이나 회원 명부를 변경하지 않습니다.
 
@@ -34,7 +38,7 @@ v0.1 CLI가 생성한 프로젝트에는 install 기록이 없습니다. 기존 
 
 ## GitHub Actions
 
-`npx access-kit automate`가 기존 workflow를 덮어쓰지 않고 수동 배포 workflow를 추가합니다. private 프로젝트에 SDK tarball과 lock을 커밋하고 `access-kit` environment에 CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID를 등록합니다. 필요하면 이 environment에 배포 승인자를 지정합니다. 기존 Worker에 세션 secret은 한 번 등록해 둡니다. 실행 결과에 보호 검사 JSON을 첨부합니다. 자동 반복 실행이나 방문자 polling은 없습니다.
+`npx access-kit automate`가 기존 workflow를 덮어쓰지 않고 수동 배포 workflow를 추가합니다. SDK의 정확한 버전과 lock을 커밋하고 `access-kit` environment에 CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID를 등록합니다. 파일 설치는 vendor도 포함합니다. 필요하면 이 environment에 배포 승인자를 지정합니다. 기존 Worker에 세션 secret은 한 번 등록해 둡니다. 실행 결과에 보호 검사 JSON을 첨부합니다. 자동 반복 실행이나 방문자 polling은 없습니다.
 
 ## 0.3 업데이트
 

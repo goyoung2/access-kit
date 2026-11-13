@@ -1,0 +1,64 @@
+name: Publish Access Kit SDK
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Exact SDK version matching the selected vX.Y.Z tag'
+        required: true
+        type: string
+      first_publish:
+        description: 'Use the one-time npm-publish environment token for the first publication'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: access-kit-npm-publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    env:
+      SDK_VERSION: ${{ inputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org/'
+      - name: Require the matching release tag and public package
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync} from 'node:fs';
+          const pkg=JSON.parse(readFileSync('packages/sdk/package.json','utf8'));
+          const version=process.env.SDK_VERSION;
+          if(!/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(version)||pkg.version!==version||process.env.GITHUB_REF!=='refs/tags/v'+version)throw Error('Select the matching vX.Y.Z tag and package version');
+          if(pkg.name!=='@goyoung2/access-kit'||pkg.private===true||pkg.publishConfig.access!=='public'||pkg.publishConfig.registry!=='https://registry.npmjs.org/')throw Error('Unexpected publication target');
+          NODE
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run sdk:pack
+      - run: git diff --exit-code -- src/browser-source.ts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: access-kit-sdk-${{ inputs.version }}
+          path: |
+            dist/access-kit-sdk-*.tgz
+            dist/SHA256SUMS
+      - name: First publication with one-time token
+        if: inputs.first_publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          test -n "$NODE_AUTH_TOKEN" || { echo 'Set the first-publication NPM_TOKEN in the npm-publish environment'; exit 1; }
+          npm publish "dist/access-kit-sdk-${SDK_VERSION}.tgz" --access public --registry=https://registry.npmjs.org/
+      - name: Publish with npm Trusted Publishing
+        if: ${{ !inputs.first_publish }}
+        run: npm publish "dist/access-kit-sdk-${SDK_VERSION}.tgz" --access public --registry=https://registry.npmjs.org/
+      - name: Check anonymous registry installation
+        run: |
+          npm view "@goyoung2/access-kit@${SDK_VERSION}" version --registry=https://registry.npmjs.org/
+          npm exec --yes --registry=https://registry.npmjs.org/ --package="@goyoung2/access-kit@${SDK_VERSION}" -- access-kit help

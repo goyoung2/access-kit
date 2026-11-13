@@ -4,7 +4,7 @@ import {createInterface} from 'node:readline/promises';
 import {install, doctor, loadState, sync, prepare} from './project.mjs';
 import {verify} from './verify.mjs';
 import {update, deploy, secret, automate} from './operations.mjs';
-const strings=['client-id','auth-origin','site-url','access-policy','assets','hosting','config','name','branch','url','package','sha256','path','report'];
+const strings=['client-id','auth-origin','site-url','access-policy','assets','hosting','config','name','branch','url','package','sha256','version','path','report'];
 const options=Object.fromEntries(strings.map(k=>[k,{type:'string'}]));
 for(const k of ['plan','local']) options[k]={type:'boolean'};
 try {
@@ -39,9 +39,12 @@ try {
   deploy [--branch BRANCH]
                          검사 → 운영 배포 → 새 배포의 사이트 보호 검사 (Pages는 운영 브랜치 지정)
   verify [--path /api]   모든 빌드 자산·추가 경로 검사
+  update --version X.Y.Z  npm 정확한 버전 → 백업 → 설치 → 빌드 → 검사
   update --package ./SDK.tgz --sha256 HASH
-                         백업 → 해시 검사 → 설치 → 빌드 → 검사
+                         오프라인 파일 → 해시 검사 → 같은 업데이트·복구
   automate               수동 실행 GitHub Actions 배포 workflow 생성
-문서: https://github.com/goyoung2/access-kit/blob/main/docs/INSTALL.md`);
+문서: https://www.npmjs.com/package/@goyoung2/access-kit
+상세 안내: node_modules/@goyoung2/access-kit/docs/INSTALL.md
+인증 서버의 공개 안내: https://인증서버/guide`);
  }
 } catch(error) {console.error(error instanceof Error?error.message:String(error));process.exitCode=1;}

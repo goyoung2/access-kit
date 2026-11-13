@@ -48,16 +48,18 @@ async function installedCli(){
   if(typeof entry!=='string'||!entry)throw Error('Missing Access Kit CLI');
   const cli=resolve(root,entry),rel=relative(root,cli);
   if(!rel||rel==='..'||rel.startsWith('..'+sep)||isAbsolute(rel))throw Error('Invalid Access Kit CLI path');
-  console.log(JSON.stringify({cli,runtime:RUNTIME_VERSION}));
+  console.log(JSON.stringify({cli,runtime:RUNTIME_VERSION,version:metadata.version}));
  `;
  const installed=JSON.parse(await runNode('--input-type=module',['-e',source],{capture:true}));
  return installed;
 }
-async function verifyInstalled(){
+async function verifyInstalled(expectedVersion){
  const installed=await installedCli();
+ if(expectedVersion&&installed.version!==expectedVersion)throw Error('요청한 SDK 버전과 설치된 버전이 다릅니다.');
  await runNode(installed.cli,['prepare']);
  const result=JSON.parse(await runNode(installed.cli,['doctor'],{capture:true}));
  if(result.ok!==true||result.runtime!==installed.runtime)throw Error('설치된 SDK doctor 응답이 올바르지 않습니다.');
+ return installed;
 }
 export async function secret(options){
  const state=await loadState();await doctor();
@@ -108,21 +110,29 @@ export async function deploy(options={}){
  }
  const result=await verify(state,{deploymentId});console.log(json(result));if(!result.ok)throw Error('배포 후 보호 검사가 실패했습니다. .access-kit/last-verification.json을 확인하고 이전 배포로 복구하세요. 자동 성공 처리하지 않았습니다.');
 }
-export async function update(options){
- await doctor();if(!options.package||! /^[a-f0-9]{64}$/i.test(options.sha256||''))throw Error('릴리스 파일과 SHA256SUMS의 해시를 --package, --sha256로 지정하세요.');
- const archive=await readFile(options.package);if(digest(archive)!==options.sha256.toLowerCase())throw Error('SDK 해시가 일치하지 않습니다. 설치하지 않았습니다.');
+export async function update(options={}){
+ let source,archive;
+ if(options.version!==undefined){
+  if(options.package||options.sha256||!/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(options.version))throw Error('npm 업데이트는 --version X.Y.Z로 정확한 버전만 지정하세요. --package/--sha256와 함께 사용할 수 없습니다.');
+  source='@goyoung2/access-kit@'+options.version;
+ }else{
+  if(!options.package||! /^[a-f0-9]{64}$/i.test(options.sha256||''))throw Error('--version X.Y.Z 또는 --package SDK.tgz --sha256 HASH를 지정하세요.');
+  archive=await readFile(options.package);if(digest(archive)!==options.sha256.toLowerCase())throw Error('SDK 해시가 일치하지 않습니다. 설치하지 않았습니다.');
+ }
+ await doctor();
  const state=await loadState(),id=new Date().toISOString().replaceAll(/[:.]/g,'-');
  await mkdir('.access-kit/backups',{recursive:true});
  const backup=await mkdtemp('.access-kit/backups/'+id+'-');
  for(const name of ['package.json','package-lock.json']){await access(name);await copyFile(name,join(backup,name));}
- const target=join('vendor','access-kit-'+digest(archive)+'.tgz');await mkdir(dirname(target),{recursive:true});await writeFile(target,archive);
- try{await run('npm',['install','--save-exact','./'+target]);await build();await verifyInstalled();}
+ if(archive){const target=join('vendor','access-kit-'+digest(archive)+'.tgz');await mkdir(dirname(target),{recursive:true});await writeFile(target,archive);source='./'+target;}
+ let installed;
+ try{await run('npm',['install','--save-exact','--',source]);await build();installed=await verifyInstalled(options.version);}
  catch(error){
   try{for(const name of ['package.json','package-lock.json'])await copyFile(join(backup,name),name);await run('npm',['ci']);await build();await verifyInstalled();}
   catch(rollbackError){throw new AggregateError([error,rollbackError],`업데이트 및 복원 실패. 백업: ${backup}. ${error.message}\n${rollbackError.message}`);}
   throw Error(`업데이트 실패, 이전 의존성 복원. 기록: ${backup}. ${error instanceof Error?error.message:String(error)}`);
  }
- await writeFile('.access-kit/last-update.json',json({at:new Date().toISOString(),backup,sha256:digest(archive),hosting:state.hosting}));
+ await writeFile('.access-kit/last-update.json',json({at:new Date().toISOString(),backup,source,version:installed.version,...(archive?{sha256:digest(archive)}:{}),hosting:state.hosting}));
  console.log(`업데이트 검사 완료. 백업: ${backup}\n다음: npx access-kit deploy (새 SDK 프로세스로 배포·버전 검사)`);
 }
 async function build(){
@@ -159,6 +169,6 @@ jobs:
           name: access-kit-verification
           path: .access-kit/last-verification.json
 `);
- console.log(`${path} 생성. 저장소 access-kit 환경에 Cloudflare 비밀값을 등록하세요. SDK tarball은 private 저장소 vendor/에 고정하고 package-lock.json에 상대 경로로 기록하세요. 자동 주기 실행은 없습니다.`);
+ console.log(`${path} 생성. 저장소 access-kit 환경에 Cloudflare 비밀값을 등록하세요. SDK 정확한 버전과 package-lock.json을 커밋하세요. 파일 설치라면 vendor/도 함께 보관하세요. 자동 주기 실행은 없습니다.`);
 }
 

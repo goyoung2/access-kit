@@ -54,3 +54,16 @@
 - 비로그인 신규 브라우저가 데모에 접속하면 중앙 로그인으로 바로 이동. 콘솔에서 저장한 멤버 라운지 이름·안내 표시. 관리 링크0 확인. 일반 로그인과 콘솔 로그인 분리.
 - SDK0.3 배포 후 익명 자산 보호16/16 통과. 세션7일 및 기본5분 권한 재확인 동작은 기존 회귀 검사로 보존.
 - 실제 운영 전보 서버는 변경하지 않았습니다. 임시 인증기 및 임시 데모에서 검증했습니다.
+
+## 공개 npm 설치 준비 — 2026-11-13
+
+브랜치 `codex/public-npm-install`, 기준 `67c18a264c2556e0e8517241f270993b6fec625d`. 비공개 GitHub 초대·릴리스 다운로드 대신 공개 npm 패키지를 기본 설치 경로로 준비했습니다. SDK 0.3.1은 아직 게시하지 않은 버전이며 이번 작업에서 원격 push·릴리스·npm 게시·DB 마이그레이션·원격 배포를 수행하지 않았습니다.
+
+- TypeScript 검사와 전체 `npm test` **43/43 통과**. 회원 ID 보존, 정지·시즌 정책, 마지막 관리자, Google 연결, Pages 우회 차단의 기존 회귀를 함께 확인했습니다.
+- 실제 npm을 격리 HTTP 레지스트리에 연결해 `update --version 0.3.10`의 정확한 버전 저장·새 프로세스 검사와 손상된 0.3.11 설치 후 package/lock·의존성 복원을 확인했습니다. latest·범위·추가 명령 문자열·파일 옵션 혼합은 거부했습니다. 기존 tarball hash 검증·복구도 통과했습니다.
+- 독립 검토 후 번들 `CONSOLE.md` 링크와 Trusted Publisher의 `Allow npm publish`·2일 조건 안내를 보완했습니다. 최종 배포 파일 검사 **1/1 재통과**: 파일 허용 목록·필수 문서·공개 registry 설정 확인, 최종 tarball을 빈 프로젝트에 실제 설치 → init → doctor 성공.
+- 최종 파일: `dist/access-kit-sdk-0.3.1.tgz`, SHA256 `e13dc96ce8c7ddc7942ef33c1b78bef04b39ff2013c030a1145b76252cf0cf55`. 인계 문서의 이전 로컬 tarball과 소스 구성이 달라 해시도 다릅니다. 기존 브라우저 SDK URL과 바이트는 변경하지 않았습니다.
+- 실제 로컬 Wrangler: 신규 격리 상태에서 `/guide` GET·HEAD 200, 익명 `/developer/services` 403. 단위 검사에서는 Firebase 설정·DB 없이도 안내 200이며, 서비스 API 권한 검사는 유지됩니다.
+- Chromium 브라우저: 실제 `/guide`와 현재 설치 페이지 HTML·가상 서비스 API로 Workers/Pages/수동 서버 명령 생성 확인. npm 정확한 버전 설치, 기존 Pages의 branch 보존·프로젝트 재생성 없음, 수동 서버의 자동 배포 메뉴 숨김 확인. 1440px·390px 안내 및 390px 설치 화면에 가로 넘침 없음. 실제 Google 계정 로그인·운영 회원 데이터는 사용하지 않았습니다.
+- 화면 근거: `C:/Users/sepsd/AppData/Local/Temp/access-kit-public-npm-qa/`의 `guide-desktop.png`, `guide-mobile.png`, `studio-pages-mobile.png`, `studio-server-desktop.png`.
+- npm 게시 workflow는 수동 실행 전용이며 버전과 일치하는 태그를 요구합니다. 실제 npm scope 권한·Trusted Publisher 설정·GitHub Actions 게시 실행은 아직 확인하지 않았습니다. 중앙 서버와 소비 사이트의 실제 반영도 별도입니다.
