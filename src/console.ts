@@ -3,22 +3,26 @@ import {z} from 'zod';
 import type {Env} from './types';
 import {findSessionUser,deleteSession} from './store';
 import {parseCookies,sessionCookie} from './http';
-import {isPlatformAdmin,diagnoseApplicationAccess} from './policy';
-import {adminAction,mutateMembership,membershipOverview} from './common-admin';
+import {diagnoseApplicationAccess} from './policy';
+import {adminAction,mutateMembership} from './common-admin';
 import {randomToken} from './crypto';
 import {brandingInput,getBranding} from './branding';
 import {consolePage} from './console-ui';
 import {atomicMutation,activeOperator} from './atomic-mutation';
-import {rosterRows,rosterAction,mutateRoster,RosterError} from './console-roster';
+import {rosterAction,mutateRoster,RosterError} from './console-roster';
 import {catalogAction,mutateCatalog,catalogAvailable} from './membership-catalog';
+import {consoleData} from './console-data';
 type C=Context<{Bindings:Env}>;
+const scopeList=z.array(z.string());
 export async function consoleIdentity(c:C){
  const user=await findSessionUser(c.env,parseCookies(c.req.header('Cookie')).accesskit_sid);if(!user)return null;
- const active=await c.env.DB.prepare("SELECT display_name FROM users WHERE id=? AND status='active'").bind(user).first<{display_name:string}>();if(!active)return null;
- const superadmin=await isPlatformAdmin(c.env,user);
- const scopes=await c.env.DB.prepare(`SELECT organization_id FROM member_managers WHERE user_id=? AND ${catalogAvailable('organization','organization_id')}`).bind(user).all<{organization_id:string}>();
- const developer=await c.env.DB.prepare("SELECT user_id FROM developers WHERE user_id=? AND status='active'").bind(user).first();
- return {user,name:active.display_name,superadmin,scopes:scopes.results.map(x=>x.organization_id),developer:Boolean(developer)};
+ const active=await c.env.DB.prepare(`SELECT u.display_name,
+  EXISTS(SELECT 1 FROM auth_operators WHERE user_id=u.id) AS superadmin,
+  (SELECT json_group_array(organization_id) FROM member_managers WHERE user_id=u.id AND ${catalogAvailable('organization','organization_id')}) AS scopes,
+  EXISTS(SELECT 1 FROM developers WHERE user_id=u.id AND status='active') AS developer
+  FROM users u WHERE u.id=? AND u.status='active'`).bind(user).first<{display_name:string;superadmin:number;scopes:string;developer:number}>();
+ if(!active)return null;
+ return {user,name:active.display_name,superadmin:Boolean(active.superadmin),scopes:scopeList.parse(JSON.parse(active.scopes)),developer:Boolean(active.developer)};
 }
 const roleInput=z.object({userId:z.string().min(1),role:z.enum(['superadmin','manager','developer']),enabled:z.boolean(),organizationId:z.string().optional()});
 export function registerConsole(app:Hono<{Bindings:Env}>){
@@ -27,21 +31,9 @@ export function registerConsole(app:Hono<{Bindings:Env}>){
  app.post('/console/logout',async c=>{await deleteSession(c.env,parseCookies(c.req.header('Cookie')).accesskit_sid);c.header('Set-Cookie',sessionCookie('',true,0));return c.json({ok:true});});
  app.get('/console/data',async c=>{
   const i=await consoleIdentity(c);if(!i||(!i.superadmin&&!i.scopes.length&&!i.developer))return c.json({error:'관리 권한이 없습니다.'},403);
-  const overview=await membershipOverview(c.env);
-  if(!i.superadmin){
-   const ids=new Set(overview.assignments.filter(x=>i.scopes.includes(String(x.organization_id))).map(x=>x.user_id));
-   overview.members=overview.members.filter(x=>ids.has(x.id));overview.assignments=overview.assignments.filter(x=>i.scopes.includes(String(x.organization_id)));
-   overview.organizations=overview.organizations.filter(x=>i.scopes.includes(String(x.id)));
-   overview.applications=i.scopes.length?overview.applications.filter(x=>x.status==='pending'&&!x.registered_user):[];
-   const owned=await c.env.DB.prepare('SELECT client_id FROM application_owners WHERE user_id=?').bind(i.user).all<{client_id:string}>();
-   overview.services=i.developer?overview.services.filter(x=>owned.results.some(o=>o.client_id===x.client_id)):[];
-  }
-  const users=i.superadmin?(await c.env.DB.prepare('SELECT u.id,u.display_name,u.status,g.nickname,g.game_uid,o.role AS operator_role,d.status AS developer_status FROM users u LEFT JOIN game_accounts g ON g.user_id=u.id LEFT JOIN auth_operators o ON o.user_id=u.id LEFT JOIN developers d ON d.user_id=u.id ORDER BY u.display_name').all()).results:[];
-  const managers=i.superadmin?(await c.env.DB.prepare('SELECT * FROM member_managers').all()).results:[];
-  const events=i.superadmin?(await c.env.DB.prepare('SELECT e.event_type,e.created_at,e.detail,u.display_name FROM auth_events e LEFT JOIN users u ON u.id=e.user_id ORDER BY e.created_at DESC LIMIT 100').all()).results:[];
-  const brands=(await c.env.DB.prepare('SELECT * FROM login_branding').all()).results.filter(b=>overview.services.some(s=>s.client_id===b.client_id));
-  const roster=i.superadmin||i.scopes.length?await rosterRows(c.env,i.user):[];
-  return c.json({...overview,identity:i,users,managers,events,brands,roster});
+  const snapshot=await consoleData(c.env,i);
+  if(snapshot===null)throw new Error('Console snapshot unavailable');
+  return c.body(snapshot,200,{'Content-Type':'application/json; charset=UTF-8'});
  });
  app.post('/console/roster',async c=>{
   const i=await consoleIdentity(c);if(!i||(!i.superadmin&&!i.scopes.length))return c.json({error:'명부 관리 권한이 필요합니다.'},403);

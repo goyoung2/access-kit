@@ -22,21 +22,22 @@ type Transaction=ReturnType<typeof atomicMutation>;
 type RosterRow={readonly id:string;readonly realm:string;readonly game_uid:string;readonly nickname:string;readonly season_id:string;readonly organization_id:string;readonly status:'active'|'deleted';readonly revision:number;readonly updated_at:number;readonly linked_user_id:string|null;readonly member_status:string|null};
 export class RosterError extends Error {constructor(message:string,readonly status:400|403|409){super(message);}}
 const authority=`${activeOperator} OR EXISTS(SELECT 1 FROM member_managers mm JOIN users u ON u.id=mm.user_id WHERE mm.user_id=? AND mm.organization_id=? AND u.status='active' AND ${catalogAvailable('organization','mm.organization_id')})`;
-const selectRows=`SELECT r.*,g.user_id AS linked_user_id,m.status AS member_status FROM roster_entries r LEFT JOIN game_accounts g ON g.realm=r.realm AND g.game_uid=r.game_uid LEFT JOIN common_members m ON m.user_id=g.user_id`;
+export const rosterSelect=`SELECT r.*,g.user_id AS linked_user_id,m.status AS member_status FROM roster_entries r LEFT JOIN game_accounts g ON g.realm=r.realm AND g.game_uid=r.game_uid LEFT JOIN common_members m ON m.user_id=g.user_id`;
+const selectRows=rosterSelect;
 
 export async function rosterRows(env:Env,actor:string){
  return (await env.DB.prepare(`${selectRows} WHERE (${activeOperator} OR EXISTS(SELECT 1 FROM member_managers mm JOIN users u ON u.id=mm.user_id WHERE mm.user_id=? AND mm.organization_id=r.organization_id AND u.status='active' AND ${catalogAvailable('organization','mm.organization_id')})) ORDER BY r.nickname,r.game_uid`).bind(actor,actor).all<RosterRow>()).results;
 }
 
 async function authorize(env:Env,actor:string,c:RosterContext){
- const allowed=await env.DB.prepare(`SELECT 1 AS ok WHERE (${authority})`).bind(actor,actor,c.organizationId).first();
- if(!allowed)throw new RosterError('담당 소속의 명부만 관리할 수 있습니다.',403);
- const valid=await env.DB.prepare(`SELECT 1 AS ok FROM member_seasons s,member_organizations o WHERE s.id=? AND s.status IN ('draft','active') AND o.id=? AND ${catalogAvailable('season','s.id')} AND ${catalogAvailable('organization','o.id')}`).bind(c.seasonId,c.organizationId).first();
- if(!valid)throw new RosterError('준비 중 또는 진행 중인 시즌과 등록된 소속을 선택하세요.',409);
+ const access=await env.DB.prepare(`SELECT (${authority}) AS allowed,
+  EXISTS(SELECT 1 FROM member_seasons s,member_organizations o WHERE s.id=? AND s.status IN ('draft','active') AND o.id=? AND ${catalogAvailable('season','s.id')} AND ${catalogAvailable('organization','o.id')}) AS valid`)
+  .bind(actor,actor,c.organizationId,c.seasonId,c.organizationId).first<{allowed:number;valid:number}>();
+ if(!access?.allowed)throw new RosterError('담당 소속의 명부만 관리할 수 있습니다.',403);
+ if(!access.valid)throw new RosterError('준비 중 또는 진행 중인 시즌과 등록된 소속을 선택하세요.',409);
 }
 function guardContext(tx:Transaction,actor:string,c:RosterContext){
- tx.require(authority,actor,actor,c.organizationId);
- tx.require(`EXISTS(SELECT 1 FROM member_seasons s WHERE s.id=? AND s.status IN ('draft','active') AND ${catalogAvailable('season','s.id')}) AND EXISTS(SELECT 1 FROM member_organizations o WHERE o.id=? AND ${catalogAvailable('organization','o.id')})`,c.seasonId,c.organizationId);
+ tx.require(`(${authority}) AND EXISTS(SELECT 1 FROM member_seasons s WHERE s.id=? AND s.status IN ('draft','active') AND ${catalogAvailable('season','s.id')}) AND EXISTS(SELECT 1 FROM member_organizations o WHERE o.id=? AND ${catalogAvailable('organization','o.id')})`,actor,actor,c.organizationId,c.seasonId,c.organizationId);
 }
 function guardRow(tx:Transaction,row:RosterRow){
  tx.require('EXISTS(SELECT 1 FROM roster_entries WHERE id=? AND revision=? AND organization_id=? AND status=?)',row.id,row.revision,row.organization_id,row.status);
@@ -71,9 +72,10 @@ function writeEntry(env:Env,tx:Transaction,actor:string,c:RosterContext,item:Ros
 async function preview(env:Env,actor:string,c:RosterContext,text:string){
  await authorize(env,actor,c);
  const input=parseRosterInput(text);
- const current=(await env.DB.prepare(`${selectRows} WHERE r.season_id=? AND r.realm=?`).bind(c.seasonId,c.realm).all<RosterRow>()).results;
+ const current=(await env.DB.prepare('SELECT game_uid,nickname,organization_id,status,revision FROM roster_entries WHERE season_id=? AND realm=?').bind(c.seasonId,c.realm).all<Pick<RosterRow,'game_uid'|'nickname'|'organization_id'|'status'|'revision'>>()).results;
+ const byUid=new Map(current.map(row=>[row.game_uid,row]));
  const items=input.items.map(item=>{
-  const old=current.find(row=>row.game_uid===item.gameUid);
+  const old=byUid.get(item.gameUid);
   let kind:'add'|'update'|'unchanged'|'conflict'='add',message='';
   if(old){
    if(old.organization_id!==c.organizationId){kind='conflict';message='같은 시즌의 다른 소속에 등록된 UID입니다. 개별 수정으로 소속을 확인하세요.';}
@@ -97,19 +99,26 @@ export async function mutateRoster(env:Env,actor:string,action:z.infer<typeof ro
   const tx=atomicMutation(env);guardContext(tx,actor,c);
   // Set-based writes keep large imports in one bounded batch without thousands of result objects.
   const rows=JSON.stringify(result.items),now=Date.now();
-  tx.require(`NOT EXISTS(SELECT 1 FROM json_each(?) j LEFT JOIN roster_entries r ON r.realm=? AND r.season_id=? AND r.game_uid=json_extract(j.value,'$.gameUid')
+  tx.require(`NOT EXISTS(SELECT 1 FROM json_each(?) j LEFT JOIN roster_entries r ON r.realm=? AND r.season_id=? AND r.game_uid=CAST(json_extract(j.value,'$.gameUid') AS TEXT)
    WHERE (json_extract(j.value,'$.revision') IS NULL AND r.id IS NOT NULL)
    OR (json_extract(j.value,'$.revision') IS NOT NULL AND (r.id IS NULL OR r.revision<>json_extract(j.value,'$.revision') OR r.status<>'active' OR r.organization_id<>?)))`,rows,c.realm,c.seasonId,c.organizationId);
+  const changed=result.items.filter(item=>item.kind==='add'||item.kind==='update');
+  if(changed.length){
+  const changes=JSON.stringify(changed);
   tx.add(env.DB.prepare(`INSERT INTO roster_entries(id,realm,game_uid,nickname,season_id,organization_id,status,revision,updated_at,updated_by)
    SELECT 'rst_'||lower(hex(randomblob(16))),?,json_extract(value,'$.gameUid'),json_extract(value,'$.nickname'),?,?,'active',1,?,? FROM json_each(?)
-   WHERE json_extract(value,'$.kind') IN ('add','update')
-   ON CONFLICT(realm,game_uid,season_id) DO UPDATE SET nickname=excluded.nickname,revision=roster_entries.revision+1,updated_at=excluded.updated_at,updated_by=excluded.updated_by`).bind(c.realm,c.seasonId,c.organizationId,now,actor,rows));
-  tx.add(env.DB.prepare(`UPDATE game_accounts SET nickname=(SELECT json_extract(value,'$.nickname') FROM json_each(?) WHERE json_extract(value,'$.gameUid')=game_accounts.game_uid)
-   WHERE realm=? AND game_uid IN(SELECT json_extract(value,'$.gameUid') FROM json_each(?) WHERE json_extract(value,'$.kind') IN ('add','update'))`).bind(rows,c.realm,rows));
+   WHERE 1
+   ON CONFLICT(realm,game_uid,season_id) DO UPDATE SET nickname=excluded.nickname,revision=roster_entries.revision+1,updated_at=excluded.updated_at,updated_by=excluded.updated_by`).bind(c.realm,c.seasonId,c.organizationId,now,actor,changes));
+  // Iterate the changed input first, then use the existing unique UID and user indexes.
+  tx.add(env.DB.prepare(`WITH changed_accounts AS MATERIALIZED (
+   SELECT g.user_id,json_extract(j.value,'$.nickname') AS nickname FROM json_each(?) j CROSS JOIN game_accounts g
+   WHERE g.realm=? AND g.game_uid=CAST(json_extract(j.value,'$.gameUid') AS TEXT)
+  ) UPDATE game_accounts SET nickname=changed_accounts.nickname FROM changed_accounts WHERE game_accounts.user_id=changed_accounts.user_id`).bind(changes,c.realm));
   tx.add(env.DB.prepare(`INSERT INTO season_memberships(user_id,season_id,organization_id,status,updated_at,updated_by)
-   SELECT g.user_id,?,?,'active',?,? FROM json_each(?) j JOIN game_accounts g ON g.realm=? AND g.game_uid=json_extract(j.value,'$.gameUid') JOIN common_members m ON m.user_id=g.user_id
-   WHERE json_extract(j.value,'$.kind') IN ('add','update')
-   ON CONFLICT(user_id,season_id) DO UPDATE SET organization_id=excluded.organization_id,status='active',updated_at=excluded.updated_at,updated_by=excluded.updated_by`).bind(c.seasonId,c.organizationId,now,actor,rows,c.realm));
+   SELECT g.user_id,?,?,'active',?,? FROM json_each(?) j CROSS JOIN game_accounts g CROSS JOIN common_members m
+   WHERE g.realm=? AND g.game_uid=CAST(json_extract(j.value,'$.gameUid') AS TEXT) AND m.user_id=g.user_id
+   ON CONFLICT(user_id,season_id) DO UPDATE SET organization_id=excluded.organization_id,status='active',updated_at=excluded.updated_at,updated_by=excluded.updated_by`).bind(c.seasonId,c.organizationId,now,actor,changes,c.realm));
+  }
   audit(env,tx,actor,'import',{...c,counts:result.counts});await tx.commit();return {ok:true,counts:result.counts};
  }
  let old:RosterRow|null=null;

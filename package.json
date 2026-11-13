@@ -7,6 +7,7 @@
     "dev": "wrangler dev --local-protocol https --port 8792",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts packages/sdk/test/*.test.mjs",
+    "benchmark:admin": "node --import tsx scripts/benchmark-admin-cpu.mjs",
     "sdk:pack": "node scripts/pack-sdk.mjs",
     "db:migrate:local": "wrangler d1 migrations apply access-kit --local",
     "deploy": "wrangler deploy"

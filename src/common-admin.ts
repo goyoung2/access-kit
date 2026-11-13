@@ -122,13 +122,14 @@ export async function mutateMembership(env:Env,actor:string,action:z.infer<typeo
  }
 }
 
+export const membershipOverviewSql=[
+ `SELECT r.*,u.display_name,(SELECT COUNT(*) FROM member_applications x WHERE x.realm=r.realm AND x.game_uid=r.game_uid AND x.user_id<>r.user_id AND x.status='pending') AS pending_duplicates,(SELECT user_id FROM game_accounts g WHERE g.realm=r.realm AND g.game_uid=r.game_uid) AS registered_user FROM member_applications r JOIN users u ON u.id=r.user_id ORDER BY requested_at DESC`,
+ 'SELECT u.id,u.display_name,m.status,g.realm,g.game_uid,g.nickname FROM common_members m JOIN users u ON u.id=m.user_id LEFT JOIN game_accounts g ON g.user_id=u.id ORDER BY g.nickname,u.display_name',
+ catalogSelect('season')+' ORDER BY e.rowid DESC',catalogSelect('organization')+' ORDER BY e.name',
+ 'SELECT * FROM season_memberships',
+ 'SELECT a.client_id,a.name,p.mode,p.organization_id FROM applications a LEFT JOIN common_application_policies p ON p.client_id=a.client_id',
+] as const;
 export async function membershipOverview(env:Env){
- const [applications,members,seasons,organizations,assignments,services]=await env.DB.batch<Record<string,unknown>>([
-  env.DB.prepare(`SELECT r.*,u.display_name,(SELECT COUNT(*) FROM member_applications x WHERE x.realm=r.realm AND x.game_uid=r.game_uid AND x.user_id<>r.user_id AND x.status='pending') AS pending_duplicates,(SELECT user_id FROM game_accounts g WHERE g.realm=r.realm AND g.game_uid=r.game_uid) AS registered_user FROM member_applications r JOIN users u ON u.id=r.user_id ORDER BY requested_at DESC`),
-  env.DB.prepare('SELECT u.id,u.display_name,m.status,g.realm,g.game_uid,g.nickname FROM common_members m JOIN users u ON u.id=m.user_id LEFT JOIN game_accounts g ON g.user_id=u.id ORDER BY g.nickname,u.display_name'),
-  env.DB.prepare(catalogSelect('season')+' ORDER BY e.rowid DESC'),env.DB.prepare(catalogSelect('organization')+' ORDER BY e.name'),
-  env.DB.prepare('SELECT * FROM season_memberships'),
-  env.DB.prepare('SELECT a.client_id,a.name,p.mode,p.organization_id FROM applications a LEFT JOIN common_application_policies p ON p.client_id=a.client_id'),
- ]);
+ const [applications,members,seasons,organizations,assignments,services]=await env.DB.batch<Record<string,unknown>>(membershipOverviewSql.map(sql=>env.DB.prepare(sql)));
  return {applications:applications.results,members:members.results,seasons:seasons.results,organizations:organizations.results,assignments:assignments.results,services:services.results};
 }
