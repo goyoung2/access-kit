@@ -25,3 +25,28 @@ test('existing Worker bindings, routes, exports and source survive installation 
 test('Pages protects every asset and detects build overwriting route coverage',async t=>{const {root,run}=await fixture(t);run(...init,'--hosting','pages','--assets','build');run('doctor');await writeFile(join(root,'build/_routes.json'),JSON.stringify({version:1,include:['/*'],exclude:['/private.json']}));assert.throws(()=>run('doctor'));run('prepare');run('doctor');});
 test('dry plan leaves existing project untouched',async t=>{const {root,run}=await fixture(t);run(...init,'--assets','build','--plan');await assert.rejects(readFile(join(root,'access-kit.json')));});
 test('update rejects incorrect archive hash before modifying dependencies',async t=>{const {root,run}=await fixture(t);run(...init,'--assets','build');await writeFile(join(root,'fake.tgz'),'invalid');assert.throws(()=>run('update','--package','fake.tgz','--sha256','0'.repeat(64)));await assert.rejects(readFile(join(root,'package.json')));});
+test('Pages rejects advanced Worker files and directories before prepare, doctor or deploy',async t=>{
+ const {root,run}=await fixture(t);run(...init,'--hosting','pages','--assets','build');
+ await writeFile(join(root,'package.json'),'{}');
+ const worker=join(root,'build/_worker.js');
+ for(const kind of ['file','directory']){
+  if(kind==='file')await writeFile(worker,'export default {}');else await mkdir(worker);
+  for(const command of ['prepare','doctor','deploy'])assert.throws(()=>run(command),error=>error.stderr.toString().includes('_worker.js'));
+  await rm(worker,{recursive:true});
+ }
+ run('prepare');run('doctor');
+});
+
+test('legacy and new text hashes tolerate checkout newline conversion but detect source edits',async t=>{
+ const {root,run}=await fixture(t);
+ const config=join(root,'wrangler.jsonc');
+ await writeFile(config,'{\r\n  "name": "existing-app"\r\n}\r\n');
+ run(...init,'--assets','build');
+ for(const name of ['access-kit.worker.mjs','wrangler.access-kit.json','wrangler.jsonc']){
+  const path=join(root,name),content=await readFile(path,'utf8');
+  await writeFile(path,content.includes('\r\n')?content.replaceAll('\r\n','\n'):content.replaceAll('\n','\r\n'));
+ }
+ run('doctor');
+ await writeFile(config,(await readFile(config,'utf8')).replace('existing-app','different-app'));
+ assert.throws(()=>run('doctor'));
+});

@@ -4,7 +4,7 @@ import {createInterface} from 'node:readline/promises';
 import {install, doctor, loadState, sync, prepare} from './project.mjs';
 import {verify} from './verify.mjs';
 import {update, deploy, secret, automate} from './operations.mjs';
-const strings=['client-id','auth-origin','site-url','access-policy','assets','hosting','config','name','url','package','sha256','path','report'];
+const strings=['client-id','auth-origin','site-url','access-policy','assets','hosting','config','name','branch','url','package','sha256','path','report'];
 const options=Object.fromEntries(strings.map(k=>[k,{type:'string'}]));
 for(const k of ['plan','local']) options[k]={type:'boolean'};
 try {
@@ -36,7 +36,8 @@ try {
   sync                   기존 호스팅 설정 변경 반영
   prepare                빌드 후 Pages 보호 경로 재생성
   secret [--local]       세션 키 자동 생성·등록 (기존 키 유지)
-  deploy                 검사 → 배포 → 실제 사이트 보호 검사
+  deploy [--branch BRANCH]
+                         검사 → 운영 배포 → 새 배포의 사이트 보호 검사 (Pages는 운영 브랜치 지정)
   verify [--path /api]   모든 빌드 자산·추가 경로 검사
   update --package ./SDK.tgz --sha256 HASH
                          백업 → 해시 검사 → 설치 → 빌드 → 검사

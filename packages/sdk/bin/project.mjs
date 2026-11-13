@@ -1,10 +1,16 @@
-import {readFile,writeFile,appendFile,mkdir,stat,readdir,realpath} from 'node:fs/promises';
+import {readFile,writeFile,appendFile,mkdir,stat,lstat,readdir,realpath} from 'node:fs/promises';
 import {resolve,relative,dirname,join,sep} from 'node:path';
 import {createHash} from 'node:crypto';
 import {parse as jsonc} from 'jsonc-parser';
 import {parse as toml} from 'smol-toml';
 import {createGate,RUNTIME_VERSION} from '../server/gate.mjs';
 export const digest=text=>createHash('sha256').update(text).digest('hex');
+const normalizeLines=text=>text.replaceAll('\r\n','\n');
+const textDigest=text=>digest(normalizeLines(text));
+async function matchesTextHash(path,hash){
+ const text=await readFile(path,'utf8'),lf=normalizeLines(text);
+ return [digest(text),digest(lf),digest(lf.replaceAll('\n','\r\n'))].includes(hash);
+}
 export const json=value=>JSON.stringify(value,null,2)+'\n';
 export async function exists(path){try{await stat(path);return true;}catch(e){if(e.code==='ENOENT')return false;throw e;}}
 export async function readConfig(path){const text=await readFile(path,'utf8');if(path.endsWith('.toml'))return toml(text);const errors=[];const value=jsonc(text,errors,{allowTrailingComma:true});if(errors.length)throw Error(`${path}: JSON/JSONC 구문 오류`);return value;}
@@ -30,7 +36,13 @@ async function generated(state){
  return {'access-kit.worker.mjs':workerCode(entry,assets.binding),'wrangler.access-kit.json':json(config)};
 }
 export async function loadState(){if(!await exists('access-kit.install.json'))throw Error('설치 기록이 없습니다. 먼저 access-kit init 또는 wizard를 실행하세요.');return JSON.parse(await readFile('access-kit.install.json','utf8'));}
-async function saveGenerated(state,files){for(const [name,text] of Object.entries(files)){await mkdir(dirname(name),{recursive:true});await writeFile(name,text);}await writeFile('access-kit.install.json',json({...state,generated:Object.fromEntries(Object.entries(files).map(([n,t])=>[n,digest(t)])),sourceHash:state.sourceConfig?digest(await readFile(state.sourceConfig)):null}));}
+async function saveGenerated(state,files){for(const [name,text] of Object.entries(files)){await mkdir(dirname(name),{recursive:true});await writeFile(name,text);}await writeFile('access-kit.install.json',json({...state,generated:Object.fromEntries(Object.entries(files).map(([n,t])=>[n,textDigest(t)])),sourceHash:state.sourceConfig?textDigest(await readFile(state.sourceConfig,'utf8')):null}));}
+async function checkPagesOutput(assets){
+ await inside(assets);
+ const worker=join(assets,'_worker.js');
+ try{await lstat(worker);}catch(error){if(error.code==='ENOENT')return;throw error;}
+ throw Error(`${worker}: Pages advanced mode bypasses Functions middleware. Remove it from the build output or protect the advanced Worker directly.`);
+}
 export async function install(values){
  if(await exists('access-kit.install.json'))throw Error('이미 설치되어 있습니다. 설정 변경은 sync, SDK 갱신은 update를 사용하세요.');
  const hosting=values.hosting||'workers';if(!['workers','pages'].includes(hosting))throw Error('자동 설치는 workers/pages입니다. 다른 서버는 docs/ADAPTERS.md를 따르세요.');
@@ -44,8 +56,11 @@ export async function install(values){
  await inside(assets);if(!await exists(join(assets,'index.html')))throw Error(`${assets}/index.html이 없습니다. 사이트 빌드를 먼저 완료하세요.`);
  const name=values.name||original.name||settings.clientId.toLowerCase().replaceAll('_','-');
  if(!/^[a-z0-9][a-z0-9-]{0,62}$/.test(name))throw Error('--name은 영문 소문자·숫자·하이픈으로 입력하세요.');
- if(hosting==='pages'){for(const p of ['functions/_middleware.ts','functions/_middleware.js',join(assets,'_worker.js'),join(assets,'_routes.json')])if(await exists(p))throw Error(`${p}가 이미 있습니다. 기존 middleware/advanced worker는 docs/ADAPTERS.md의 감싸기 예제로 연결하세요. 기존 파일은 보존했습니다.`);}
- const state={schema:1,hosting,assets:await inside(assets),name,sourceConfig,generated:{},sourceHash:null};
+ if(hosting==='pages'){
+  await checkPagesOutput(assets);
+  for(const p of ['functions/_middleware.ts','functions/_middleware.js',join(assets,'_routes.json')])if(await exists(p))throw Error(`${p}가 이미 있습니다. 기존 middleware/advanced worker는 docs/ADAPTERS.md의 감싸기 예제로 연결하세요. 기존 파일은 보존했습니다.`);
+ }
+ const state={schema:1,hosting,assets:await inside(assets),name,sourceConfig,...(hosting==='pages'&&values.branch?{branch:values.branch}:{}),generated:{},sourceHash:null};
  const files={'access-kit.json':json(settings),...await generated(state)};
  for(const p of Object.keys(files))if(await exists(p))throw Error(`${p}가 이미 있습니다. 기존 설정을 보존했습니다. 이전 v0.1 설치는 docs/UPGRADE.md를 따르세요.`);
  if(values.plan){console.log(json({hosting,sourceConfig,files:Object.keys(files),preserves:original,settings}));return;}
@@ -56,13 +71,13 @@ export async function install(values){
  console.log('설치 파일을 생성했습니다. 원래 설정과 소스는 보존했습니다. 다음: access-kit doctor → access-kit secret → access-kit deploy');
 }
 export async function sync(){const state=await loadState();await checkGenerated(state);const settings=JSON.parse(await readFile('access-kit.json','utf8'));createGate(settings);await saveGenerated(state,{'access-kit.json':json(settings),...await generated(state)});await prepare();console.log('원래 호스팅 설정을 다시 반영했습니다.');}
-async function checkGenerated(state){for(const [name,hash] of Object.entries(state.generated)){if(name==='access-kit.json')continue;if(!await exists(name)||digest(await readFile(name))!==hash)throw Error(`${name}이 없거나 수동 변경되었습니다. 변경 내용을 보존하고 원래 생성 파일과 비교하세요.`);}}
-export async function prepare(){const state=await loadState();if(state.hosting==='pages'){await writeFile(join(state.assets,'_routes.json'),json({version:1,include:['/*'],exclude:[]}));}return state;}
+async function checkGenerated(state){for(const [name,hash] of Object.entries(state.generated)){if(name==='access-kit.json')continue;if(!await exists(name)||!await matchesTextHash(name,hash))throw Error(`${name}이 없거나 수동 변경되었습니다. 변경 내용을 보존하고 원래 생성 파일과 비교하세요.`);}}
+export async function prepare(){const state=await loadState();if(state.hosting==='pages'){await checkPagesOutput(state.assets);await writeFile(join(state.assets,'_routes.json'),json({version:1,include:['/*'],exclude:[]}));}return state;}
 export async function doctor(){
  const state=await loadState();await checkGenerated(state);const settings=JSON.parse(await readFile('access-kit.json','utf8'));createGate(settings);
- if(state.sourceConfig&&digest(await readFile(state.sourceConfig))!==state.sourceHash)throw Error('원래 Wrangler 설정이 변경되었습니다. access-kit sync로 반영하세요.');
+ if(state.sourceConfig&&!await matchesTextHash(state.sourceConfig,state.sourceHash))throw Error('원래 Wrangler 설정이 변경되었습니다. access-kit sync로 반영하세요.');
  await inside(state.assets);if(!await exists(join(state.assets,'index.html')))throw Error(`${state.assets}/index.html이 없습니다. 빌드 후 다시 검사하세요.`);
  if(state.hosting==='workers'){const config=await readConfig('wrangler.access-kit.json');if(config.main!=='access-kit.worker.mjs'||config.assets?.run_worker_first!==true)throw Error('모든 요청이 인증 게이트를 먼저 통과해야 합니다.');}
- else {const routes=await readConfig(join(state.assets,'_routes.json'));if(JSON.stringify(routes.include)!=='["/*"]'||routes.exclude?.length)throw Error('Pages 보호 경로가 변경되었습니다. access-kit prepare를 실행하세요.');}
+ else {await checkPagesOutput(state.assets);const routes=await readConfig(join(state.assets,'_routes.json'));if(routes.version!==1||JSON.stringify(routes.include)!=='["/*"]'||JSON.stringify(routes.exclude)!=='[]')throw Error('Pages 보호 경로가 변경되었습니다. access-kit prepare를 실행하세요.');}
  return {ok:true,runtime:RUNTIME_VERSION,hosting:state.hosting,siteUrl:settings.siteUrl,assets:(await listAssets(state.assets)).length,checks:['generated-files','source-config','gate-settings','build-output','protected-routing'],next:'access-kit secret 후 deploy. 로그인은 배포 사이트에서 확인하세요.'};
 }
