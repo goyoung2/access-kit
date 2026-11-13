@@ -8,7 +8,8 @@ import {isPlatformAdmin,diagnoseApplicationAccess} from './policy';
 import {verifyGoogleIdentity,InvalidGoogleIdentity} from './firebase-identity';
 import {adminAction,mutateMembership,membershipOverview,MembershipConflict} from './common-admin';
 import {commonPage} from './common-ui';
-import {getBranding} from './branding';
+import {getBranding,escapeHtml} from './branding';
+import {getApplication,isAllowedRedirect} from './http';
 
 type C=Context<{Bindings:Env}>;
 const identityInput=z.object({idToken:z.string().min(1).max(16384)});
@@ -68,12 +69,15 @@ export function registerCommonRoutes(app:Hono<{Bindings:Env}>,verify=verifyGoogl
  app.get('/auth/firebase/status',async c=>{
   const userId=await current(c);if(!userId)return c.json({loggedIn:false});
   const user=await c.env.DB.prepare('SELECT display_name,status FROM users WHERE id=?').bind(userId).first();
+  if(!user||user.status!=='active')return c.json({loggedIn:true,user,blocked:true,consoleAccess:false});
   const member=await c.env.DB.prepare('SELECT status FROM common_members WHERE user_id=?').bind(userId).first();
   const application=await c.env.DB.prepare('SELECT nickname,realm,game_uid,status FROM member_applications WHERE user_id=?').bind(userId).first();
   const admin=await isPlatformAdmin(c.env,userId);
   const manager=await c.env.DB.prepare('SELECT user_id FROM member_managers WHERE user_id=? LIMIT 1').bind(userId).first();
   const developer=await c.env.DB.prepare("SELECT user_id FROM developers WHERE user_id=? AND status='active'").bind(userId).first();
-  return c.json({loggedIn:true,user,member,application,admin,consoleAccess:admin||Boolean(manager)||Boolean(developer)});
+  const request=await requestRow(c);
+  const serviceAccess=request?await diagnoseApplicationAccess(c.env,userId,request.client_id):null;
+  return c.json({loggedIn:true,user,member,application,admin,serviceAccess,requestExpired:Boolean(c.req.query('request'))&&!request,consoleAccess:admin||Boolean(manager)||Boolean(developer)});
  });
  app.post('/auth/firebase/apply',async c=>{
   const userId=await current(c);if(!userId)return c.json({error:'LOGIN_REQUIRED'},401);
@@ -91,7 +95,12 @@ export function registerCommonRoutes(app:Hono<{Bindings:Env}>,verify=verifyGoogl
  app.get('/auth/firebase/continue',async c=>{
   const userId=await current(c),r=await requestRow(c);
   if(!userId)return c.redirect('/auth/firebase?request='+encodeURIComponent(c.req.query('request')||''));
-  if(!r)return c.text('요청이 만료되었습니다. 이용할 사이트에서 다시 로그인해 주세요.',400);
+  if(!r){
+   const expired=await c.env.DB.prepare('SELECT * FROM oauth_requests WHERE id=?').bind(c.req.query('request')||'').first<OAuthRequestRow>();
+   const application=expired?await getApplication(c.env,expired.client_id):null;
+   const returnUrl=expired&&application&&isAllowedRedirect(application,expired.redirect_uri)?expired.redirect_uri:null;
+   return c.html(`<!doctype html><html lang="ko"><meta name="viewport" content="width=device-width,initial-scale=1"><title>다시 로그인</title><main><h1>로그인을 다시 시작해 주세요.</h1>${returnUrl?'<a href="'+escapeHtml(returnUrl)+'">서비스로 돌아가기</a>':'<a href="/auth/firebase">로그인 화면으로</a>'}</main></html>`,400);
+  }
   const access=await diagnoseApplicationAccess(c.env,userId,r.client_id);
   if(!access.allowed)return c.html(commonPage(false,'이 서비스의 이용 자격이 없습니다. 가입 승인과 현재 시즌 소속을 확인해 주세요.',await getBranding(c.env,r.client_id)));
   const sid=parseCookies(c.req.header('Cookie')).accesskit_sid;
