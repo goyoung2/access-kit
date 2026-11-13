@@ -15,7 +15,7 @@ const directory=await mkdtemp(join(tmpdir(),'access-kit-admin-cpu-'));
 const {build}=createRequire(join(root,'package.json'))('esbuild');
 const baseline='c33721392726d82ac640e761207aca2c4b4f15d7';
 const git=(...args)=>execFileSync('git',args,{cwd:root,encoding:'utf8'}).trim();
-const sourceFiles=['src/console.ts','src/common-admin.ts','src/console-roster.ts','src/console-data.ts'];
+const sourceFiles=['src/console.ts','src/common-admin.ts','src/console-roster.ts','src/console-data.ts','src/store.ts'];
 const sourceHashes=Object.fromEntries(await Promise.all(sourceFiles.map(async path=>[path,createHash('sha256').update(await readFile(join(root,path))).digest('hex')])));
 const reports=[];
 for(const version of ['before','after']){

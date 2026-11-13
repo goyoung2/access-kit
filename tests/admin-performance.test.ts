@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createAuthFixture} from './auth-fixture';
 import {createSession} from '../src/store';
+import {sha256Base64Url} from '../src/crypto';
 import app from '../src/index';
 
 /** Count real D1 round trips and writes without replacing query results. */
@@ -133,4 +134,19 @@ test('console retains its complete response when D1 cannot aggregate a large JSO
   assert.equal(response.status,200);assert.deepEqual(await response.json(),expected);
  }
  assert.equal(limited,3);
+});
+
+test('consolidated console identity keeps Firebase, expiry, absolute lifetime and reauthentication checks',async t=>{
+ const f=await fixture();t.after(f.dispose);
+ const hash=await sha256Base64Url(f.sessions.user.token);
+ const original=await f.DB.prepare('SELECT created_at,expires_at FROM auth_sessions WHERE token_hash=?').bind(hash).first<{created_at:number;expires_at:number}>();assert.ok(original);
+ for(const [column,value] of [['session_kind','legacy'],['expires_at',Date.now()-1],['created_at',Date.now()-7*86400000-1]] as const){
+  await f.DB.prepare(`UPDATE auth_sessions SET ${column}=? WHERE token_hash=?`).bind(value,hash).run();
+  assert.equal((await f.request('user','data')).status,403);
+  await f.DB.prepare("UPDATE auth_sessions SET session_kind='firebase',created_at=?,expires_at=? WHERE token_hash=?").bind(original.created_at,original.expires_at,hash).run();
+ }
+ await f.DB.prepare("INSERT INTO user_reauthentication VALUES('user',?,'user','fixture')").bind(Date.now()).run();
+ assert.equal((await f.request('user','data')).status,403);
+ await f.DB.prepare("DELETE FROM user_reauthentication WHERE user_id='user'").run();
+ assert.equal((await f.request('user','data')).status,200);
 });

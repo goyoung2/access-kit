@@ -1,11 +1,11 @@
 import type {Hono,Context} from 'hono';
 import {z} from 'zod';
 import type {Env} from './types';
-import {findSessionUser,deleteSession} from './store';
+import {deleteSession,SESSION_ABSOLUTE_TTL_MS,sessionSelectSql} from './store';
 import {parseCookies,sessionCookie} from './http';
 import {diagnoseApplicationAccess} from './policy';
 import {adminAction,mutateMembership} from './common-admin';
-import {randomToken} from './crypto';
+import {randomToken,sha256Base64Url} from './crypto';
 import {brandingInput,getBranding} from './branding';
 import {consolePage} from './console-ui';
 import {atomicMutation,activeOperator} from './atomic-mutation';
@@ -15,14 +15,16 @@ import {consoleData} from './console-data';
 type C=Context<{Bindings:Env}>;
 const scopeList=z.array(z.string());
 export async function consoleIdentity(c:C){
- const user=await findSessionUser(c.env,parseCookies(c.req.header('Cookie')).accesskit_sid);if(!user)return null;
- const active=await c.env.DB.prepare(`SELECT u.display_name,
+ const token=parseCookies(c.req.header('Cookie')).accesskit_sid;if(!token)return null;
+ const hash=await sha256Base64Url(token),now=Date.now();
+ const active=await c.env.DB.prepare(`WITH session AS (${sessionSelectSql}) SELECT u.id AS user,u.display_name,
   EXISTS(SELECT 1 FROM auth_operators WHERE user_id=u.id) AS superadmin,
   (SELECT json_group_array(organization_id) FROM member_managers WHERE user_id=u.id AND ${catalogAvailable('organization','organization_id')}) AS scopes,
   EXISTS(SELECT 1 FROM developers WHERE user_id=u.id AND status='active') AS developer
-  FROM users u WHERE u.id=? AND u.status='active'`).bind(user).first<{display_name:string;superadmin:number;scopes:string;developer:number}>();
+  FROM session s JOIN users u ON u.id=s.user_id WHERE s.session_kind='firebase' AND u.status='active'`)
+  .bind(hash,now,now-SESSION_ABSOLUTE_TTL_MS).first<{user:string;display_name:string;superadmin:number;scopes:string;developer:number}>();
  if(!active)return null;
- return {user,name:active.display_name,superadmin:Boolean(active.superadmin),scopes:scopeList.parse(JSON.parse(active.scopes)),developer:Boolean(active.developer)};
+ return {user:active.user,name:active.display_name,superadmin:Boolean(active.superadmin),scopes:scopeList.parse(JSON.parse(active.scopes)),developer:Boolean(active.developer)};
 }
 const roleInput=z.object({userId:z.string().min(1),role:z.enum(['superadmin','manager','developer']),enabled:z.boolean(),organizationId:z.string().optional()});
 export function registerConsole(app:Hono<{Bindings:Env}>){

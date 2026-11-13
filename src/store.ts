@@ -5,15 +5,16 @@ export const SESSION_IDLE_TTL_MS=7*86400000;
 export const SESSION_ABSOLUTE_TTL_MS=7*86400000;
 const AUTH_CODE_TTL_MS=120000;
 const ACCESS_TOKEN_TTL_MS=3600000;
+export const sessionSelectSql=`SELECT s.user_id,s.expires_at,s.created_at,s.session_kind FROM auth_sessions s
+ LEFT JOIN user_reauthentication r ON r.user_id=s.user_id
+ WHERE s.token_hash=? AND s.expires_at>? AND s.created_at>?
+ AND (r.requested_at IS NULL OR s.created_at>r.requested_at)`;
 export async function findSessionUser(env: Env, rawToken: string | undefined): Promise<string | null> {
   if (!rawToken) return null;
   const hash = await sha256Base64Url(rawToken);
   const now = Date.now();
   const row = await env.DB.prepare(
-    `SELECT s.user_id, s.expires_at, s.created_at, s.session_kind FROM auth_sessions s
-      LEFT JOIN user_reauthentication r ON r.user_id = s.user_id
-      WHERE s.token_hash = ? AND s.expires_at > ? AND s.created_at > ?
-      AND (r.requested_at IS NULL OR s.created_at > r.requested_at)`
+    sessionSelectSql
   ).bind(hash, now, now - SESSION_ABSOLUTE_TTL_MS).first<SessionRow & { created_at: number; session_kind:string }>();
   if (!row) return null;
   return row.session_kind==='firebase'?row.user_id:null;
