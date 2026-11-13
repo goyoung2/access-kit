@@ -79,3 +79,20 @@ test('operator invites developers once and can revoke access without granting me
  assert.equal((await request(dev,'/developer/invitation/redeem',{token})).status,409);
  assert.equal((await f.DB.prepare("SELECT status FROM developers WHERE user_id='dev'").first())?.status,'inactive');
 });
+
+test('developer can rename legacy non-season policy with unused organization but cannot weaken season policy',async t=>{
+ const f=await createAuthFixture();t.after(f.dispose);
+ await f.DB.batch([
+  f.DB.prepare("INSERT INTO developers VALUES('user','active')"),
+  f.DB.prepare("INSERT INTO application_owners VALUES('site','user')"),
+  f.DB.prepare("INSERT INTO member_organizations VALUES('own','Own')"),
+  f.DB.prepare("INSERT INTO common_application_policies VALUES('site','approved','own')"),
+ ]);
+ const session=await createSession(f.env,'user');
+ const post=(mode:string)=>app.request('https://auth.test/developer/services',{method:'POST',headers:{Cookie:'accesskit_sid='+session.token,Origin:'https://auth.test','X-Access-Kit-Action':'1','Content-Type':'application/json'},body:JSON.stringify({clientId:'site',name:'Renamed',siteUrl:'https://site.test/',mode,organizationId:null})},f.env);
+ assert.equal((await post('approved')).status,200);
+ assert.equal((await f.DB.prepare("SELECT organization_id FROM common_application_policies WHERE client_id='site'").first())?.organization_id,null);
+ await f.DB.prepare("UPDATE common_application_policies SET mode='season',organization_id='own' WHERE client_id='site'").run();
+ assert.equal((await post('approved')).status,409);
+ assert.equal((await f.DB.prepare("SELECT mode FROM common_application_policies WHERE client_id='site'").first())?.mode,'season');
+});

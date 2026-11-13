@@ -74,7 +74,7 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
   const identity=await developer(c);if(!identity)return c.json({error:'DEVELOPER_REQUIRED'},403);
   const services=await c.env.DB.prepare(`SELECT a.*,p.mode,p.organization_id FROM applications a JOIN application_owners o ON o.client_id=a.client_id JOIN common_application_policies p ON p.client_id=a.client_id WHERE ?=1 OR o.user_id=? ORDER BY a.name`).bind(identity.admin?1:0,identity.user).all();
   const organizations=await c.env.DB.prepare('SELECT id,name FROM member_organizations ORDER BY name').all();
-  return c.json({services:services.results,organizations:organizations.results,authOrigin:new URL(c.req.url).origin,version:'0.3.0',admin:identity.admin});
+  return c.json({services:services.results,organizations:organizations.results,authOrigin:new URL(c.req.url).origin,version:'0.3.1',admin:identity.admin});
  });
  app.post('/developer/services',async c=>{
   if(c.req.header('Origin')!==new URL(c.req.url).origin||c.req.header('X-Access-Kit-Action')!=='1')return c.json({error:'ORIGIN_DENIED'},403);
@@ -89,7 +89,7 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
   transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM developers d JOIN users u ON u.id=d.user_id WHERE d.user_id=? AND d.status='active' AND u.status='active')`,identity.user,identity.user);
   if(b.clientId) {
    transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM application_owners WHERE client_id=? AND user_id=?)`,identity.user,id,identity.user);
-   transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM common_application_policies WHERE client_id=? AND mode=? AND organization_id IS ?)`,identity.user,id,b.mode,b.mode==='season'?b.organizationId:null);
+   transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM common_application_policies WHERE client_id=? AND mode=? AND (mode<>'season' OR organization_id IS ?))`,identity.user,id,b.mode,b.mode==='season'?b.organizationId:null);
   }
   const previous=b.clientId?await c.env.DB.prepare('SELECT redirect_uris FROM applications WHERE client_id=?').bind(id).first<{redirect_uris:string}>():null;
   const previousUris=previous?z.array(z.string()).parse(JSON.parse(previous.redirect_uris)):[];

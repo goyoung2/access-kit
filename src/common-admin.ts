@@ -95,7 +95,7 @@ export async function mutateMembership(env:Env,actor:string,action:z.infer<typeo
  }
  case 'policy':
   if(action.mode==='season'&&!action.organizationId)throw new MembershipConflict('허용할 맹을 선택해 주세요.');
-  statements.push(q(`INSERT INTO common_application_policies VALUES(?,?,?) ON CONFLICT(client_id) DO UPDATE SET mode=excluded.mode,organization_id=excluded.organization_id`,action.clientId,action.mode,action.organizationId));break;
+  statements.push(q(`INSERT INTO common_application_policies VALUES(?,?,?) ON CONFLICT(client_id) DO UPDATE SET mode=excluded.mode,organization_id=excluded.organization_id`,action.clientId,action.mode,action.mode==='season'?action.organizationId:null));break;
  }
  // The mutation and audit record commit together. Unique UID constraints also arbitrate concurrent approvals.
  statements.push(q('INSERT INTO auth_events VALUES(?,?,?,?,?,?)','evt_'+randomToken(10),actor,null,'membership.'+action.action,JSON.stringify(action),now));
