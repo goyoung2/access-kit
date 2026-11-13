@@ -7,6 +7,7 @@ import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
+import {RUNTIME_VERSION} from '../server/gate.mjs';
 const exec=promisify(execFile);
 const sdk=fileURLToPath(new URL('../',import.meta.url));
 const npm=process.env.npm_execpath?.endsWith('npm-cli.js')?process.env.npm_execpath:join(dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
@@ -38,7 +39,7 @@ test('actual npm install/update checks new exports and CLI in new processes and 
   await assert.rejects(run('update','--package',archive,'--sha256',hash(await readFile(archive))));
   assert.equal(await readFile(join(app,'package.json'),'utf8'),originalPackage);
   assert.equal(await readFile(join(app,'package-lock.json'),'utf8'),originalLock);
-  const doctor=JSON.parse((await run('doctor')).stdout);assert.equal(doctor.ok,true);assert.equal(doctor.runtime,'0.3.0');
+  const doctor=JSON.parse((await run('doctor')).stdout);assert.equal(doctor.ok,true);assert.equal(doctor.runtime,RUNTIME_VERSION);
  }
  await run('update','--package',good,'--sha256',hash(await readFile(good)));
  const doctor=JSON.parse((await run('doctor')).stdout);assert.equal(doctor.ok,true);

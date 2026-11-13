@@ -1,4 +1,4 @@
-export const VERSION='0.1.0';
+export const VERSION='0.3.1';
 const b64=bytes=>btoa(String.fromCharCode(...bytes)).replaceAll('+','-').replaceAll('/','_').replaceAll('=','');
 export class AccessKitClient {
  constructor(settings){

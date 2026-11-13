@@ -27,7 +27,7 @@ async function runPage({url='https://site.test/',saved,autoLogin=true,status=401
 test('login page executes normalized module loading and automatic sign in only when enabled',async()=>{
  for(const enabled of [true,false]){
   const result=await runPage({autoLogin:enabled});
-  assert.deepEqual(result.calls.modules,['https://auth.test/sdk/v0.1.0/access-kit.js']);
+  assert.deepEqual(result.calls.modules,['https://auth.test/sdk/v0.3.1/access-kit.js']);
   assert.equal(result.calls.login,enabled?1:0);
   await result.button.onclick();assert.equal(result.calls.login,enabled?2:1);
  }
