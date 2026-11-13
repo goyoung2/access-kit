@@ -29,6 +29,7 @@ test('developer installation requires explicit permission and preserves service 
 test('new unconfigured services deny access; approved and seasonal qualifications stay separate',async t=>{
  const f=await createAuthFixture();t.after(f.dispose);
  assert.equal(await commonAccess(f.env,'user','site'),null);
+ await f.DB.prepare("INSERT INTO auth_operators VALUES('user','operator',0,NULL)").run();
  await f.DB.batch([
   f.DB.prepare("INSERT INTO member_organizations VALUES('org','Org')"),
   f.DB.prepare("INSERT INTO member_seasons VALUES('s1','S1','active'),('s2','S2','draft')"),

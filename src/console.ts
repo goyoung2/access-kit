@@ -8,6 +8,7 @@ import {adminAction,mutateMembership,membershipOverview} from './common-admin';
 import {randomToken} from './crypto';
 import {brandingInput,getBranding} from './branding';
 import {consolePage} from './console-ui';
+import {atomicMutation,activeOperator} from './atomic-mutation';
 type C=Context<{Bindings:Env}>;
 export async function consoleIdentity(c:C){
  const user=await findSessionUser(c.env,parseCookies(c.req.header('Cookie')).accesskit_sid);if(!user)return null;
@@ -63,7 +64,11 @@ export function registerConsole(app:Hono<{Bindings:Env}>){
    case 'manager':if(!a.organizationId||!await q('SELECT id FROM member_organizations WHERE id=?',a.organizationId).first())return c.json({error:'담당 맹을 선택해 주세요.'},400);change=a.enabled?q('INSERT INTO member_managers VALUES(?,?,?,?) ON CONFLICT(user_id,organization_id) DO NOTHING',a.userId,a.organizationId,i.user,now):q('DELETE FROM member_managers WHERE user_id=? AND organization_id=?',a.userId,a.organizationId);break;
    case 'developer':change=q('INSERT INTO developers VALUES(?,?) ON CONFLICT(user_id) DO UPDATE SET status=excluded.status',a.userId,a.enabled?'active':'inactive');break;
   }
-  await c.env.DB.batch([change,q("INSERT INTO auth_events VALUES(?,?,NULL,'console.role',?,?)",'evt_'+randomToken(10),i.user,JSON.stringify(a),now)]);return c.json({ok:true});
+  const transaction=atomicMutation(c.env);
+  transaction.require(activeOperator,i.user);
+  transaction.require("EXISTS(SELECT 1 FROM users WHERE id=? AND status='active')",a.userId);
+  transaction.add(change,q("INSERT INTO auth_events VALUES(?,?,NULL,'console.role',?,?)",'evt_'+randomToken(10),i.user,JSON.stringify(a),now));
+  await transaction.commit();return c.json({ok:true});
  });
  app.get('/console/access',async c=>{
   const i=await consoleIdentity(c);if(!i?.superadmin)return c.json({error:'최고 관리자 권한이 필요합니다.'},403);
@@ -73,7 +78,9 @@ export function registerConsole(app:Hono<{Bindings:Env}>){
  app.post('/console/branding',async c=>{
   const i=await consoleIdentity(c);if(!i)return c.json({error:'관리 권한이 없습니다.'},403);const a=brandingInput.parse(await c.req.json());
   if(!i.superadmin&&(!i.developer||!await c.env.DB.prepare('SELECT client_id FROM application_owners WHERE client_id=? AND user_id=?').bind(a.clientId,i.user).first()))return c.json({error:'본인 서비스만 설정할 수 있습니다.'},403);
-  await c.env.DB.batch([c.env.DB.prepare('INSERT INTO login_branding VALUES(?,?,?,?,?,?,?) ON CONFLICT(client_id) DO UPDATE SET title=excluded.title,description=excluded.description,logo_url=excluded.logo_url,accent=excluded.accent,theme=excluded.theme,updated_at=excluded.updated_at').bind(a.clientId,a.title,a.description,a.logoUrl,a.accent,a.theme,Date.now()),c.env.DB.prepare("INSERT INTO auth_events VALUES(?,?,?,'console.branding',?,?)").bind('evt_'+randomToken(10),i.user,a.clientId,JSON.stringify({title:a.title,theme:a.theme}),Date.now())]);return c.json({ok:true});
+  const transaction=atomicMutation(c.env);
+  transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM application_owners o JOIN developers d ON d.user_id=o.user_id JOIN users u ON u.id=d.user_id WHERE o.client_id=? AND o.user_id=? AND d.status='active' AND u.status='active')`,i.user,a.clientId,i.user);
+  transaction.add(c.env.DB.prepare('INSERT INTO login_branding VALUES(?,?,?,?,?,?,?) ON CONFLICT(client_id) DO UPDATE SET title=excluded.title,description=excluded.description,logo_url=excluded.logo_url,accent=excluded.accent,theme=excluded.theme,updated_at=excluded.updated_at').bind(a.clientId,a.title,a.description,a.logoUrl,a.accent,a.theme,Date.now()),c.env.DB.prepare("INSERT INTO auth_events VALUES(?,?,?,'console.branding',?,?)").bind('evt_'+randomToken(10),i.user,a.clientId,JSON.stringify({title:a.title,theme:a.theme}),Date.now()));await transaction.commit();return c.json({ok:true});
  });
  app.get('/public/branding',async c=>{const id=c.req.query('client_id')||'';if(!await c.env.DB.prepare("SELECT client_id FROM applications WHERE client_id=? AND status='active'").bind(id).first())return c.json({error:'NOT_FOUND'},404);c.header('Access-Control-Allow-Origin','*');c.header('Cache-Control','public,max-age=300');return c.json(await getBranding(c.env,id));});
 }

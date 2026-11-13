@@ -10,7 +10,7 @@ import {registerCommonRoutes} from '../src/common-routes';
 import type {Env} from '../src/types';
 
 async function setup(){
- const f=await createAuthFixture();f.env.AUTH_PROVIDER='firebase';f.env.FIREBASE_PROJECT_ID='test-project';
+ const f=await createAuthFixture();await f.DB.prepare("INSERT INTO auth_operators VALUES('user','operator',0,NULL)").run();f.env.AUTH_PROVIDER='firebase';f.env.FIREBASE_PROJECT_ID='test-project';
  await f.DB.batch([
   f.DB.prepare("INSERT INTO member_organizations VALUES('alliance','맹')"),
   f.DB.prepare("INSERT INTO member_seasons VALUES('s1','시즌 1','active'),('s2','시즌 2','draft')"),
@@ -92,6 +92,8 @@ test('season copy preserves explicit exclusions and old roster; parallel approva
  assert.equal((await inspectApplicationAccess(f.env,'user','site')).access.allowed,false);
  await mutateMembership(f.env,'user',{action:'policy',clientId:'site',mode:'approved',organizationId:null});
  assert.equal((await inspectApplicationAccess(f.env,'user','site')).access.allowed,true,'common approval remains valid across seasons');
+ await f.DB.prepare("INSERT INTO users VALUES('backup','Backup',NULL,'active',0,0)").run();
+ await f.DB.prepare("INSERT INTO auth_operators VALUES('backup','operator',0,NULL)").run();
  await f.DB.prepare("UPDATE users SET status='disabled' WHERE id='user'").run();
  assert.equal((await inspectApplicationAccess(f.env,'user','site')).access.allowed,false,'existing account block overrides approval');
 });

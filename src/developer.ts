@@ -5,6 +5,7 @@ import {parseCookies} from './http';
 import {findSessionUser} from './store';
 import {isPlatformAdmin} from './policy';
 import {randomToken,sha256Base64Url} from './crypto';
+import {atomicMutation,activeOperator} from './atomic-mutation';
 import {installationPage} from './installation-page';
 import {developerAdminPage,invitationPage} from './developer-admin-page';
 type C=Context<{Bindings:Env}>;
@@ -36,17 +37,19 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
    z.object({action:z.literal('permission'),userId:z.string().min(1).max(128),status:z.enum(['active','inactive'])}),
   ]).parse(await c.req.json());
   const now=Date.now();
+  const transaction=atomicMutation(c.env);transaction.require(activeOperator,identity.user);
   switch(b.action){
    case 'invite':{
-    const token=randomToken(32);await c.env.DB.prepare('INSERT INTO developer_invitations VALUES(?,?,?,?,NULL,NULL)').bind(await sha256Base64Url(token),identity.user,now,now+7*86400000).run();
+    const token=randomToken(32);transaction.add(c.env.DB.prepare('INSERT INTO developer_invitations VALUES(?,?,?,?,NULL,NULL)').bind(await sha256Base64Url(token),identity.user,now,now+7*86400000));await transaction.commit();
     return c.json({url:new URL('/developer/invitation',c.req.url).href+'#'+token,expiresAt:now+7*86400000});
    }
    case 'permission':{
     const user=await c.env.DB.prepare("SELECT id FROM users WHERE id=? AND status='active'").bind(b.userId).first();if(!user)return c.json({error:'ACTIVE_USER_REQUIRED'},400);
-    await c.env.DB.batch([
+    transaction.require("EXISTS(SELECT 1 FROM users WHERE id=? AND status='active')",b.userId);
+    transaction.add(
      c.env.DB.prepare('INSERT INTO developers VALUES(?,?) ON CONFLICT(user_id) DO UPDATE SET status=excluded.status').bind(b.userId,b.status),
      c.env.DB.prepare("INSERT INTO auth_events VALUES(?,?,NULL,'developer.permission',?,?)").bind('evt_'+randomToken(10),identity.user,JSON.stringify({userId:b.userId,status:b.status}),now),
-    ]);return c.json({ok:true});
+    );await transaction.commit();return c.json({ok:true});
    }
   }
  });
@@ -82,15 +85,22 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
    if(!owner||(!identity.admin&&owner.user_id!==identity.user))return c.json({error:'OWNER_REQUIRED'},403);
   }
   if(b.mode==='season'&&(!b.organizationId||!await c.env.DB.prepare('SELECT id FROM member_organizations WHERE id=?').bind(b.organizationId).first()))return c.json({error:'ORGANIZATION_REQUIRED'},400);
+  const transaction=atomicMutation(c.env);
+  transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM developers d JOIN users u ON u.id=d.user_id WHERE d.user_id=? AND d.status='active' AND u.status='active')`,identity.user,identity.user);
+  if(b.clientId) {
+   transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM application_owners WHERE client_id=? AND user_id=?)`,identity.user,id,identity.user);
+   transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM common_application_policies WHERE client_id=? AND mode=? AND organization_id IS ?)`,identity.user,id,b.mode,b.mode==='season'?b.organizationId:null);
+  }
   const previous=b.clientId?await c.env.DB.prepare('SELECT redirect_uris FROM applications WHERE client_id=?').bind(id).first<{redirect_uris:string}>():null;
   const previousUris=previous?z.array(z.string()).parse(JSON.parse(previous.redirect_uris)):[];
   const redirectUris=[...new Set([new URL(b.siteUrl).href,...previousUris.slice(1)])];
-  await c.env.DB.batch([
+  transaction.add(
    c.env.DB.prepare("INSERT INTO applications VALUES(?,?,?,'active',?,?) ON CONFLICT(client_id) DO UPDATE SET name=excluded.name,redirect_uris=excluded.redirect_uris,updated_at=excluded.updated_at").bind(id,b.name,JSON.stringify(redirectUris),now,now),
    c.env.DB.prepare('INSERT INTO application_owners VALUES(?,?) ON CONFLICT(client_id) DO NOTHING').bind(id,identity.user),
    c.env.DB.prepare('INSERT INTO common_application_policies VALUES(?,?,?) ON CONFLICT(client_id) DO UPDATE SET mode=excluded.mode,organization_id=excluded.organization_id').bind(id,b.mode,b.mode==='season'?b.organizationId:null),
    c.env.DB.prepare("INSERT INTO auth_events VALUES(?,?,?,'service.configure',?,?)").bind('evt_'+randomToken(10),identity.user,id,JSON.stringify({mode:b.mode}),now),
-  ]);
+  );
+  await transaction.commit();
   return c.json({clientId:id});
  });
 }
