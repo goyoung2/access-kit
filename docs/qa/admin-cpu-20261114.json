@@ -1,0 +1,106 @@
+{
+  "at": "2026-11-13T16:55:48.021Z",
+  "baselineCommit": "c33721392726d82ac640e761207aca2c4b4f15d7",
+  "implementationCommit": "615a796943f370ccf0c64a5d7cd2ad0d01c1989c",
+  "branch": "codex/free-plan-admin-cpu",
+  "runtime": {
+    "node": "v22.23.1",
+    "miniflare": "5.20261110.1-beta"
+  },
+  "method": "Sequential real workerd executions; complete application and local D1 in the same child process. Windows cumulative process CPU delta divided by successful requests; raw mode disables CPU sampling and D1 metadata wrapper. Includes emulator/runtime CPU. Neither Cloudflare cpuTime nor a per-request CPU percentile or maximum.",
+  "fixture": "108 synthetic linked members, one season/affiliation, Firebase session, real migrations0001-0006. New import35x108 rows:5 warmups+30 measured. Linked update35x108:5 warmups+30 measured, preview fingerprints checked, final nickname asserted. No private member file.",
+  "baselineBuild": "esbuild onLoad reads all src/**/*.ts from baselineCommit using git show; dependencies/configuration same as current. Builder workspace HEAD is implementationCommit for both runs; sourceHashes below describe current worktree, not baseline overrides.",
+  "sourceHashes": {
+    "src/console.ts": "b8818e94690c3e22ef7dfad60164dfdd5f0c29dab579420f5ef60a59ce75a8c0",
+    "src/common-admin.ts": "cd4e1b799daf184e526ca0a1f56789ae4bef4271321c3e3cd3194c92736da20e",
+    "src/console-roster.ts": "604b23a5073825f85d500f92c28b7a0b0854e377d8a14bfac33584c3a5851bcd",
+    "src/console-data.ts": "3b12e3a7fcf072319e2c0d525a171ab0be63de0914a4385d98bf426e0007ed47",
+    "src/store.ts": "48096372887dfabcecae329ec59e30932bcd9afc0ca39e0cd666d6682a896e53"
+  },
+  "cpuResults": [
+    {
+      "operation": "console-data-108",
+      "requests": 300,
+      "beforeMeanMs": 14.375,
+      "afterMeanMs": 5.364583333333333,
+      "reductionPercent": 62.68115942028986
+    },
+    {
+      "operation": "roster-preview-108",
+      "requests": 300,
+      "beforeMeanMs": 9.427083333333334,
+      "afterMeanMs": 3.90625,
+      "reductionPercent": 58.563535911602216
+    },
+    {
+      "operation": "roster-import-108-unchanged",
+      "requests": 150,
+      "beforeMeanMs": 23.125,
+      "afterMeanMs": 5.520833333333333,
+      "reductionPercent": 76.12612612612612
+    },
+    {
+      "operation": "roster-import-108-new",
+      "requests": 30,
+      "beforeMeanMs": 15.625,
+      "afterMeanMs": 6.770833333333333,
+      "reductionPercent": 56.666666666666664
+    },
+    {
+      "operation": "roster-import-108-linked-update",
+      "requests": 30,
+      "beforeMeanMs": 36.458333333333336,
+      "afterMeanMs": 7.291666666666667,
+      "reductionPercent": 80
+    }
+  ],
+  "d1": {
+    "consoleRoundTrips": {
+      "before": 11,
+      "after": 2
+    },
+    "previewRoundTrips": {
+      "before": 8,
+      "after": 2
+    },
+    "importRoundTrips": {
+      "before": 9,
+      "after": 3
+    },
+    "afterUnchangedImportBatchRowsRead": 221,
+    "afterLinkedImportBatchRowsRead": 1826
+  },
+  "validation": {
+    "defaultNpmTest": {
+      "passed": 67,
+      "failed": 0,
+      "wallMs": 53682.0838
+    },
+    "serialTest": {
+      "passed": 67,
+      "failed": 0,
+      "wallMs": 154117.5615
+    },
+    "typecheck": "passed",
+    "codeReview": "Read-only review approved; JSON size fallback and shared session/preview changes reviewed.",
+    "deployment": false,
+    "remoteDatabase": false,
+    "npmPublication": false,
+    "productionGoogleLogin": false,
+    "productionCpuTime": false
+  },
+  "limitations": [
+    "Mean CPU proxy on this computer only; no production Free-limit enforcement or tail/max CPU proof.",
+    "1000-item import/CRUD regression passed; CPU benchmark size108. Large-history JSON fallback is functionally tested, not performance-certified.",
+    "An intermediate parallel Miniflare fixture fetch failed and leaked its test process. Failure log preserved; owned test tree terminated. Cause not established. Final serial67/67 and default npm test67/67 both passed."
+  ],
+  "localArtifacts": {
+    "directory": "C:/Users/sepsd/AppData/Local/Temp/access-kit-admin-optimization-20261114",
+    "before": "before-complete-admin-results.json",
+    "after": "after-complete-admin-results.json",
+    "harness": "bench.mjs",
+    "harnessSha256": "70255ebafefab9726890c71d7a99e2736e9abd85547a70b8db946415c2e35049",
+    "testLog": "final-default-tests.log",
+    "serialTestLog": "final-tests.log"
+  }
+}
