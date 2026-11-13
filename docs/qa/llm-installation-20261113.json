@@ -1,0 +1,85 @@
+{
+  "date": "2026-11-13",
+  "baseCommit": "43ab5d21eac8a51f945a24f1471878c2d2a5f3a2",
+  "protocol": "Two fresh LLM sessions, fork_turns=none. Each received only the path to the official full prompt plus typed connection data. No installation hints or fixture edits were sent by parent. Synthetic pre-registered central service and immutable local unpublished tarball; existing project build/test and local runtime harness supplied as project context. Parent independently reran installed-gate validation.",
+  "promptBodySha256": "758ce6fa77c668ae217a325cf3a90594b37e778efcab39843934ad1b037f6f88",
+  "packageSha256": "3d820502d9fac40aebbc9c2f304582667cda6507115228b7381b16c67597f929",
+  "cases": [
+    {
+      "hosting": "workers",
+      "project": "C:\\Users\\sepsd\\AppData\\Local\\Temp\\access-kit-llm-qa-8W5Qx9\\workers",
+      "prompt": "C:\\Users\\sepsd\\AppData\\Local\\Temp\\access-kit-llm-qa-8W5Qx9\\workers-prompt.txt",
+      "baselineCommit": "2e043d00fb44d6c7c75188b47126cdae020f47a7",
+      "finalCommit": "4e3ed0fddced4addc5912a73109946bf1869784e",
+      "dirty": false,
+      "promptSha256": "160a4887d023bab4fc063669589b8ee4661aa0d1335233c6ed319368db83c2f0",
+      "verification": {
+        "ok": true,
+        "hosting": "workers",
+        "runtime": "0.3.1",
+        "anonymousRequests": 16,
+        "checks": [
+          "anonymous GET/HEAD/Range/invalid-cookie across built assets and API",
+          "central wrong-affiliation token denied",
+          "PKCE exchange and real SDK session cookie",
+          "approved roster member receives existing private data",
+          "original API method/body and binding preserved",
+          "named export and scheduled preserved",
+          "bounded permission lease reused locally",
+          "central roster removal denies at lease boundary",
+          "service denial preserves central login",
+          "restored roster allows access",
+          "global suspension denies after renewed lease"
+        ],
+        "realGoogleLogin": false,
+        "remoteDeployment": false,
+        "at": "2026-11-13T10:37:29.138Z"
+      }
+    },
+    {
+      "hosting": "pages",
+      "project": "C:\\Users\\sepsd\\AppData\\Local\\Temp\\access-kit-llm-qa-8W5Qx9\\pages",
+      "prompt": "C:\\Users\\sepsd\\AppData\\Local\\Temp\\access-kit-llm-qa-8W5Qx9\\pages-prompt.txt",
+      "baselineCommit": "5b4a89d1721b863a91b31f845c797962f6872ab3",
+      "finalCommit": "54f61550b115e68d788f9907a6b14485c980f7c0",
+      "dirty": false,
+      "promptSha256": "2c524a476f4b21d48abd301cd220086d9523211f71d44511aa9e03e0a2c3e694",
+      "verification": {
+        "ok": true,
+        "hosting": "pages",
+        "runtime": "0.3.1",
+        "anonymousRequests": 16,
+        "checks": [
+          "anonymous GET/HEAD/Range/invalid-cookie across built assets and API",
+          "central wrong-affiliation token denied",
+          "PKCE exchange and real SDK session cookie",
+          "approved roster member receives existing private data",
+          "original API method/body and binding preserved",
+          "bounded permission lease reused locally",
+          "central roster removal denies at lease boundary",
+          "service denial preserves central login",
+          "restored roster allows access",
+          "global suspension denies after renewed lease"
+        ],
+        "realGoogleLogin": false,
+        "remoteDeployment": false,
+        "at": "2026-11-13T10:37:29.322Z"
+      }
+    }
+  ],
+  "regression": {
+    "tests": 63,
+    "passed": 63,
+    "typecheck": true
+  },
+  "limits": [
+    "No remote deployment, npm publication or production DB change.",
+    "No real Google login; local synthetic identities use real Hono/D1 and installed SDK.",
+    "Workers and Pages local flows tested; other hosting adapters not exercised in these LLM trials."
+  ],
+  "initialTrial": {
+    "directory": "C:/Users/sepsd/AppData/Local/Temp/access-kit-llm-qa-9dgcBc",
+    "workers": "passed",
+    "pages": "installed but checker rejected required additive compatibility flag; failure retained. Semantic preservation check fixed, parent rerun passed; final fresh trial above passed."
+  }
+}

@@ -1,5 +1,7 @@
 # Access Kit 설치
 
+코딩 LLM에게 설치를 맡기려면 [공식 설치 지시문](LLM_INSTALLATION.md)을 전달하세요. 중앙 인증기의 `/guide/llm`에서도 전체 지시문을 읽을 수 있으며 설치 스튜디오는 서비스 연결 정보를 포함해 복사합니다.
+
 자신의 사이트에 Google 로그인과 승인 회원 접근 제한을 연결하는 안내입니다. SDK는 공개 npm 패키지로 배포하며 GitHub 초대·GitHub CLI·npm 로그인은 설치 조건이 아닙니다. 인증 서버의 `/guide`와 npm README는 로그인 없이 읽을 수 있습니다. 상세 문서는 설치된 패키지의 `node_modules/@goyoung2/access-kit/docs/`에도 포함됩니다.
 
 ## 1. 설치와 서버 사용 권한

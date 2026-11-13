@@ -1,5 +1,7 @@
 # @goyoung2/access-kit
 
+코딩 LLM에게 설치를 맡기려면 [공식 설치 지시문](docs/LLM_INSTALLATION.md)을 전달하세요. 중앙 인증기의 `/guide/llm`에서도 전체 지시문을 읽을 수 있으며 설치 스튜디오는 서비스 연결 정보를 포함해 복사합니다.
+
 Google 로그인, 승인 회원 접근 게이트와 설치·관리 CLI입니다. 특정 맹이나 인증 서버에 고정되지 않으며 `authOrigin`으로 사용할 Access Kit 서버를 지정합니다.
 
 ## 설치

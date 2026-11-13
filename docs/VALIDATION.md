@@ -94,3 +94,16 @@
 - 화면 근거: `C:/Users/sepsd/AppData/Local/Temp/access-kit-catalog-qa/catalog-desktop.jpg`, `catalog-mobile.jpg`. 실행기: `C:/Users/sepsd/AppData/Local/Temp/access-kit-catalog-ui-qa-20261113.mts`.
 - SDK 런타임은 변경하지 않았고 번들 운영 문서를 갱신했습니다. `npm run sdk:pack` 성공. 로컬 미게시 SDK 0.3.1 tarball SHA256: `506e5ea42b9ad8831e567b76e6a9fa7f4a888e0947f99f0e64a36615bb7e4bdd`.
 - 운영 적용에는 DB 백업 후 **0006_catalog.sql까지** 필요합니다. 원격 push·릴리스·npm 게시·운영 DB 변경·배포·새 실제 Google 로그인은 수행하지 않았습니다.
+
+## LLM 지시문 하나로 설치 — 2026-11-13
+
+브랜치 `codex/llm-installation`, 기준 `43ab5d21eac8a51f945a24f1471878c2d2a5f3a2`. [공식 지시문](LLM_INSTALLATION.md)을 단일 원본으로 만들고 공개 `/guide/llm`, 설치 스튜디오의 **LLM 설치 지시문 복사**, SDK 문서 번들에서 제공합니다. 공개 경로는 Firebase·DB·로그인 없이 동작하며 연결 데이터만 검증해서 덧붙입니다. 개발자 초대·최초 Google 로그인·서비스 등록은 필요한 사전 권한 절차로 구분합니다. 사용자 명시적 배포 금지는 지시문과 연결 데이터보다 우선합니다.
+
+- 전체 `npm test` **63/63**, TypeScript 통과. 새 지시문 전달 회귀 **4/4**: 공개 무DB 제공, 입력 오류·불필요한 token 반사 제외, canonical 산출물 일치, 관리자 정책 전달과 실제 미승인 운영자 SDK 입장을 확인했습니다. 공개 경로는 구현 전 503으로 실패했고 관리자 정책 누락도 RED를 확인한 후 수정했습니다. 자연어 문구를 고정하는 테스트는 작성하지 않았습니다.
+- **별도 LLM 두 세션**을 이전 대화 없이 새로 시작했습니다(`fork_turns=none`). 각 세션에는 최종 공식 지시문과 연결 데이터가 담긴 파일 경로 하나만 전달했습니다. 지시문 외 설치 요령·수정 힌트를 보내지 않았습니다. 기존 소스·빌드·API가 있는 격리 Workers·Pages 프로젝트와 운영자 발급 연결 정보에 해당하는 합성 입력을 사용했습니다. 미게시 패키지는 SHA256으로 고정한 로컬 tarball을 사용했습니다.
+- 두 LLM 모두 직접 조사 → 기존 build/test → 해시 검증·실제 npm 설치 → 공식 문서 읽기 → init plan → 연결 → build/prepare/doctor → 로컬 통합 검증을 완료하고 clean commit을 남겼습니다. 부모도 최종 설치 결과에서 통합 검증을 독립 실행해 양쪽 성공을 확인했습니다. Workers commit `4e3ed0fddced4addc5912a73109946bf1869784e`, Pages commit `54f61550b115e68d788f9907a6b14485c980f7c0`입니다.
+- 각 설치의 실제 생성 게이트·설치된 SDK로 **익명 GET/HEAD/Range/잘못된 쿠키 16건 차단**, 중앙 소속 제한, PKCE 교환·SDK 세션 쿠키, 허용 회원의 기존 비공개 데이터 입장, API POST method/body·binding 보존을 확인했습니다. Workers named export·scheduled도 보존됐습니다. 명부 제거·복구·전체 정지가 5분 lease 경계에서 반영되고 서비스 거절 후에도 중앙 로그인은 유지됐습니다. 중앙은 실제 Hono API·격리 Miniflare D1이며 Google 신원 확인만 합성 계정으로 대신했습니다.
+- 최초 시험에서 Pages 설치는 성공했지만 검증 도구가 필수 compatibility flag 추가까지 원본 변경으로 거절했습니다. 원본 필드는 유지하면서 필요한 flag만 추가하도록 검사 기준을 수정했습니다. 이전 실패를 보존했고, 최종 문서·패키지로 새 프로젝트·새 LLM 세션을 다시 시험해 통과했습니다. 별도 검토에서 관리자 정책이 복사 context에서 누락되는 실제 차단(member403/admin204)을 재현해 수정했고 최종 리뷰는 승인입니다.
+- 브라우저에서 공개 안내의 지시문 복사와 등록된 관리자 서비스의 전체 지시문 복사를 확인했습니다. 클립보드 본문이 동일한 canonical 지시문이며 후자에는 clientId·siteUrl·hosting·accessPolicy=admin이 포함됨을 확인했습니다. 화면·복사 근거는 `C:/Users/sepsd/AppData/Local/Temp/access-kit-llm-ui-evidence/`입니다. 로컬 안내는 `http://127.0.0.1:18880/guide`, 기존 18878·18879 확인용 환경은 변경하지 않았습니다.
+- 상세 시험 입력·해시·fixture 경로·검증 결과는 [기계 판독 근거](qa/llm-installation-20261113.json), 재현 도구는 `scripts/llm-install-qa.mjs`입니다. 최종 로컬 미게시 SDK 0.3.1 SHA256: `3d820502d9fac40aebbc9c2f304582667cda6507115228b7381b16c67597f929`.
+- **원격 배포·npm 게시·운영 DB 변경·실제 Google 로그인은 수행하지 않았습니다.** 공개 npm에서 최종 개발본을 받아 설치하는 운영 경로와 배포 후 실제 계정 검증은 이번 성공 범위에 포함하지 않습니다. Vercel/Netlify 등 수동 어댑터의 LLM 설치 시험도 이번 두 시나리오에는 포함하지 않았습니다.
