@@ -19,7 +19,7 @@ test('public npm archive includes runnable SDK and standalone documentation with
   assert.match(entry.path,/^package\/(?:package\.json|README\.md|LICENSE|browser\.js|(?:bin|server|docs)\/[A-Za-z0-9_.-]+)$/);
   assert.equal(entry.type,'File');
  }
- for(const required of ['package.json','README.md','bin/access-kit.mjs','server/gate.mjs','browser.js','docs/INSTALL.md','docs/QUICKSTART.md','docs/ADAPTERS.md','docs/UPGRADE.md','docs/CONSOLE.md'])assert.ok(entries.some(entry=>entry.path==='package/'+required),required);
+ for(const required of ['package.json','README.md','bin/access-kit.mjs','server/gate.mjs','browser.js','docs/INSTALL.md','docs/QUICKSTART.md','docs/ADAPTERS.md','docs/UPGRADE.md','docs/CONSOLE.md','docs/ROSTER.md'])assert.ok(entries.some(entry=>entry.path==='package/'+required),required);
  const directory=await mkdtemp(join(tmpdir(),'ak-public-package-'));t.after(()=>rm(directory,{recursive:true,force:true}));
  await extract({file,cwd:directory});
  const packed=JSON.parse(await readFile(join(directory,'package/package.json'),'utf8'));

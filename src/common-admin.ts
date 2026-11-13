@@ -36,6 +36,7 @@ export async function mutateMembership(env:Env,actor:string,action:z.infer<typeo
   const request=await q("SELECT * FROM member_applications WHERE user_id=? AND status='pending'",action.userId)
    .first<{realm:string;game_uid:string;nickname:string}>();
   if(!request)throw new MembershipConflict('신청 상태가 변경되었습니다.');
+  transaction.require(`NOT EXISTS(SELECT 1 FROM roster_entries WHERE realm=? AND game_uid=? AND season_id=? AND (status='deleted' OR organization_id<>?))`,request.realm,request.game_uid,action.seasonId,action.organizationId);
   const target=action.existingUserId||action.userId;
   transaction.require(`EXISTS(SELECT 1 FROM member_applications WHERE user_id=? AND status='pending' AND realm=? AND game_uid=? AND nickname=?)`,action.userId,request.realm,request.game_uid,request.nickname);
   transaction.require(`EXISTS(SELECT 1 FROM users WHERE id=? AND status='active') AND EXISTS(SELECT 1 FROM member_seasons WHERE id=? AND status IN ('draft','active'))`,target,action.seasonId);
@@ -89,9 +90,14 @@ export async function mutateMembership(env:Env,actor:string,action:z.infer<typeo
  }
  case 'copy':{
   if(action.seasonId===action.fromSeasonId||!await q("SELECT id FROM member_seasons WHERE id=? AND status='draft'",action.seasonId).first())throw new MembershipConflict('준비 중인 다른 시즌을 선택해 주세요.');
+  transaction.require("EXISTS(SELECT 1 FROM member_seasons WHERE id=? AND status='draft')",action.seasonId);
   statements.push(q(`INSERT INTO season_memberships(user_id,season_id,organization_id,status,updated_at,updated_by)
-   SELECT sm.user_id,?,sm.organization_id,'active',?,? FROM season_memberships sm JOIN common_members m ON m.user_id=sm.user_id
-   WHERE sm.season_id=? AND sm.status='active' AND m.status='approved' ON CONFLICT(user_id,season_id) DO NOTHING`,action.seasonId,now,actor,action.fromSeasonId));break;
+   SELECT sm.user_id,?,COALESCE(r.organization_id,sm.organization_id),'active',?,? FROM season_memberships sm JOIN common_members m ON m.user_id=sm.user_id
+   LEFT JOIN game_accounts g ON g.user_id=sm.user_id LEFT JOIN roster_entries r ON r.realm=g.realm AND r.game_uid=g.game_uid AND r.season_id=?
+   WHERE sm.season_id=? AND sm.status='active' AND m.status='approved' AND (r.id IS NULL OR r.status='active') ON CONFLICT(user_id,season_id) DO NOTHING`,action.seasonId,now,actor,action.seasonId,action.fromSeasonId));
+  statements.push(q(`INSERT INTO roster_entries(id,realm,game_uid,nickname,season_id,organization_id,status,revision,updated_at,updated_by)
+   SELECT 'rst_'||lower(hex(randomblob(16))),realm,game_uid,nickname,?,organization_id,'active',1,?,? FROM roster_entries
+   WHERE season_id=? AND status='active' ON CONFLICT(realm,game_uid,season_id) DO NOTHING`,action.seasonId,now,actor,action.fromSeasonId));break;
  }
  case 'policy':
   if(action.mode==='season'&&!action.organizationId)throw new MembershipConflict('허용할 맹을 선택해 주세요.');

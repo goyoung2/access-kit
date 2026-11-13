@@ -73,8 +73,8 @@ npx access-kit deploy
 
 설치 기록이 없는 수동 서버는 `npm install --save-exact @goyoung2/access-kit@X.Y.Z` 후 기존 build/test/deploy를 사용합니다. 실패하면 이전 package/lock을 복원하고 `npm ci`를 실행합니다.
 
-기존 파일 설치도 `npx access-kit update --package SDK.tgz --sha256 HASH`로 지원합니다. 인증 서버·DB 업데이트는 별도이며 0.3.1 중앙 서버와 migration 0004를 소비 SDK보다 먼저 적용합니다. `package-lock.json`을 보관하고 재설치에는 `npm ci`를 사용합니다.
+기존 파일 설치도 `npx access-kit update --package SDK.tgz --sha256 HASH`로 지원합니다. 인증 서버·DB 업데이트는 별도이며 명부 CRUD가 포함된 현재 중앙 서버에는 migration 0005까지 소비 SDK보다 먼저 적용합니다. `package-lock.json`을 보관하고 재설치에는 `npm ci`를 사용합니다.
 
 ## 함께 제공하는 문서
 
-설치된 패키지의 `node_modules/@goyoung2/access-kit/docs/`에서 INSTALL.md, QUICKSTART.md, ADAPTERS.md, UPGRADE.md, CONSOLE.md를 읽을 수 있습니다. 비공개 개발 저장소 접근이 없어도 설치·업데이트 안내를 사용할 수 있습니다. 회원 명부·개인키·운영 환경설정은 배포 패키지에 포함하지 않습니다.
+설치된 패키지의 `node_modules/@goyoung2/access-kit/docs/`에서 INSTALL.md, QUICKSTART.md, ADAPTERS.md, UPGRADE.md, CONSOLE.md, ROSTER.md를 읽을 수 있습니다. 비공개 개발 저장소 접근이 없어도 설치·업데이트 안내를 사용할 수 있습니다. 회원 명부·개인키·운영 환경설정은 배포 패키지에 포함하지 않습니다.

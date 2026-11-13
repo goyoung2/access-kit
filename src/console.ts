@@ -9,6 +9,7 @@ import {randomToken} from './crypto';
 import {brandingInput,getBranding} from './branding';
 import {consolePage} from './console-ui';
 import {atomicMutation,activeOperator} from './atomic-mutation';
+import {rosterRows,rosterAction,mutateRoster,RosterError} from './console-roster';
 type C=Context<{Bindings:Env}>;
 export async function consoleIdentity(c:C){
  const user=await findSessionUser(c.env,parseCookies(c.req.header('Cookie')).accesskit_sid);if(!user)return null;
@@ -38,7 +39,17 @@ export function registerConsole(app:Hono<{Bindings:Env}>){
   const managers=i.superadmin?(await c.env.DB.prepare('SELECT * FROM member_managers').all()).results:[];
   const events=i.superadmin?(await c.env.DB.prepare('SELECT e.event_type,e.created_at,e.detail,u.display_name FROM auth_events e LEFT JOIN users u ON u.id=e.user_id ORDER BY e.created_at DESC LIMIT 100').all()).results:[];
   const brands=(await c.env.DB.prepare('SELECT * FROM login_branding').all()).results.filter(b=>overview.services.some(s=>s.client_id===b.client_id));
-  return c.json({...overview,identity:i,users,managers,events,brands});
+  const roster=i.superadmin||i.scopes.length?await rosterRows(c.env,i.user):[];
+  return c.json({...overview,identity:i,users,managers,events,brands,roster});
+ });
+ app.post('/console/roster',async c=>{
+  const i=await consoleIdentity(c);if(!i||(!i.superadmin&&!i.scopes.length))return c.json({error:'명부 관리 권한이 필요합니다.'},403);
+  try{return c.json(await mutateRoster(c.env,i.user,rosterAction.parse(await c.req.json())));}
+  catch(error){
+   if(error instanceof RosterError)return c.json({error:error.message},error.status);
+   if(error instanceof SyntaxError)return c.json({error:'JSON 요청 형식을 확인하세요.'},400);
+   throw error;
+  }
  });
  app.post('/console/membership',async c=>{
   const i=await consoleIdentity(c);if(!i)return c.json({error:'관리 권한이 없습니다.'},403);
