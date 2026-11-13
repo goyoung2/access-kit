@@ -10,12 +10,13 @@ import {brandingInput,getBranding} from './branding';
 import {consolePage} from './console-ui';
 import {atomicMutation,activeOperator} from './atomic-mutation';
 import {rosterRows,rosterAction,mutateRoster,RosterError} from './console-roster';
+import {catalogAction,mutateCatalog,catalogAvailable} from './membership-catalog';
 type C=Context<{Bindings:Env}>;
 export async function consoleIdentity(c:C){
  const user=await findSessionUser(c.env,parseCookies(c.req.header('Cookie')).accesskit_sid);if(!user)return null;
  const active=await c.env.DB.prepare("SELECT display_name FROM users WHERE id=? AND status='active'").bind(user).first<{display_name:string}>();if(!active)return null;
  const superadmin=await isPlatformAdmin(c.env,user);
- const scopes=await c.env.DB.prepare('SELECT organization_id FROM member_managers WHERE user_id=?').bind(user).all<{organization_id:string}>();
+ const scopes=await c.env.DB.prepare(`SELECT organization_id FROM member_managers WHERE user_id=? AND ${catalogAvailable('organization','organization_id')}`).bind(user).all<{organization_id:string}>();
  const developer=await c.env.DB.prepare("SELECT user_id FROM developers WHERE user_id=? AND status='active'").bind(user).first();
  return {user,name:active.display_name,superadmin,scopes:scopes.results.map(x=>x.organization_id),developer:Boolean(developer)};
 }
@@ -51,15 +52,20 @@ export function registerConsole(app:Hono<{Bindings:Env}>){
    throw error;
   }
  });
+ app.post('/console/catalog',async c=>{
+  const identity=await consoleIdentity(c);if(!identity?.superadmin)return c.json({error:'최고 관리자 권한이 필요합니다.'},403);
+  try{return c.json(await mutateCatalog(c.env,identity.user,catalogAction.parse(await c.req.json())));}
+  catch(error){if(error instanceof SyntaxError)return c.json({error:'JSON 요청 형식을 확인하세요.'},400);throw error;}
+ });
  app.post('/console/membership',async c=>{
   const i=await consoleIdentity(c);if(!i)return c.json({error:'관리 권한이 없습니다.'},403);
   const a=adminAction.parse(await c.req.json());
   if(!i.superadmin){
-   if(a.action==='approve'){if(!i.scopes.includes(a.organizationId)||a.existingUserId)return c.json({error:'담당 맹의 신규 승인만 가능합니다.'},403);}
+   if(a.action==='approve'){if(!i.scopes.includes(a.organizationId)||a.existingUserId)return c.json({error:'담당 소속의 신규 승인만 가능합니다.'},403);}
    else if(a.action==='assign'){
     const existing=await c.env.DB.prepare('SELECT organization_id FROM season_memberships WHERE user_id=? AND season_id=?').bind(a.userId,a.seasonId).first<{organization_id:string}>();
-    if(!i.scopes.includes(a.organizationId)||(existing&&!i.scopes.includes(existing.organization_id)))return c.json({error:'다른 맹의 소속을 변경할 수 없습니다.'},403);
-    const known=await c.env.DB.prepare('SELECT user_id FROM season_memberships WHERE user_id=? AND organization_id=?').bind(a.userId,a.organizationId).first();if(!known)return c.json({error:'담당 맹의 회원만 변경할 수 있습니다.'},403);
+    if(!i.scopes.includes(a.organizationId)||(existing&&!i.scopes.includes(existing.organization_id)))return c.json({error:'담당 범위 밖의 회원 소속은 변경할 수 없습니다.'},403);
+    const known=await c.env.DB.prepare('SELECT user_id FROM season_memberships WHERE user_id=? AND organization_id=?').bind(a.userId,a.organizationId).first();if(!known)return c.json({error:'담당 소속의 회원만 변경할 수 있습니다.'},403);
    }else return c.json({error:'최고 관리자 권한이 필요합니다.'},403);
   }
   await mutateMembership(c.env,i.user,a);return c.json({ok:true});
@@ -72,11 +78,12 @@ export function registerConsole(app:Hono<{Bindings:Env}>){
   const q=(s:string,...v:(string|number)[])=>c.env.DB.prepare(s).bind(...v),now=Date.now();let change:D1PreparedStatement;
   switch(a.role){
    case 'superadmin':change=a.enabled?q("INSERT INTO auth_operators VALUES(?,'operator',?,?) ON CONFLICT(user_id) DO NOTHING",a.userId,now,i.user):q('DELETE FROM auth_operators WHERE user_id=?',a.userId);break;
-   case 'manager':if(!a.organizationId||!await q('SELECT id FROM member_organizations WHERE id=?',a.organizationId).first())return c.json({error:'담당 맹을 선택해 주세요.'},400);change=a.enabled?q('INSERT INTO member_managers VALUES(?,?,?,?) ON CONFLICT(user_id,organization_id) DO NOTHING',a.userId,a.organizationId,i.user,now):q('DELETE FROM member_managers WHERE user_id=? AND organization_id=?',a.userId,a.organizationId);break;
+   case 'manager':if(!a.organizationId||!await q('SELECT id FROM member_organizations WHERE id=?',a.organizationId).first())return c.json({error:'담당 소속을 선택해 주세요.'},400);change=a.enabled?q('INSERT INTO member_managers VALUES(?,?,?,?) ON CONFLICT(user_id,organization_id) DO NOTHING',a.userId,a.organizationId,i.user,now):q('DELETE FROM member_managers WHERE user_id=? AND organization_id=?',a.userId,a.organizationId);break;
    case 'developer':change=q('INSERT INTO developers VALUES(?,?) ON CONFLICT(user_id) DO UPDATE SET status=excluded.status',a.userId,a.enabled?'active':'inactive');break;
   }
   const transaction=atomicMutation(c.env);
   transaction.require(activeOperator,i.user);
+  if(a.role==='manager'&&a.enabled)transaction.require(catalogAvailable('organization','?'),a.organizationId??null);
   transaction.require("EXISTS(SELECT 1 FROM users WHERE id=? AND status='active')",a.userId);
   transaction.add(change,q("INSERT INTO auth_events VALUES(?,?,NULL,'console.role',?,?)",'evt_'+randomToken(10),i.user,JSON.stringify(a),now));
   await transaction.commit();return c.json({ok:true});

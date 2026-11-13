@@ -8,6 +8,7 @@ import {randomToken,sha256Base64Url} from './crypto';
 import {atomicMutation,activeOperator} from './atomic-mutation';
 import {installationPage} from './installation-page';
 import {developerAdminPage,invitationPage} from './developer-admin-page';
+import {catalogAvailable} from './membership-catalog';
 type C=Context<{Bindings:Env}>;
 async function developer(c:C){
  const user=await findSessionUser(c.env,parseCookies(c.req.header('Cookie')).accesskit_sid);
@@ -73,7 +74,7 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
  app.get('/developer/services',async c=>{
   const identity=await developer(c);if(!identity)return c.json({error:'DEVELOPER_REQUIRED'},403);
   const services=await c.env.DB.prepare(`SELECT a.*,p.mode,p.organization_id FROM applications a JOIN application_owners o ON o.client_id=a.client_id JOIN common_application_policies p ON p.client_id=a.client_id WHERE ?=1 OR o.user_id=? ORDER BY a.name`).bind(identity.admin?1:0,identity.user).all();
-  const organizations=await c.env.DB.prepare('SELECT id,name FROM member_organizations ORDER BY name').all();
+  const organizations=await c.env.DB.prepare(`SELECT id,name FROM member_organizations o WHERE ${catalogAvailable('organization','o.id')} ORDER BY name`).all();
   return c.json({services:services.results,organizations:organizations.results,authOrigin:new URL(c.req.url).origin,version:'0.3.1',admin:identity.admin});
  });
  app.post('/developer/services',async c=>{
@@ -84,8 +85,9 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
    const owner=await c.env.DB.prepare('SELECT user_id FROM application_owners WHERE client_id=?').bind(id).first<{user_id:string}>();
    if(!owner||(!identity.admin&&owner.user_id!==identity.user))return c.json({error:'OWNER_REQUIRED'},403);
   }
-  if(b.mode==='season'&&(!b.organizationId||!await c.env.DB.prepare('SELECT id FROM member_organizations WHERE id=?').bind(b.organizationId).first()))return c.json({error:'ORGANIZATION_REQUIRED'},400);
+  if(b.mode==='season'&&(!b.organizationId||!await c.env.DB.prepare(`SELECT id FROM member_organizations o WHERE o.id=? AND ${catalogAvailable('organization','o.id')}`).bind(b.organizationId).first()))return c.json({error:'ORGANIZATION_REQUIRED'},400);
   const transaction=atomicMutation(c.env);
+  if(b.mode==='season')transaction.require(catalogAvailable('organization','?'),b.organizationId);
   transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM developers d JOIN users u ON u.id=d.user_id WHERE d.user_id=? AND d.status='active' AND u.status='active')`,identity.user,identity.user);
   if(b.clientId) {
    transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM application_owners WHERE client_id=? AND user_id=?)`,identity.user,id,identity.user);

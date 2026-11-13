@@ -14,7 +14,7 @@ npx access-kit init --client-id CLIENT_ID --auth-origin https://AUTH_HOST --site
 <p>스튜디오가 만든 실제 값으로 plan을 확인하고, 같은 명령에서 --plan을 빼고 실행합니다. Pages는 --hosting pages --branch 실제운영브랜치를 추가합니다.</p><pre>npx access-kit doctor
 npx access-kit secret
 npx access-kit deploy</pre><p>새 정적 사이트는 npm init -y 후 dist/index.html을 준비합니다. 기존 프로젝트는 원래 빌드 결과 폴더를 지정합니다. 이후 같은 소스를 설치할 때는 npm ci를 사용합니다.</p></section>
-<section id="policy"><h2>입장 조건은 서비스별로 선택합니다</h2><ul><li><strong>승인 회원 전체:</strong> 특정 맹이나 현재 시즌 소속으로 제한하지 않습니다.</li><li><strong>현재 시즌 · 선택한 조직(맹):</strong> 명부를 사용하는 서비스의 선택 조건입니다.</li><li><strong>최고 관리자 전용:</strong> 운영자 전용 서비스를 보호합니다.</li></ul><p>특정 맹이나 기존 인증 서버가 SDK에 고정되어 있지 않습니다. Google 로그인만 완료했다고 회원 승인을 받는 것은 아닙니다. 기존 회원 ID·정지·서비스 제한은 유지합니다. 명부와 비밀키는 패키지에 포함하지 않습니다.</p></section>
+<section id="policy"><h2>입장 조건은 서비스별로 선택합니다</h2><ul><li><strong>승인 회원 전체:</strong> 특정 맹이나 진행 중인 시즌 소속으로 제한하지 않습니다.</li><li><strong>진행 중인 시즌 · 선택한 소속(맹):</strong> 명부를 사용하는 서비스의 선택 조건입니다.</li><li><strong>최고 관리자 전용:</strong> 운영자 전용 서비스를 보호합니다.</li></ul><p>특정 맹이나 기존 인증 서버가 SDK에 고정되어 있지 않습니다. Google 로그인만 완료했다고 회원 승인을 받는 것은 아닙니다. 기존 회원 ID·정지·서비스 제한은 유지합니다. 명부와 비밀키는 패키지에 포함하지 않습니다.</p></section>
 <section id="adapters"><h2>기존 서버 연결</h2><p>Workers·Pages는 설치기가 기존 설정을 보존하며 게이트를 연결합니다. 다른 Fetch API 서버는 요청 처리기 앞에 다음과 같이 연결하세요.</p><pre>import {createGate} from '@goyoung2/access-kit/server';
 const gate=createGate({clientId:'CLIENT_ID',authOrigin:'https://AUTH_HOST',siteUrl:'https://SITE_HOST/',accessPolicy:'member'});
 return gate(request,{

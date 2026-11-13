@@ -12,4 +12,6 @@ Login: single centered panel, service branding, Google button, application/statu
 
 Permission: existing operators retain superadmin authority. Scoped member managers only manage their organization; developers only own services. User identities and membership restrictions preserved. Role revocation server enforced. Last operator deletion rejected atomically.
 
+Season and affiliation management: label the console section `시즌 · 소속`. Names are operator-defined stable identifiers; `준비 중`, `진행 중`, `종료` are separate status badges. Reuse panels, scrollable tables, filters and dialogs for create/rename/delete/restore. Keep the selected season's membership assignment below the catalog tables. Only superadmins edit catalog entries. Deletion preserves IDs and history and has a recoverable deleted-items filter; deleting an affiliation disables its seasonal access and scoped manager authority, while restore explicitly recovers those prior bindings without lifting member suspensions. An active season must be ended explicitly before deletion. Show impact counts and stale-edit errors in the dialog. Never auto-rename existing user data or choose a replacement active season on deletion.
+
 Verification: desktop1440/mobile390, real role grant/revoke, member approval/suspension, access diagnosis, login and reconnection. Design preview uses same tokens; no mock success labels.

@@ -1,5 +1,6 @@
 import type {Env} from './types';
 import {sha256Base64Url} from './crypto';
+import {catalogAvailable} from './membership-catalog';
 
 /** Explicit application policy is required; missing policy never grants access. */
 export async function commonAccess(env:Env,userId:string,clientId:string,requireMember=false,token:string|null=null) {
@@ -12,7 +13,7 @@ export async function commonAccess(env:Env,userId:string,clientId:string,require
   a.name,a.redirect_uris,a.status AS app_status,t.expires_at,
   EXISTS(SELECT 1 FROM auth_operators o WHERE o.user_id=u.id) AS operator,
   EXISTS(SELECT 1 FROM season_memberships sm JOIN member_seasons s ON s.id=sm.season_id
-    WHERE sm.user_id=u.id AND s.status='active' AND sm.status='active' AND sm.organization_id=?) AS season_member
+    WHERE sm.user_id=u.id AND s.status='active' AND sm.status='active' AND sm.organization_id=? AND ${catalogAvailable('season','s.id')} AND ${catalogAvailable('organization','sm.organization_id')}) AS season_member
   FROM applications a
   LEFT JOIN access_tokens t ON t.token_hash=? AND t.client_id=a.client_id AND t.revoked_at IS NULL AND t.expires_at>?
     AND NOT EXISTS(SELECT 1 FROM user_reauthentication r WHERE r.user_id=t.user_id AND t.created_at<=r.requested_at)

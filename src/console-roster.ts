@@ -4,6 +4,7 @@ import {atomicMutation,activeOperator} from './atomic-mutation';
 import {randomToken,sha256Base64Url} from './crypto';
 import {parseRosterInput,rosterItem} from './roster-input';
 import type {RosterItem} from './roster-input';
+import {catalogAvailable} from './membership-catalog';
 
 const id=z.string().trim().min(1).max(128);
 const context=z.object({realm:z.string().trim().min(1).max(64),seasonId:id,organizationId:id});
@@ -20,22 +21,22 @@ type RosterContext=z.infer<typeof context>;
 type Transaction=ReturnType<typeof atomicMutation>;
 type RosterRow={readonly id:string;readonly realm:string;readonly game_uid:string;readonly nickname:string;readonly season_id:string;readonly organization_id:string;readonly status:'active'|'deleted';readonly revision:number;readonly updated_at:number;readonly linked_user_id:string|null;readonly member_status:string|null};
 export class RosterError extends Error {constructor(message:string,readonly status:400|403|409){super(message);}}
-const authority=`${activeOperator} OR EXISTS(SELECT 1 FROM member_managers mm JOIN users u ON u.id=mm.user_id WHERE mm.user_id=? AND mm.organization_id=? AND u.status='active')`;
+const authority=`${activeOperator} OR EXISTS(SELECT 1 FROM member_managers mm JOIN users u ON u.id=mm.user_id WHERE mm.user_id=? AND mm.organization_id=? AND u.status='active' AND ${catalogAvailable('organization','mm.organization_id')})`;
 const selectRows=`SELECT r.*,g.user_id AS linked_user_id,m.status AS member_status FROM roster_entries r LEFT JOIN game_accounts g ON g.realm=r.realm AND g.game_uid=r.game_uid LEFT JOIN common_members m ON m.user_id=g.user_id`;
 
 export async function rosterRows(env:Env,actor:string){
- return (await env.DB.prepare(`${selectRows} WHERE (${activeOperator} OR EXISTS(SELECT 1 FROM member_managers mm JOIN users u ON u.id=mm.user_id WHERE mm.user_id=? AND mm.organization_id=r.organization_id AND u.status='active')) ORDER BY r.nickname,r.game_uid`).bind(actor,actor).all<RosterRow>()).results;
+ return (await env.DB.prepare(`${selectRows} WHERE (${activeOperator} OR EXISTS(SELECT 1 FROM member_managers mm JOIN users u ON u.id=mm.user_id WHERE mm.user_id=? AND mm.organization_id=r.organization_id AND u.status='active' AND ${catalogAvailable('organization','mm.organization_id')})) ORDER BY r.nickname,r.game_uid`).bind(actor,actor).all<RosterRow>()).results;
 }
 
 async function authorize(env:Env,actor:string,c:RosterContext){
  const allowed=await env.DB.prepare(`SELECT 1 AS ok WHERE (${authority})`).bind(actor,actor,c.organizationId).first();
- if(!allowed)throw new RosterError('담당 조직의 명부만 관리할 수 있습니다.',403);
- const valid=await env.DB.prepare("SELECT 1 AS ok FROM member_seasons s,member_organizations o WHERE s.id=? AND s.status IN ('draft','active') AND o.id=?").bind(c.seasonId,c.organizationId).first();
- if(!valid)throw new RosterError('준비 중 또는 현재 시즌과 등록된 조직을 선택하세요.',409);
+ if(!allowed)throw new RosterError('담당 소속의 명부만 관리할 수 있습니다.',403);
+ const valid=await env.DB.prepare(`SELECT 1 AS ok FROM member_seasons s,member_organizations o WHERE s.id=? AND s.status IN ('draft','active') AND o.id=? AND ${catalogAvailable('season','s.id')} AND ${catalogAvailable('organization','o.id')}`).bind(c.seasonId,c.organizationId).first();
+ if(!valid)throw new RosterError('준비 중 또는 진행 중인 시즌과 등록된 소속을 선택하세요.',409);
 }
 function guardContext(tx:Transaction,actor:string,c:RosterContext){
  tx.require(authority,actor,actor,c.organizationId);
- tx.require("EXISTS(SELECT 1 FROM member_seasons WHERE id=? AND status IN ('draft','active')) AND EXISTS(SELECT 1 FROM member_organizations WHERE id=?)",c.seasonId,c.organizationId);
+ tx.require(`EXISTS(SELECT 1 FROM member_seasons s WHERE s.id=? AND s.status IN ('draft','active') AND ${catalogAvailable('season','s.id')}) AND EXISTS(SELECT 1 FROM member_organizations o WHERE o.id=? AND ${catalogAvailable('organization','o.id')})`,c.seasonId,c.organizationId);
 }
 function guardRow(tx:Transaction,row:RosterRow){
  tx.require('EXISTS(SELECT 1 FROM roster_entries WHERE id=? AND revision=? AND organization_id=? AND status=?)',row.id,row.revision,row.organization_id,row.status);
@@ -75,7 +76,7 @@ async function preview(env:Env,actor:string,c:RosterContext,text:string){
   const old=current.find(row=>row.game_uid===item.gameUid);
   let kind:'add'|'update'|'unchanged'|'conflict'='add',message='';
   if(old){
-   if(old.organization_id!==c.organizationId){kind='conflict';message='같은 시즌의 다른 조직에 등록된 UID입니다. 개별 수정으로 소속을 확인하세요.';}
+   if(old.organization_id!==c.organizationId){kind='conflict';message='같은 시즌의 다른 소속에 등록된 UID입니다. 개별 수정으로 소속을 확인하세요.';}
    else if(old.status==='deleted'){kind='conflict';message='삭제된 항목입니다. 명부에서 먼저 복구하세요.';}
    else kind=old.nickname===item.nickname?'unchanged':'update';
   }

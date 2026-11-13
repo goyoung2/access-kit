@@ -2,6 +2,7 @@ import {z} from 'zod';
 import type {Env} from './types';
 import {randomToken} from './crypto';
 import {atomicMutation,activeOperator,MutationConflict} from './atomic-mutation';
+import {catalogAvailable,catalogSelect} from './membership-catalog';
 const id=z.string().min(1).max(128);
 export const adminAction=z.discriminatedUnion('action',[
  z.object({action:z.literal('approve'),userId:id,seasonId:id,organizationId:id,existingUserId:id.optional()}),
@@ -21,16 +22,21 @@ export async function mutateMembership(env:Env,actor:string,action:z.infer<typeo
  const transaction=atomicMutation(env);
  const statements:D1PreparedStatement[]=[];
  if(action.action==='approve'||action.action==='assign') {
+  transaction.require(`EXISTS(SELECT 1 FROM member_seasons s WHERE s.id=? AND ${catalogAvailable('season','s.id')}) AND EXISTS(SELECT 1 FROM member_organizations o WHERE o.id=? AND ${catalogAvailable('organization','o.id')})`,action.seasonId,action.organizationId);
   const scope=`EXISTS (SELECT 1 FROM member_managers mm JOIN users u ON u.id=mm.user_id WHERE mm.user_id=? AND mm.organization_id=? AND u.status='active')`;
   if(action.action==='approve' && action.existingUserId) transaction.require(activeOperator,actor);
   else {
    transaction.require(`${activeOperator} OR ${scope}`,actor,actor,action.organizationId);
    if(action.action==='assign') transaction.require(`${activeOperator} OR (
-    NOT EXISTS(SELECT 1 FROM season_memberships sm WHERE sm.user_id=? AND sm.season_id=? AND NOT EXISTS(SELECT 1 FROM member_managers mm WHERE mm.user_id=? AND mm.organization_id=sm.organization_id))
+    NOT EXISTS(SELECT 1 FROM season_memberships sm WHERE sm.user_id=? AND sm.season_id=? AND NOT EXISTS(SELECT 1 FROM member_managers mm WHERE mm.user_id=? AND mm.organization_id=sm.organization_id AND ${catalogAvailable('organization','mm.organization_id')}))
     AND EXISTS(SELECT 1 FROM season_memberships WHERE user_id=? AND organization_id=?)
    )`,actor,action.userId,action.seasonId,actor,action.userId,action.organizationId);
   }
  } else transaction.require(activeOperator,actor);
+ if(action.action==='organization'||action.action==='season'){
+  const table=action.action==='season'?'member_seasons':'member_organizations';
+  transaction.require(`NOT EXISTS(SELECT 1 FROM ${table} e WHERE e.name=? COLLATE NOCASE AND ${catalogAvailable(action.action,'e.id')})`,action.name);
+ }
  switch(action.action){
  case 'approve': {
   const request=await q("SELECT * FROM member_applications WHERE user_id=? AND status='pending'",action.userId)
@@ -78,29 +84,32 @@ export async function mutateMembership(env:Env,actor:string,action:z.infer<typeo
  case 'season':statements.push(q("INSERT INTO member_seasons VALUES(?,?,'draft')",action.id,action.name));break;
  case 'assign':{
   const valid=await q(`SELECT m.user_id FROM common_members m,member_seasons s WHERE m.user_id=? AND m.status='approved' AND s.id=? AND s.status IN ('draft','active')`,action.userId,action.seasonId).first();
-  if(!valid)throw new MembershipConflict('승인된 회원과 준비 중 또는 현재 시즌을 선택해 주세요.');
+  if(!valid)throw new MembershipConflict('승인된 회원과 준비 중 또는 진행 중인 시즌을 선택해 주세요.');
   transaction.require(`EXISTS(SELECT 1 FROM common_members m,member_seasons s WHERE m.user_id=? AND m.status='approved' AND s.id=? AND s.status IN ('draft','active'))`,action.userId,action.seasonId);
   statements.push(q(`INSERT INTO season_memberships VALUES(?,?,?,?,?,?) ON CONFLICT(user_id,season_id) DO UPDATE SET organization_id=excluded.organization_id,status=excluded.status,updated_at=excluded.updated_at,updated_by=excluded.updated_by`,action.userId,action.seasonId,action.organizationId,action.status,now,actor));break;
  }
  case 'activate':{
+  transaction.require(catalogAvailable('season','?'),action.seasonId);
   if(!await q("SELECT id FROM member_seasons WHERE id=? AND status='draft'",action.seasonId).first())throw new MembershipConflict('준비 중인 시즌만 시작할 수 있습니다.');
   transaction.require("EXISTS(SELECT 1 FROM member_seasons WHERE id=? AND status='draft')",action.seasonId);
   statements.push(q("UPDATE member_seasons SET status='archived' WHERE status='active'"));
   statements.push(q("UPDATE member_seasons SET status='active' WHERE id=?",action.seasonId));break;
  }
  case 'copy':{
+  transaction.require(`${catalogAvailable('season','?')} AND ${catalogAvailable('season','?')}`,action.seasonId,action.fromSeasonId);
   if(action.seasonId===action.fromSeasonId||!await q("SELECT id FROM member_seasons WHERE id=? AND status='draft'",action.seasonId).first())throw new MembershipConflict('준비 중인 다른 시즌을 선택해 주세요.');
   transaction.require("EXISTS(SELECT 1 FROM member_seasons WHERE id=? AND status='draft')",action.seasonId);
   statements.push(q(`INSERT INTO season_memberships(user_id,season_id,organization_id,status,updated_at,updated_by)
    SELECT sm.user_id,?,COALESCE(r.organization_id,sm.organization_id),'active',?,? FROM season_memberships sm JOIN common_members m ON m.user_id=sm.user_id
    LEFT JOIN game_accounts g ON g.user_id=sm.user_id LEFT JOIN roster_entries r ON r.realm=g.realm AND r.game_uid=g.game_uid AND r.season_id=?
-   WHERE sm.season_id=? AND sm.status='active' AND m.status='approved' AND (r.id IS NULL OR r.status='active') ON CONFLICT(user_id,season_id) DO NOTHING`,action.seasonId,now,actor,action.seasonId,action.fromSeasonId));
+   WHERE sm.season_id=? AND sm.status='active' AND m.status='approved' AND ${catalogAvailable('organization','sm.organization_id')} AND ${catalogAvailable('organization','COALESCE(r.organization_id,sm.organization_id)')} AND (r.id IS NULL OR r.status='active') ON CONFLICT(user_id,season_id) DO NOTHING`,action.seasonId,now,actor,action.seasonId,action.fromSeasonId));
   statements.push(q(`INSERT INTO roster_entries(id,realm,game_uid,nickname,season_id,organization_id,status,revision,updated_at,updated_by)
    SELECT 'rst_'||lower(hex(randomblob(16))),realm,game_uid,nickname,?,organization_id,'active',1,?,? FROM roster_entries
-   WHERE season_id=? AND status='active' ON CONFLICT(realm,game_uid,season_id) DO NOTHING`,action.seasonId,now,actor,action.fromSeasonId));break;
+   WHERE season_id=? AND status='active' AND ${catalogAvailable('organization','organization_id')} ON CONFLICT(realm,game_uid,season_id) DO NOTHING`,action.seasonId,now,actor,action.fromSeasonId));break;
  }
  case 'policy':
-  if(action.mode==='season'&&!action.organizationId)throw new MembershipConflict('허용할 맹을 선택해 주세요.');
+  if(action.mode==='season')transaction.require(`EXISTS(SELECT 1 FROM member_organizations o WHERE o.id=? AND ${catalogAvailable('organization','o.id')})`,action.organizationId);
+  if(action.mode==='season'&&!action.organizationId)throw new MembershipConflict('허용할 소속을 선택해 주세요.');
   statements.push(q(`INSERT INTO common_application_policies VALUES(?,?,?) ON CONFLICT(client_id) DO UPDATE SET mode=excluded.mode,organization_id=excluded.organization_id`,action.clientId,action.mode,action.mode==='season'?action.organizationId:null));break;
  }
  // The mutation and audit record commit together. Unique UID constraints also arbitrate concurrent approvals.
@@ -117,7 +126,7 @@ export async function membershipOverview(env:Env){
  const [applications,members,seasons,organizations,assignments,services]=await env.DB.batch<Record<string,unknown>>([
   env.DB.prepare(`SELECT r.*,u.display_name,(SELECT COUNT(*) FROM member_applications x WHERE x.realm=r.realm AND x.game_uid=r.game_uid AND x.user_id<>r.user_id AND x.status='pending') AS pending_duplicates,(SELECT user_id FROM game_accounts g WHERE g.realm=r.realm AND g.game_uid=r.game_uid) AS registered_user FROM member_applications r JOIN users u ON u.id=r.user_id ORDER BY requested_at DESC`),
   env.DB.prepare('SELECT u.id,u.display_name,m.status,g.realm,g.game_uid,g.nickname FROM common_members m JOIN users u ON u.id=m.user_id LEFT JOIN game_accounts g ON g.user_id=u.id ORDER BY g.nickname,u.display_name'),
-  env.DB.prepare('SELECT * FROM member_seasons ORDER BY rowid DESC'),env.DB.prepare('SELECT * FROM member_organizations'),
+  env.DB.prepare(catalogSelect('season')+' ORDER BY e.rowid DESC'),env.DB.prepare(catalogSelect('organization')+' ORDER BY e.name'),
   env.DB.prepare('SELECT * FROM season_memberships'),
   env.DB.prepare('SELECT a.client_id,a.name,p.mode,p.organization_id FROM applications a LEFT JOIN common_application_policies p ON p.client_id=a.client_id'),
  ]);

@@ -52,7 +52,7 @@ return gate(request,{
 
 ## 입장 정책
 
-중앙 서버에서 승인 회원 전체 / 현재 시즌의 지정 조직(맹) / 최고 관리자 전용을 서비스별로 선택합니다. SDK의 기본 `member`는 중앙에서 해당 서비스의 조건을 확인하며, 특정 맹을 고정하지 않습니다. 로컬 `admin` 게이트는 중앙 서비스 허용과 운영자 여부를 모두 요구합니다.
+중앙 서버에서 승인 회원 전체 / 진행 중인 시즌의 지정 소속 / 최고 관리자 전용을 서비스별로 선택합니다. SDK의 기본 `member`는 중앙에서 해당 서비스의 조건을 확인하며, 특정 맹을 고정하지 않습니다. 로컬 `admin` 게이트는 중앙 서비스 허용과 운영자 여부를 모두 요구합니다.
 
 Google 로그인만으로 회원 승인이 부여되지는 않습니다. 공개 SDK를 설치해도 다른 운영자의 명부·관리 권한을 얻지 않습니다. 기존 회원 ID와 이용 제한을 유지합니다.
 
@@ -73,7 +73,7 @@ npx access-kit deploy
 
 설치 기록이 없는 수동 서버는 `npm install --save-exact @goyoung2/access-kit@X.Y.Z` 후 기존 build/test/deploy를 사용합니다. 실패하면 이전 package/lock을 복원하고 `npm ci`를 실행합니다.
 
-기존 파일 설치도 `npx access-kit update --package SDK.tgz --sha256 HASH`로 지원합니다. 인증 서버·DB 업데이트는 별도이며 명부 CRUD가 포함된 현재 중앙 서버에는 migration 0005까지 소비 SDK보다 먼저 적용합니다. `package-lock.json`을 보관하고 재설치에는 `npm ci`를 사용합니다.
+기존 파일 설치도 `npx access-kit update --package SDK.tgz --sha256 HASH`로 지원합니다. 인증 서버·DB 업데이트는 별도이며 명부 CRUD가 포함된 현재 중앙 서버에는 migration 0006까지 소비 SDK보다 먼저 적용합니다. `package-lock.json`을 보관하고 재설치에는 `npm ci`를 사용합니다.
 
 ## 함께 제공하는 문서
 
