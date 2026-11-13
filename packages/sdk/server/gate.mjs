@@ -6,6 +6,8 @@ export const AUTHORIZATION_LEASE_MS = 60 * 60 * 1000;
 const encoder = new TextEncoder();
 const keys = new Map();
 const clearCookie = `${COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
+const signedOutCookie = '__Host-accesskit_signed_out';
+const cookieAttributes = '; Path=/; HttpOnly; Secure; SameSite=Lax';
 
 function response(body, status, headers = {}) {
   return new Response(body, { status, headers: {
@@ -16,10 +18,22 @@ function response(body, status, headers = {}) {
 }
 function denied(request, status, settings) {
   const html = request.method === 'GET' && request.headers.get('Accept')?.includes('text/html') && !request.headers.has('Range');
-  return response(html ? loginPage(settings, status) : null, status, {
+  const signedOut = hasSignedOutCookie(request);
+  return response(html ? loginPage(settings, status, !signedOut && new URL(request.url).pathname !== '/__accesskit/login') : null, status, {
     'Content-Type': html ? 'text/html; charset=utf-8' : 'text/plain',
+    'X-Access-Kit-Decision': status === 401 ? 'unauthenticated' : 'denied',
+    ...(settings.deploymentId ? { 'X-Access-Kit-Deployment': settings.deploymentId } : {}),
     ...([401, 403].includes(status) ? { 'Set-Cookie': clearCookie } : {}),
   });
+}
+function hasSignedOutCookie(request) {
+  return (request.headers.get('Cookie') || '').split(';').some(value => value.trim() === signedOutCookie + '=1');
+}
+function isOAuthCallback(request,settings) {
+  const url=new URL(request.url),state=url.searchParams.get('state');
+  if(url.pathname!==new URL(settings.siteUrl).pathname||!state||(!url.searchParams.has('code')&&!url.searchParams.has('error')))return false;
+  const expected='__Host-accesskit_oauth_state='+state;
+  return (request.headers.get('Cookie')||'').split(';').some(value=>value.trim()===expected);
 }
 async function key(secret) {
   if (typeof secret !== 'string' || secret.length < 32) throw new Error('ACCESS_KIT_SESSION_SECRET must contain at least 32 characters');
@@ -69,6 +83,7 @@ async function verify(token, settings, diagnostic) {
     const manualGrant = body.application_access?.client_id === settings.clientId
       && body.application_access?.allowed === true && body.application_access?.source === 'manual_grant';
     if (settings.accessPolicy === 'member' && body.data?.membership?.is_member !== true && !manualGrant) return { status: 403 };
+    if (settings.accessPolicy === 'admin' && body.data.membershipAdmin !== true) return { status: 403 };
     if (!Number.isFinite(body.expires_at) || body.expires_at <= Date.now()) return { status: 401 };
     const leaseUntil = Math.min(body.expires_at, verifiedAt + (settings.authorizationLeaseMs || AUTHORIZATION_LEASE_MS));
     if (leaseUntil <= Date.now()) return { status: 503 };
@@ -102,7 +117,8 @@ function verifyConcurrent(token, settings, fresh = false, diagnostic) {
   const id = sessionId(token, settings);
   if (isRevoked(id)) return Promise.resolve({ status: 401 });
   const cached = completedChecks.get(id);
-  if (!fresh && cached?.authorization.leaseUntil > Date.now()) return Promise.resolve(cached);
+  if (!fresh && cached?.authorization.leaseUntil > Date.now()
+    && cached.authorization.leaseUntil <= cached.authorization.verifiedAt + (settings.authorizationLeaseMs || AUTHORIZATION_LEASE_MS)) return Promise.resolve(cached);
   completedChecks.delete(id);
   const pending = pendingChecks.get(id);
   if (pending) return pending;
@@ -120,7 +136,8 @@ function validAuthorization(session, settings) {
   const a = session.authorization;
   return session.version === 2 && a?.allowed === true
     && a.clientId === settings.clientId && a.siteOrigin === new URL(settings.siteUrl).origin
-    && a.authOrigin === settings.authOrigin && a.accessPolicy === settings.accessPolicy
+    && (a.authOrigin === settings.authOrigin || a.authOrigin === settings.authOrigin + '/') && a.accessPolicy === settings.accessPolicy
+    && (settings.accessPolicy !== 'admin' || a.membershipAdmin === true)
     && typeof a.userId === 'string' && a.userId.length > 0 && a.userId.length <= 256
     && ['policy', 'manual_grant'].includes(a.source)
     && Number.isFinite(a.verifiedAt) && a.verifiedAt > 0 && a.verifiedAt <= Date.now()
@@ -161,7 +178,9 @@ export async function serveProtected(request, env, settings) {
           revoked = result.ok;
         } catch { revoked = false; }
       }
-      return response(null, 204, { 'Set-Cookie': clearCookie, 'X-Access-Kit-Revoke': revoked ? 'confirmed' : 'failed' });
+      const result = response(null, 204, { 'Set-Cookie': clearCookie, 'X-Access-Kit-Revoke': revoked ? 'confirmed' : 'failed' });
+      result.headers.append('Set-Cookie', signedOutCookie + '=1' + cookieAttributes);
+      return result;
     }
     if (request.headers.get('Content-Type')?.split(';')[0] !== 'application/json') return response(null, 415);
     // Bound the body before buffering it, including chunked requests.
@@ -188,11 +207,13 @@ export async function serveProtected(request, env, settings) {
     const authorization = { ...checked.authorization, leaseUntil: Math.min(checked.authorization.leaseUntil, expires) };
     const cookie = await sessionCookie({ version: 2, token, expires, authorization }, env.ACCESS_KIT_SESSION_SECRET, audience);
     if (isRevoked(sessionId(token, settings))) return denied(request, 401, settings);
-    return response(null, 204, { 'Set-Cookie': cookie });
+    const result = response(null, 204, { 'Set-Cookie': cookie });
+    if (hasSignedOutCookie(request)) result.headers.append('Set-Cookie', signedOutCookie + '=' + cookieAttributes + '; Max-Age=0');
+    return result;
   }
   // Existing applications own their API method/CSRF policy. Authentication must
   // run before dispatch, but must not discard their POST/PUT/DELETE handlers.
-  if (url.pathname === '/__accesskit/login' || (url.pathname === '/' && (url.searchParams.has('code') || url.searchParams.has('error')))) return denied(request, 401, settings);
+  if (url.pathname === '/__accesskit/login' || isOAuthCallback(request,settings)) return denied(request, 401, settings);
   if (!session) return denied(request, 401, settings);
   if (isRevoked(sessionId(session.token, settings))) return denied(request, 401, settings);
   // Only the previously shipped token-only format can migrate via central validation.
@@ -216,7 +237,7 @@ export async function serveProtected(request, env, settings) {
   headers.set('Cache-Control', asset.headers.has('ETag') && [200, 304].includes(asset.status)
     ? 'private, no-cache, max-age=0, must-revalidate' : 'private, no-store, max-age=0');
   headers.set('Vary', [headers.get('Vary'), 'Cookie'].filter(Boolean).join(', '));
-  if (renewedCookie) headers.set('Set-Cookie', renewedCookie);
+  if (renewedCookie) headers.append('Set-Cookie', renewedCookie);
   headers.set('X-Access-Kit-Gate', 'v1');
   headers.set('X-Access-Kit-Runtime', RUNTIME_VERSION);
   headers.set('X-Content-Type-Options', 'nosniff');
@@ -225,14 +246,17 @@ export async function serveProtected(request, env, settings) {
 
 // Public server API: hosts provide only their secret and protected content handler.
 export function createGate(settings) {
-  const config = Object.freeze({ provider:'firebase', authorizationLeaseMs:300000, sessionMaxAgeSeconds:604800, ...settings });
+  const config = { provider:'firebase', authorizationLeaseMs:300000, sessionMaxAgeSeconds:604800, ...settings };
   for (const name of ['siteUrl', 'authOrigin']) {
     const url = new URL(config[name]);
     if (url.protocol !== 'https:' || url.username || url.password || url.pathname !== '/' || url.search || url.hash) throw new Error(`${name} must be HTTPS`);
+    config[name] = name === 'authOrigin' ? url.origin : url.href;
   }
   if (!config.clientId || !['member', 'guest', 'admin'].includes(config.accessPolicy)) throw new Error('clientId and accessPolicy are required');
   if(config.authorizationLeaseMs!==undefined && (!Number.isInteger(config.authorizationLeaseMs)||config.authorizationLeaseMs<1000||config.authorizationLeaseMs>AUTHORIZATION_LEASE_MS))throw new Error('authorizationLeaseMs must be 1000..3600000');
   if(config.sessionMaxAgeSeconds!==undefined && (!Number.isInteger(config.sessionMaxAgeSeconds)||config.sessionMaxAgeSeconds<60||config.sessionMaxAgeSeconds>604800))throw new Error('sessionMaxAgeSeconds must be 60..604800');
+  if(config.deploymentId!==undefined && !/^[a-f0-9]{32}$/.test(config.deploymentId))throw new Error('Invalid deploymentId');
+  Object.freeze(config);
   return (request, { sessionSecret, serveAsset, fetchAuth }) => serveProtected(request, {
     ACCESS_KIT_SESSION_SECRET: sessionSecret,
     ASSETS: { fetch: serveAsset },

@@ -14,12 +14,14 @@ export class AccessKitClient {
   const verifier=b64(crypto.getRandomValues(new Uint8Array(32))),state=b64(crypto.getRandomValues(new Uint8Array(24)));
   const challenge=b64(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(verifier))));
   sessionStorage.setItem(this.key,JSON.stringify({verifier,state,at:Date.now()}));
+  document.cookie='__Host-accesskit_oauth_state='+state+'; Path=/; Secure; SameSite=Lax; Max-Age=600';
   const url=new URL('/authorize',this.settings.authOrigin);
   for(const[k,v]of Object.entries({client_id:this.settings.clientId,redirect_uri:this.settings.redirectUri,response_type:'code',code_challenge:challenge,code_challenge_method:'S256',state}))url.searchParams.set(k,v);
   location.assign(url.href);
  }
  async bootstrap(){
   const params=new URLSearchParams(location.search);if(!params.has('state'))return null;
+  document.cookie='__Host-accesskit_oauth_state=; Path=/; Secure; SameSite=Lax; Max-Age=0';
   const raw=sessionStorage.getItem(this.key);sessionStorage.removeItem(this.key);
   const saved=raw?JSON.parse(raw):null;
   const clean=new URL(location.href);for(const k of ['code','state','error','error_description'])clean.searchParams.delete(k);history.replaceState(null,'',clean);
