@@ -1,0 +1,762 @@
+{
+  "at": "2026-11-14T05:50:01.024Z",
+  "site": "https://ak-atlas-trial-20261114.nakwol.workers.dev",
+  "auth": "https://ak-auth-trial-20261114.nakwol.workers.dev",
+  "checks": [
+    {
+      "name": "anonymous GET /",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD /",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE /",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE /",
+      "passed": true
+    },
+    {
+      "name": "anonymous GET /index.html",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD /index.html",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE /index.html",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE /index.html",
+      "passed": true
+    },
+    {
+      "name": "anonymous GET /style.css",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD /style.css",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE /style.css",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE /style.css",
+      "passed": true
+    },
+    {
+      "name": "anonymous GET /js/app.js",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD /js/app.js",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE /js/app.js",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE /js/app.js",
+      "passed": true
+    },
+    {
+      "name": "anonymous GET /js/chart.js",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD /js/chart.js",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE /js/chart.js",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE /js/chart.js",
+      "passed": true
+    },
+    {
+      "name": "anonymous GET /media/plate-01.jpg",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD /media/plate-01.jpg",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE /media/plate-01.jpg",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE /media/plate-01.jpg",
+      "passed": true
+    },
+    {
+      "name": "anonymous GET /media/plate-36.jpg",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD /media/plate-36.jpg",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE /media/plate-36.jpg",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE /media/plate-36.jpg",
+      "passed": true
+    },
+    {
+      "name": "anonymous GET /data/observations.json",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD /data/observations.json",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE /data/observations.json",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE /data/observations.json",
+      "passed": true
+    },
+    {
+      "name": "anonymous GET /api/summary",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD /api/summary",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE /api/summary",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE /api/summary",
+      "passed": true
+    },
+    {
+      "name": "anonymous GET /api/echo",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD /api/echo",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE /api/echo",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE /api/echo",
+      "passed": true
+    },
+    {
+      "name": "anonymous GET //media/plate-01.jpg",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD //media/plate-01.jpg",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE //media/plate-01.jpg",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE //media/plate-01.jpg",
+      "passed": true
+    },
+    {
+      "name": "anonymous GET /media/../data/observations.json",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD /media/../data/observations.json",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE /media/../data/observations.json",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE /media/../data/observations.json",
+      "passed": true
+    },
+    {
+      "name": "anonymous GET /%64ata/observations.json",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD /%64ata/observations.json",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE /%64ata/observations.json",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE /%64ata/observations.json",
+      "passed": true
+    },
+    {
+      "name": "anonymous GET /data/observations.json?cache=1",
+      "passed": true
+    },
+    {
+      "name": "anonymous HEAD /data/observations.json?cache=1",
+      "passed": true
+    },
+    {
+      "name": "anonymous RANGE /data/observations.json?cache=1",
+      "passed": true
+    },
+    {
+      "name": "anonymous BAD_COOKIE /data/observations.json?cache=1",
+      "passed": true
+    },
+    {
+      "name": "other member rejected",
+      "passed": true
+    },
+    {
+      "name": "suspended member rejected",
+      "passed": true
+    },
+    {
+      "name": "pending member rejected",
+      "passed": true
+    },
+    {
+      "name": "authorize redirects to existing central session",
+      "passed": true
+    },
+    {
+      "name": "real central code issuance",
+      "passed": true
+    },
+    {
+      "name": "real remote PKCE exchange",
+      "passed": true
+    },
+    {
+      "name": "authorization code replay rejected",
+      "passed": true
+    },
+    {
+      "name": "approved member session",
+      "passed": true
+    },
+    {
+      "name": "secure cookie attributes",
+      "passed": true
+    },
+    {
+      "name": "member receives /",
+      "passed": true
+    },
+    {
+      "name": "private cache requires validation /",
+      "passed": true
+    },
+    {
+      "name": "member receives /style.css",
+      "passed": true
+    },
+    {
+      "name": "private cache requires validation /style.css",
+      "passed": true
+    },
+    {
+      "name": "member receives /js/app.js",
+      "passed": true
+    },
+    {
+      "name": "private cache requires validation /js/app.js",
+      "passed": true
+    },
+    {
+      "name": "member receives /media/plate-01.jpg",
+      "passed": true
+    },
+    {
+      "name": "private cache requires validation /media/plate-01.jpg",
+      "passed": true
+    },
+    {
+      "name": "member receives /data/observations.json",
+      "passed": true
+    },
+    {
+      "name": "private cache requires validation /data/observations.json",
+      "passed": true
+    },
+    {
+      "name": "member receives /api/summary",
+      "passed": true
+    },
+    {
+      "name": "private cache requires validation /api/summary",
+      "passed": true
+    },
+    {
+      "name": "complete 18000 records",
+      "passed": true
+    },
+    {
+      "name": "API method body binding",
+      "passed": true
+    },
+    {
+      "name": "authorized Range preserves Cloudflare full-response behavior",
+      "passed": true
+    },
+    {
+      "name": "authorized HEAD preserved",
+      "passed": true
+    },
+    {
+      "name": "108 image fetches complete",
+      "passed": true
+    },
+    {
+      "name": "logout endpoint",
+      "passed": true
+    },
+    {
+      "name": "logout instructs browser to delete session cookie",
+      "passed": true
+    },
+    {
+      "name": "browser without deleted cookie blocked",
+      "passed": true
+    },
+    {
+      "name": "central token revoked at logout",
+      "passed": true
+    },
+    {
+      "name": "new authorized token session after logout",
+      "passed": true
+    }
+  ],
+  "matrix": [
+    {
+      "path": "/",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/index.html",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/index.html",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/index.html",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/index.html",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/style.css",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/style.css",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/style.css",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/style.css",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/js/app.js",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/js/app.js",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/js/app.js",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/js/app.js",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/js/chart.js",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/js/chart.js",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/js/chart.js",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/js/chart.js",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/media/plate-01.jpg",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/media/plate-01.jpg",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/media/plate-01.jpg",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/media/plate-01.jpg",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/media/plate-36.jpg",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/media/plate-36.jpg",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/media/plate-36.jpg",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/media/plate-36.jpg",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/data/observations.json",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/data/observations.json",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/data/observations.json",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/data/observations.json",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/api/summary",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/api/summary",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/api/summary",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/api/summary",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/api/echo",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/api/echo",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/api/echo",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/api/echo",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "//media/plate-01.jpg",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "//media/plate-01.jpg",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "//media/plate-01.jpg",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "//media/plate-01.jpg",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/media/../data/observations.json",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/media/../data/observations.json",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/media/../data/observations.json",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/media/../data/observations.json",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/%64ata/observations.json",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/%64ata/observations.json",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/%64ata/observations.json",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/%64ata/observations.json",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/data/observations.json?cache=1",
+      "variant": "GET",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/data/observations.json?cache=1",
+      "variant": "HEAD",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/data/observations.json?cache=1",
+      "variant": "RANGE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    },
+    {
+      "path": "/data/observations.json?cache=1",
+      "variant": "BAD_COOKIE",
+      "status": 401,
+      "bytes": 0,
+      "gate": "v1"
+    }
+  ],
+  "imageBatch": {
+    "requests": 108,
+    "bytes": 33150966,
+    "minMs": 96,
+    "maxMs": 1174,
+    "all200": true
+  },
+  "logoutReplay": {
+    "status": 401,
+    "instantGlobalRevocation": false
+  },
+  "realGoogleLogin": false,
+  "identity": "Synthetic preseeded central session; actual remote authorization/PKCE/me/gate"
+}

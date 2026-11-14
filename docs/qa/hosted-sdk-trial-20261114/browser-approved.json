@@ -1,0 +1,55 @@
+{
+  "at": "2026-11-14T05:49:15.054Z",
+  "browser": "Chrome stable; fresh QA profiles with synthetic approved SDK cookie",
+  "realGoogleLogin": false,
+  "slow": {
+    "latencyMs": 80,
+    "downloadBytesPerSec": 1500000,
+    "cpuSlowdown": 4
+  },
+  "results": [
+    {
+      "resources": 47,
+      "decodedBytes": 14758526,
+      "transferBytes": 11818240,
+      "loadMs": 1285.5,
+      "images": 37,
+      "plates": 36,
+      "overflow": false,
+      "status": "18,000 records ready / atlas-retained-binding",
+      "elapsedMs": 3190,
+      "scenario": "cold",
+      "jsErrors": [],
+      "filterCount": 12,
+      "searchCount": 1,
+      "mobileOverflow": false,
+      "browserDownloadRecords": 18000
+    },
+    {
+      "resources": 46,
+      "decodedBytes": 3702859,
+      "transferBytes": 13872,
+      "loadMs": 571.5999999940395,
+      "images": 37,
+      "plates": 36,
+      "overflow": false,
+      "status": "18,000 records ready / atlas-retained-binding",
+      "elapsedMs": 1119,
+      "scenario": "warm",
+      "jsErrors": []
+    },
+    {
+      "resources": 46,
+      "decodedBytes": 14758526,
+      "transferBytes": 11818838,
+      "loadMs": 1411.2999999821186,
+      "images": 37,
+      "plates": 36,
+      "overflow": false,
+      "status": "18,000 records ready / atlas-retained-binding",
+      "elapsedMs": 9993,
+      "scenario": "slow",
+      "jsErrors": []
+    }
+  ]
+}

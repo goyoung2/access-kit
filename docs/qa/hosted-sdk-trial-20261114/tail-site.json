@@ -1,0 +1,6910 @@
+{
+  "at": "2026-11-14T05:55:30.434Z",
+  "kind": "site",
+  "sampledObservedEvents": 675,
+  "limits": "Tail is observed samples for this trial, not account totals or all traffic.",
+  "summary": {
+    "/": {
+      "requests": 33,
+      "cpuMeanMs": 0.3333333333333333,
+      "cpuP95Ms": 1,
+      "cpuMaxMs": 2,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/data/observations.json": {
+      "requests": 47,
+      "cpuMeanMs": 0.3191489361702128,
+      "cpuP95Ms": 2,
+      "cpuMaxMs": 2,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/data/plates.json": {
+      "requests": 12,
+      "cpuMeanMs": 0.08333333333333333,
+      "cpuP95Ms": 1,
+      "cpuMaxMs": 1,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/index.html": {
+      "requests": 20,
+      "cpuMeanMs": 0.15,
+      "cpuP95Ms": 1,
+      "cpuMaxMs": 2,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/js/*": {
+      "requests": 74,
+      "cpuMeanMs": 0.25675675675675674,
+      "cpuP95Ms": 1,
+      "cpuMaxMs": 3,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/media/*": {
+      "requests": 404,
+      "cpuMeanMs": 0.42574257425742573,
+      "cpuP95Ms": 2,
+      "cpuMaxMs": 6,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/style.css": {
+      "requests": 24,
+      "cpuMeanMs": 0.16666666666666666,
+      "cpuP95Ms": 1,
+      "cpuMaxMs": 1,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/api/summary": {
+      "requests": 18,
+      "cpuMeanMs": 0.6666666666666666,
+      "cpuP95Ms": 5,
+      "cpuMaxMs": 5,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/api/echo": {
+      "requests": 12,
+      "cpuMeanMs": 0,
+      "cpuP95Ms": 0,
+      "cpuMaxMs": 0,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "//media/plate-01.jpg": {
+      "requests": 5,
+      "cpuMeanMs": 0,
+      "cpuP95Ms": 0,
+      "cpuMaxMs": 0,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/%64ata/observations.json": {
+      "requests": 9,
+      "cpuMeanMs": 0,
+      "cpuP95Ms": 0,
+      "cpuMaxMs": 0,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/__accesskit/session": {
+      "requests": 11,
+      "cpuMeanMs": 1.4545454545454546,
+      "cpuP95Ms": 2,
+      "cpuMaxMs": 2,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/favicon.ico": {
+      "requests": 4,
+      "cpuMeanMs": 0,
+      "cpuP95Ms": 0,
+      "cpuMaxMs": 0,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/__accesskit/logout": {
+      "requests": 1,
+      "cpuMeanMs": 2,
+      "cpuP95Ms": 2,
+      "cpuMaxMs": 2,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/__accesskit/diagnostics/ping": {
+      "requests": 1,
+      "cpuMeanMs": 0,
+      "cpuP95Ms": 0,
+      "cpuMaxMs": 0,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    }
+  },
+  "events": [
+    {
+      "at": 1794634864042,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634864271,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634864690,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634864558,
+      "path": "/",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 2,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634865063,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634864962,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634865250,
+      "path": "/data/observations.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634865337,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634866079,
+      "path": "/data/plates.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634865891,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634866276,
+      "path": "/data/plates.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634866480,
+      "path": "/data/plates.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634866994,
+      "path": "/data/plates.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634867211,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634867402,
+      "path": "/index.html",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634867589,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634868373,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634868156,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 2,
+      "wallMs": 3,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634868572,
+      "path": "/js/app.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634868773,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634871249,
+      "path": "/js/chart.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 2,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634871329,
+      "path": "/js/filters.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634871510,
+      "path": "/js/filters.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634871849,
+      "path": "/js/filters.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 3,
+      "wallMs": 4,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634872206,
+      "path": "/js/records.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634872264,
+      "path": "/js/records.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634872811,
+      "path": "/js/records.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634873064,
+      "path": "/js/render.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634873257,
+      "path": "/js/render.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634873760,
+      "path": "/js/render.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634874092,
+      "path": "/media/plate-01.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634874151,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634874690,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634875058,
+      "path": "/media/plate-02.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634875232,
+      "path": "/media/plate-02.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634875776,
+      "path": "/media/plate-02.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634876169,
+      "path": "/media/plate-03.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634876368,
+      "path": "/media/plate-03.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634876924,
+      "path": "/media/plate-03.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634877116,
+      "path": "/media/plate-04.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634877311,
+      "path": "/media/plate-04.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634877805,
+      "path": "/media/plate-04.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634878048,
+      "path": "/media/plate-05.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634878110,
+      "path": "/media/plate-05.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634878644,
+      "path": "/media/plate-05.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634879028,
+      "path": "/media/plate-06.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634879199,
+      "path": "/media/plate-06.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634879742,
+      "path": "/media/plate-06.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634880110,
+      "path": "/media/plate-07.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634880293,
+      "path": "/media/plate-07.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634880573,
+      "path": "/media/plate-07.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634880636,
+      "path": "/media/plate-08.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634880834,
+      "path": "/media/plate-08.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634881437,
+      "path": "/media/plate-08.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634882032,
+      "path": "/media/plate-09.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634882572,
+      "path": "/media/plate-09.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634883137,
+      "path": "/media/plate-10.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634883671,
+      "path": "/media/plate-10.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634884098,
+      "path": "/media/plate-11.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634884285,
+      "path": "/media/plate-11.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634884568,
+      "path": "/media/plate-11.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634884861,
+      "path": "/media/plate-12.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634885491,
+      "path": "/media/plate-12.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634885686,
+      "path": "/media/plate-13.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634885875,
+      "path": "/media/plate-13.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634886090,
+      "path": "/media/plate-13.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634886658,
+      "path": "/media/plate-13.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634887069,
+      "path": "/media/plate-14.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634887262,
+      "path": "/media/plate-14.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634887800,
+      "path": "/media/plate-14.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634888185,
+      "path": "/media/plate-15.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634888365,
+      "path": "/media/plate-15.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634889113,
+      "path": "/media/plate-16.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634888915,
+      "path": "/media/plate-15.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634889305,
+      "path": "/media/plate-16.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634890049,
+      "path": "/media/plate-16.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634890233,
+      "path": "/media/plate-17.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634890300,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634890427,
+      "path": "/media/plate-17.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634890885,
+      "path": "/media/plate-17.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 2,
+      "wallMs": 6,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634891170,
+      "path": "/media/plate-18.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634891229,
+      "path": "/media/plate-18.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634892188,
+      "path": "/media/plate-19.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634892932,
+      "path": "/media/plate-19.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634893121,
+      "path": "/media/plate-20.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634893325,
+      "path": "/media/plate-20.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634893796,
+      "path": "/media/plate-20.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634894025,
+      "path": "/media/plate-21.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634894072,
+      "path": "/media/plate-21.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634894621,
+      "path": "/media/plate-21.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634895010,
+      "path": "/media/plate-22.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634895196,
+      "path": "/media/plate-22.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634895727,
+      "path": "/media/plate-22.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634896118,
+      "path": "/media/plate-23.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634896304,
+      "path": "/media/plate-23.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634896845,
+      "path": "/media/plate-23.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634897042,
+      "path": "/media/plate-24.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634897247,
+      "path": "/media/plate-24.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634897982,
+      "path": "/media/plate-24.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634898169,
+      "path": "/media/plate-25.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634898350,
+      "path": "/media/plate-25.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634898881,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634899070,
+      "path": "/media/plate-25.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634899414,
+      "path": "/",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634899608,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634899887,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634899940,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634900145,
+      "path": "/index.html",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634900189,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634900190,
+      "path": "/media/plate-26.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634900382,
+      "path": "/media/plate-27.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634900580,
+      "path": "/media/plate-27.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634900732,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634900914,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634901102,
+      "path": "/style.css",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634901274,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634901295,
+      "path": "/media/plate-27.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634901474,
+      "path": "/media/plate-28.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634901673,
+      "path": "/media/plate-28.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634902031,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634902212,
+      "path": "/js/app.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634903382,
+      "path": "/js/chart.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634903496,
+      "path": "/media/plate-29.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634903844,
+      "path": "/js/chart.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 2,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634903890,
+      "path": "/media/plate-30.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634904073,
+      "path": "/media/plate-30.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634904084,
+      "path": "/media/plate-01.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634904165,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634904638,
+      "path": "/media/plate-30.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634904728,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634905023,
+      "path": "/media/plate-31.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634905140,
+      "path": "/media/plate-36.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634905235,
+      "path": "/media/plate-31.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634905880,
+      "path": "/media/plate-36.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634906199,
+      "path": "/media/plate-32.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634906265,
+      "path": "/data/observations.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634907032,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634907126,
+      "path": "/media/plate-33.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634907784,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634908043,
+      "path": "/media/plate-33.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634908235,
+      "path": "/media/plate-34.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634908138,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634908417,
+      "path": "/media/plate-34.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634908555,
+      "path": "/api/echo",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634909160,
+      "path": "/media/plate-34.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634909296,
+      "path": "/api/echo",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634909353,
+      "path": "/media/plate-35.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634909537,
+      "path": "/media/plate-35.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634909677,
+      "path": "//media/plate-01.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634910304,
+      "path": "/media/plate-35.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634910429,
+      "path": "//media/plate-01.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634910505,
+      "path": "/media/plate-36.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634910627,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634910710,
+      "path": "/media/plate-36.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634911013,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634911180,
+      "path": "/media/plate-36.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 5,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634911244,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634911437,
+      "path": "/style.css",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 2,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634911571,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634911770,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634911966,
+      "path": "/%64ata/observations.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634912172,
+      "path": "/%64ata/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634912453,
+      "path": "/%64ata/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634912706,
+      "path": "/data/observations.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634913032,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634913091,
+      "path": "/__accesskit/session",
+      "method": "POST",
+      "status": 403,
+      "cpuMs": 1,
+      "wallMs": 219,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634913520,
+      "path": "/__accesskit/session",
+      "method": "POST",
+      "status": 403,
+      "cpuMs": 2,
+      "wallMs": 146,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634915773,
+      "path": "/__accesskit/session",
+      "method": "POST",
+      "status": 204,
+      "cpuMs": 1,
+      "wallMs": 131,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634916085,
+      "path": "/",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 285,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634916548,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 304,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634917047,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 310,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634918272,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 441,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634918934,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634919116,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 44,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634919999,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634922524,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634922820,
+      "path": "/",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634922895,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634923467,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634923691,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634923912,
+      "path": "/data/observations.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634924106,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634924685,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634924872,
+      "path": "/data/plates.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634925074,
+      "path": "/data/plates.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634925268,
+      "path": "/data/plates.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634925558,
+      "path": "/data/plates.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634925637,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634925819,
+      "path": "/index.html",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634925889,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634926299,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634926187,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 2,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634926510,
+      "path": "/js/app.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634926562,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634926852,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634926904,
+      "path": "/js/catalog.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634927102,
+      "path": "/js/catalog.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634927713,
+      "path": "/js/catalog.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634928134,
+      "path": "/js/chart.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634928626,
+      "path": "/js/chart.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 2,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634928887,
+      "path": "/js/filters.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634929489,
+      "path": "/js/filters.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634929880,
+      "path": "/js/records.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634930621,
+      "path": "/js/records.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634931040,
+      "path": "/js/render.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634931220,
+      "path": "/js/render.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 3,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634931771,
+      "path": "/js/render.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634932185,
+      "path": "/media/plate-01.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634932365,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634932912,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634933108,
+      "path": "/media/plate-02.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 2,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634933306,
+      "path": "/media/plate-02.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634934038,
+      "path": "/media/plate-02.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634934219,
+      "path": "/media/plate-03.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634934431,
+      "path": "/media/plate-03.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634935188,
+      "path": "/media/plate-03.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634935383,
+      "path": "/media/plate-04.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634935582,
+      "path": "/media/plate-04.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634936326,
+      "path": "/media/plate-04.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634936506,
+      "path": "/media/plate-05.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634936726,
+      "path": "/media/plate-05.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634937456,
+      "path": "/media/plate-05.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634937636,
+      "path": "/media/plate-06.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634937857,
+      "path": "/media/plate-06.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634938054,
+      "path": "/media/plate-06.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634938340,
+      "path": "/media/plate-06.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634938593,
+      "path": "/media/plate-07.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634939211,
+      "path": "/media/plate-07.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634939410,
+      "path": "/media/plate-08.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634939610,
+      "path": "/media/plate-08.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634940338,
+      "path": "/media/plate-08.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634940533,
+      "path": "/media/plate-09.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634940720,
+      "path": "/media/plate-09.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634940902,
+      "path": "/media/plate-09.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634941474,
+      "path": "/media/plate-09.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634941879,
+      "path": "/media/plate-10.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634942080,
+      "path": "/media/plate-10.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634942633,
+      "path": "/media/plate-10.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634943010,
+      "path": "/media/plate-11.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634943197,
+      "path": "/media/plate-11.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634943384,
+      "path": "/api/summary",
+      "method": "POST",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634943478,
+      "path": "/media/plate-11.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634943726,
+      "path": "/media/plate-12.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634944348,
+      "path": "/media/plate-12.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634944535,
+      "path": "/media/plate-13.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634944737,
+      "path": "/media/plate-13.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634945468,
+      "path": "/media/plate-13.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634945661,
+      "path": "/media/plate-14.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634945857,
+      "path": "/media/plate-14.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634946047,
+      "path": "/media/plate-14.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634946619,
+      "path": "/media/plate-14.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634947015,
+      "path": "/media/plate-15.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634947185,
+      "path": "/media/plate-15.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634947751,
+      "path": "/media/plate-15.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634948147,
+      "path": "/media/plate-16.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634948329,
+      "path": "/media/plate-16.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634948881,
+      "path": "/media/plate-16.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634949058,
+      "path": "/media/plate-17.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634949283,
+      "path": "/media/plate-17.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634950019,
+      "path": "/media/plate-17.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634950941,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 3,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634951187,
+      "path": "/media/plate-18.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634951362,
+      "path": "/media/plate-19.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634951565,
+      "path": "/media/plate-19.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634952267,
+      "path": "/media/plate-19.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634952455,
+      "path": "/media/plate-20.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634952669,
+      "path": "/media/plate-20.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634953161,
+      "path": "/media/plate-20.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634953209,
+      "path": "/media/plate-21.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634953407,
+      "path": "/media/plate-21.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634953736,
+      "path": "/media/plate-21.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634953993,
+      "path": "/media/plate-22.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634954046,
+      "path": "/media/plate-22.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634954611,
+      "path": "/media/plate-22.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634955011,
+      "path": "/media/plate-23.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634955200,
+      "path": "/media/plate-23.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634955757,
+      "path": "/media/plate-23.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634956122,
+      "path": "/media/plate-24.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634956313,
+      "path": "/media/plate-24.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634956593,
+      "path": "/media/plate-24.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634956870,
+      "path": "/media/plate-25.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634957499,
+      "path": "/media/plate-25.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634957688,
+      "path": "/media/plate-26.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634957914,
+      "path": "/media/plate-26.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634958090,
+      "path": "/media/plate-26.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634958620,
+      "path": "/media/plate-26.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634958915,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 51,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634959010,
+      "path": "/media/plate-27.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634959194,
+      "path": "/media/plate-27.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634959759,
+      "path": "/media/plate-27.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634960146,
+      "path": "/media/plate-28.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634960342,
+      "path": "/media/plate-28.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634960633,
+      "path": "/media/plate-28.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634960876,
+      "path": "/media/plate-29.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634961490,
+      "path": "/media/plate-29.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634961680,
+      "path": "/media/plate-30.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634961898,
+      "path": "/media/plate-30.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634962076,
+      "path": "/media/plate-30.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634962626,
+      "path": "/media/plate-30.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634963019,
+      "path": "/media/plate-31.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634963213,
+      "path": "/media/plate-31.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634963766,
+      "path": "/media/plate-31.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634964136,
+      "path": "/media/plate-32.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634964319,
+      "path": "/media/plate-32.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634964631,
+      "path": "/media/plate-32.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634964891,
+      "path": "/media/plate-33.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 2,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634965491,
+      "path": "/media/plate-33.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634965676,
+      "path": "/media/plate-34.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634965872,
+      "path": "/media/plate-34.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634966051,
+      "path": "/media/plate-34.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634966606,
+      "path": "/media/plate-34.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634966971,
+      "path": "/media/plate-35.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634967157,
+      "path": "/media/plate-35.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634967433,
+      "path": "/media/plate-35.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634967669,
+      "path": "/media/plate-36.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634968305,
+      "path": "/media/plate-36.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634968486,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634968676,
+      "path": "/style.css",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634969164,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634969225,
+      "path": "/api/echo",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634969422,
+      "path": "/api/echo",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794634970077,
+      "path": "/api/echo",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635063543,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635064174,
+      "path": "/favicon.ico",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635068526,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635068929,
+      "path": "/favicon.ico",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635218210,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 403,
+      "cpuMs": 5,
+      "wallMs": 240,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635221921,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 3,
+      "wallMs": 53,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635243686,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635244155,
+      "path": "/",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635244364,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635244770,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635244983,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635245062,
+      "path": "/index.html",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635245260,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635245686,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635245891,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635245972,
+      "path": "/style.css",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635246157,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635246592,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635246801,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635246883,
+      "path": "/js/app.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635247070,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635247488,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635247678,
+      "path": "/js/chart.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635247741,
+      "path": "/js/chart.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635247944,
+      "path": "/js/chart.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635248359,
+      "path": "/js/chart.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635248543,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635248608,
+      "path": "/media/plate-01.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635249211,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635249450,
+      "path": "/media/plate-36.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635250046,
+      "path": "/media/plate-36.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635250338,
+      "path": "/data/observations.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635250699,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635250826,
+      "path": "/api/summary",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635251033,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 2,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635251090,
+      "path": "/api/echo",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635251157,
+      "path": "/api/echo",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635251392,
+      "path": "/api/echo",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635251524,
+      "path": "//media/plate-01.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635251988,
+      "path": "//media/plate-01.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635252169,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635252217,
+      "path": "/data/observations.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635252819,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635253005,
+      "path": "/%64ata/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635253084,
+      "path": "/%64ata/observations.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635253454,
+      "path": "/%64ata/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635253581,
+      "path": "/data/observations.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635254028,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635254208,
+      "path": "/__accesskit/session",
+      "method": "POST",
+      "status": 403,
+      "cpuMs": 1,
+      "wallMs": 55,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635254325,
+      "path": "/__accesskit/session",
+      "method": "POST",
+      "status": 403,
+      "cpuMs": 2,
+      "wallMs": 252,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635257513,
+      "path": "/__accesskit/session",
+      "method": "POST",
+      "status": 204,
+      "cpuMs": 2,
+      "wallMs": 56,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635257624,
+      "path": "/",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 15,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635257729,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635258041,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 51,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635258965,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635259010,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 43,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635259427,
+      "path": "/data/observations.json",
+      "method": "HEAD",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 34,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260018,
+      "path": "/media/plate-24.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 16,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260030,
+      "path": "/media/plate-16.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260023,
+      "path": "/media/plate-26.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 17,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260032,
+      "path": "/media/plate-21.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 14,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260019,
+      "path": "/media/plate-20.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 22,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260039,
+      "path": "/media/plate-23.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260025,
+      "path": "/media/plate-03.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 17,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260044,
+      "path": "/media/plate-36.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635259764,
+      "path": "/media/plate-02.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 240,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260051,
+      "path": "/media/plate-18.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260051,
+      "path": "/media/plate-31.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635259772,
+      "path": "/media/plate-30.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 249,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635259768,
+      "path": "/media/plate-08.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 3,
+      "wallMs": 264,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260050,
+      "path": "/media/plate-04.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 21,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260067,
+      "path": "/media/plate-06.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260069,
+      "path": "/media/plate-25.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260071,
+      "path": "/media/plate-17.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635259783,
+      "path": "/media/plate-27.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 276,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260068,
+      "path": "/media/plate-05.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 14,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635259801,
+      "path": "/media/plate-14.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 241,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260052,
+      "path": "/media/plate-09.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 19,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635259793,
+      "path": "/media/plate-32.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 274,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260081,
+      "path": "/media/plate-11.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635259755,
+      "path": "/media/plate-12.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 282,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260088,
+      "path": "/media/plate-35.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 13,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260097,
+      "path": "/media/plate-22.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260090,
+      "path": "/media/plate-10.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 13,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260106,
+      "path": "/media/plate-34.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260097,
+      "path": "/media/plate-15.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260101,
+      "path": "/media/plate-28.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260110,
+      "path": "/media/plate-33.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260120,
+      "path": "/media/plate-29.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260118,
+      "path": "/media/plate-13.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635259799,
+      "path": "/media/plate-19.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 3,
+      "wallMs": 303,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635259797,
+      "path": "/media/plate-07.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 404,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260873,
+      "path": "/media/plate-34.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260873,
+      "path": "/media/plate-10.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260877,
+      "path": "/media/plate-28.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260877,
+      "path": "/media/plate-31.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260870,
+      "path": "/media/plate-27.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 3,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260885,
+      "path": "/media/plate-12.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260889,
+      "path": "/media/plate-07.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260883,
+      "path": "/media/plate-16.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 21,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260892,
+      "path": "/media/plate-24.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 7,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260886,
+      "path": "/media/plate-22.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 19,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260868,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260887,
+      "path": "/media/plate-17.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 20,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260889,
+      "path": "/media/plate-23.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 22,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260897,
+      "path": "/media/plate-15.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260874,
+      "path": "/media/plate-14.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260892,
+      "path": "/media/plate-20.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 16,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260884,
+      "path": "/media/plate-08.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 6,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260895,
+      "path": "/media/plate-05.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 18,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260901,
+      "path": "/media/plate-06.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260891,
+      "path": "/media/plate-26.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 27,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260893,
+      "path": "/media/plate-33.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 25,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260892,
+      "path": "/media/plate-32.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 4,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260895,
+      "path": "/media/plate-04.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 23,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260887,
+      "path": "/media/plate-30.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260899,
+      "path": "/media/plate-11.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 22,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260898,
+      "path": "/media/plate-19.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 7,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260884,
+      "path": "/media/plate-09.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 261,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260884,
+      "path": "/media/plate-03.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 265,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261235,
+      "path": "/media/plate-02.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635260883,
+      "path": "/media/plate-13.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 347,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261831,
+      "path": "/media/plate-09.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261831,
+      "path": "/media/plate-05.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261829,
+      "path": "/media/plate-28.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261831,
+      "path": "/media/plate-06.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261823,
+      "path": "/media/plate-07.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 3,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261845,
+      "path": "/media/plate-22.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261844,
+      "path": "/media/plate-11.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261825,
+      "path": "/media/plate-30.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 7,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261824,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261829,
+      "path": "/media/plate-19.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 5,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261842,
+      "path": "/media/plate-27.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 4,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261855,
+      "path": "/media/plate-26.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 15,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261841,
+      "path": "/media/plate-32.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 3,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261852,
+      "path": "/media/plate-13.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 16,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261860,
+      "path": "/media/plate-23.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261840,
+      "path": "/media/plate-12.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 3,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261857,
+      "path": "/media/plate-15.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261845,
+      "path": "/media/plate-02.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 4,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261842,
+      "path": "/media/plate-08.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261859,
+      "path": "/media/plate-10.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 20,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261855,
+      "path": "/media/plate-03.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 22,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261855,
+      "path": "/media/plate-20.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 28,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635261886,
+      "path": "/media/plate-14.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 5,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635262533,
+      "path": "/__accesskit/logout",
+      "method": "POST",
+      "status": 204,
+      "cpuMs": 2,
+      "wallMs": 38,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635309379,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 40,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635336257,
+      "path": "/",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 6,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635336468,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 7,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635336480,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635336494,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 6,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635336927,
+      "path": "/js/filters.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635336914,
+      "path": "/js/records.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635336933,
+      "path": "/js/chart.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635336930,
+      "path": "/js/render.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635336937,
+      "path": "/js/catalog.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635337130,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635337139,
+      "path": "/favicon.ico",
+      "method": "GET",
+      "status": 404,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635337133,
+      "path": "/data/plates.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635337143,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 38,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635338067,
+      "path": "/media/plate-33.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635338067,
+      "path": "/media/plate-31.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635338068,
+      "path": "/media/plate-32.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635339806,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 33,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635341341,
+      "path": "/",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635341541,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635341561,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 6,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635341576,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 6,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635341997,
+      "path": "/js/chart.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 13,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635342014,
+      "path": "/js/catalog.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 16,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635342015,
+      "path": "/js/records.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 16,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635342023,
+      "path": "/js/render.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635342023,
+      "path": "/js/filters.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 15,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635342212,
+      "path": "/data/plates.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635342229,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635342237,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 34,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635343107,
+      "path": "/media/plate-02.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 26,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635343110,
+      "path": "/media/plate-04.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 30,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635343110,
+      "path": "/media/plate-07.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 33,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635343853,
+      "path": "/media/plate-22.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 14,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635343853,
+      "path": "/media/plate-36.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 3,
+      "wallMs": 17,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635345094,
+      "path": "/media/plate-29.jpg",
+      "method": "GET",
+      "status": 304,
+      "cpuMs": 2,
+      "wallMs": 15,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635345095,
+      "path": "/media/plate-35.jpg",
+      "method": "GET",
+      "status": 304,
+      "cpuMs": 2,
+      "wallMs": 16,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635345959,
+      "path": "/",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635346178,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635346204,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635346203,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635346755,
+      "path": "/js/filters.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 14,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635346755,
+      "path": "/js/render.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 15,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635346757,
+      "path": "/js/catalog.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 14,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635346757,
+      "path": "/js/records.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 15,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635346770,
+      "path": "/js/chart.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 6,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635346974,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635346987,
+      "path": "/data/plates.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 7,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635346989,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 56,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635348142,
+      "path": "/media/plate-07.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 23,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635348145,
+      "path": "/media/plate-12.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 32,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635348143,
+      "path": "/media/plate-03.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 34,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635352530,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635353102,
+      "path": "/__accesskit/diagnostics/ping",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635356099,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635376424,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635376734,
+      "path": "/",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635376800,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635377368,
+      "path": "/",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635377561,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635377751,
+      "path": "/index.html",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635377958,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635378241,
+      "path": "/index.html",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635378335,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635378538,
+      "path": "/style.css",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635378589,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635379136,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635379340,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635379541,
+      "path": "/js/app.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635379728,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635379994,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635380067,
+      "path": "/js/chart.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635380266,
+      "path": "/js/chart.js",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635380333,
+      "path": "/js/chart.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635380917,
+      "path": "/js/chart.js",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635381106,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635381355,
+      "path": "/media/plate-01.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635382077,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635382253,
+      "path": "/media/plate-36.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635382481,
+      "path": "/media/plate-36.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635383215,
+      "path": "/media/plate-36.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635383398,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635383612,
+      "path": "/data/observations.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635384078,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635384144,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635384344,
+      "path": "/api/summary",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635385135,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635385317,
+      "path": "/api/echo",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635385532,
+      "path": "/api/echo",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635386027,
+      "path": "/api/echo",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635386283,
+      "path": "//media/plate-01.jpg",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635387083,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635388000,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635388181,
+      "path": "/%64ata/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635388364,
+      "path": "/%64ata/observations.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635389093,
+      "path": "/%64ata/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635389267,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635389488,
+      "path": "/data/observations.json",
+      "method": "HEAD",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635390242,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635390436,
+      "path": "/__accesskit/session",
+      "method": "POST",
+      "status": 403,
+      "cpuMs": 1,
+      "wallMs": 237,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635390890,
+      "path": "/__accesskit/session",
+      "method": "POST",
+      "status": 403,
+      "cpuMs": 2,
+      "wallMs": 171,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635391253,
+      "path": "/__accesskit/session",
+      "method": "POST",
+      "status": 403,
+      "cpuMs": 1,
+      "wallMs": 141,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635393541,
+      "path": "/__accesskit/session",
+      "method": "POST",
+      "status": 204,
+      "cpuMs": 2,
+      "wallMs": 140,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635393871,
+      "path": "/",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 14,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635394084,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 5,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635395124,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 35,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635396085,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635396277,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 31,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635397018,
+      "path": "/api/echo",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635397491,
+      "path": "/data/observations.json",
+      "method": "HEAD",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 40,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635397879,
+      "path": "/media/plate-03.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398074,
+      "path": "/media/plate-02.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398081,
+      "path": "/media/plate-36.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398098,
+      "path": "/media/plate-09.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398103,
+      "path": "/media/plate-18.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398102,
+      "path": "/media/plate-11.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398093,
+      "path": "/media/plate-12.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 18,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398101,
+      "path": "/media/plate-16.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635397815,
+      "path": "/media/plate-06.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 285,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398116,
+      "path": "/media/plate-35.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 13,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635397844,
+      "path": "/media/plate-33.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 6,
+      "wallMs": 271,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398127,
+      "path": "/media/plate-05.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398135,
+      "path": "/media/plate-10.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 14,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398143,
+      "path": "/media/plate-08.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635397865,
+      "path": "/media/plate-28.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 261,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398149,
+      "path": "/media/plate-17.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398150,
+      "path": "/media/plate-19.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398153,
+      "path": "/media/plate-27.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398162,
+      "path": "/media/plate-24.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398169,
+      "path": "/media/plate-34.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398170,
+      "path": "/media/plate-13.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 13,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398185,
+      "path": "/media/plate-30.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398179,
+      "path": "/media/plate-26.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398187,
+      "path": "/media/plate-25.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398197,
+      "path": "/media/plate-22.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398206,
+      "path": "/media/plate-07.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398215,
+      "path": "/media/plate-32.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 6,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635397862,
+      "path": "/media/plate-20.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 348,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635397851,
+      "path": "/media/plate-29.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 239,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635397843,
+      "path": "/media/plate-15.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 469,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635397833,
+      "path": "/media/plate-23.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 4,
+      "wallMs": 533,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398829,
+      "path": "/media/plate-09.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398832,
+      "path": "/media/plate-08.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398832,
+      "path": "/media/plate-06.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398836,
+      "path": "/media/plate-26.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398845,
+      "path": "/media/plate-11.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398844,
+      "path": "/media/plate-03.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398847,
+      "path": "/media/plate-30.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 7,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398848,
+      "path": "/media/plate-18.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398848,
+      "path": "/media/plate-19.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 6,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398847,
+      "path": "/media/plate-10.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 13,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398831,
+      "path": "/media/plate-15.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 3,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398849,
+      "path": "/media/plate-32.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398853,
+      "path": "/media/plate-34.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398852,
+      "path": "/media/plate-17.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398825,
+      "path": "/media/plate-07.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 13,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398841,
+      "path": "/media/plate-29.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 5,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398853,
+      "path": "/media/plate-27.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 17,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398873,
+      "path": "/media/plate-35.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 9,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398854,
+      "path": "/media/plate-20.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 5,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398846,
+      "path": "/media/plate-33.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 12,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398843,
+      "path": "/media/plate-23.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 14,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398875,
+      "path": "/media/plate-28.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635398868,
+      "path": "/media/plate-04.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 229,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400005,
+      "path": "/media/plate-19.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400004,
+      "path": "/media/plate-15.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400005,
+      "path": "/media/plate-09.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 16,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400005,
+      "path": "/media/plate-17.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400007,
+      "path": "/media/plate-35.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 15,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400005,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400020,
+      "path": "/media/plate-10.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 10,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400024,
+      "path": "/media/plate-12.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400018,
+      "path": "/media/plate-11.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 13,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400022,
+      "path": "/media/plate-34.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 11,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400024,
+      "path": "/media/plate-32.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 7,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400035,
+      "path": "/media/plate-20.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 6,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400004,
+      "path": "/media/plate-07.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 3,
+      "wallMs": 21,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400007,
+      "path": "/media/plate-33.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 3,
+      "wallMs": 19,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400027,
+      "path": "/media/plate-29.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400022,
+      "path": "/media/plate-28.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 16,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400036,
+      "path": "/media/plate-04.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 4,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400035,
+      "path": "/media/plate-27.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 27,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400035,
+      "path": "/media/plate-18.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 30,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400020,
+      "path": "/media/plate-23.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 4,
+      "wallMs": 16,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400021,
+      "path": "/media/plate-16.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 250,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635400019,
+      "path": "/media/plate-21.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 276,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635402014,
+      "path": "/__accesskit/session",
+      "method": "POST",
+      "status": 204,
+      "cpuMs": 1,
+      "wallMs": 137,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635490186,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 2,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635490771,
+      "path": "/",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 13,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491006,
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 7,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491019,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491022,
+      "path": "/style.css",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491241,
+      "path": "/js/records.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 202,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491263,
+      "path": "/js/filters.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 187,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491240,
+      "path": "/js/catalog.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 221,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491229,
+      "path": "/js/render.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 240,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491257,
+      "path": "/js/chart.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 234,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491580,
+      "path": "/api/summary",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491545,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 45,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491669,
+      "path": "/favicon.ico",
+      "method": "GET",
+      "status": 404,
+      "cpuMs": 0,
+      "wallMs": 2,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491571,
+      "path": "/data/plates.json",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 220,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491898,
+      "path": "/media/plate-13.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 3,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491899,
+      "path": "/media/plate-35.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 3,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635492070,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635491869,
+      "path": "/media/plate-32.jpg",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 16,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635566115,
+      "path": "/media/plate-01.jpg",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 1,
+      "wallMs": 2,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    },
+    {
+      "at": 1794635704468,
+      "path": "/data/observations.json",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 2,
+      "wallMs": 186,
+      "outcome": "ok",
+      "version": "43670d0c-fc09-462a-bcff-3116bb72c342"
+    }
+  ]
+}

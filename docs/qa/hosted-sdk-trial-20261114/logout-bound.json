@@ -1,0 +1,7 @@
+{
+  "at": "2026-11-14T05:55:03.498Z",
+  "elapsedSinceLogoutMs": 302830,
+  "status": 401,
+  "bytes": 0,
+  "meaning": "Captured pre-logout cookie rejected after maximum five-minute lease; immediate global replay revocation is not provided."
+}

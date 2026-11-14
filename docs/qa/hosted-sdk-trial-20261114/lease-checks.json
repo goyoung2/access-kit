@@ -1,0 +1,25 @@
+{
+  "at": "2026-11-14T05:42:26.579Z",
+  "leaseMs": 300000,
+  "clock": "real elapsed wall time; no Date.now overrides",
+  "checks": [
+    {
+      "name": "membership removed, existing lease honored",
+      "status": 200,
+      "elapsedMs": 35052
+    },
+    {
+      "name": "membership removal blocked after real five minutes",
+      "status": 403,
+      "elapsedMs": 302394
+    },
+    {
+      "name": "service denial preserves central login",
+      "passed": true
+    },
+    {
+      "name": "restored membership permits existing token",
+      "status": 200
+    }
+  ]
+}

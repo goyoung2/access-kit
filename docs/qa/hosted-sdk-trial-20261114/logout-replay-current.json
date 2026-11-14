@@ -1,0 +1,8 @@
+{
+  "at": "2026-11-14T05:50:00.670Z",
+  "replayStatus": 401,
+  "centralTokenStatus": 401,
+  "browserCookieCleared": true,
+  "model": "isolate-local immediate revocation; other isolates may honor encrypted lease up to five minutes",
+  "instantGlobalRevocation": false
+}

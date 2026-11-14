@@ -1,0 +1,26 @@
+{
+  "range": {
+    "initialHarnessExpected206": true,
+    "observedStatus": 200,
+    "observedBytes": 307161,
+    "source": "https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/",
+    "classification": "Cloudflare Static Assets documented full-response behavior; anonymous Range remains blocked"
+  },
+  "logoutReplay": {
+    "initialHarnessExpectedImmediate401": true,
+    "observedAfterLogoutStatus": 200,
+    "observedBytes": 3699216,
+    "secondRunReplayStatus": 401,
+    "classification": "Isolate-local revocation plus bounded encrypted permission lease; not instant global invalidation"
+  },
+  "probe": {
+    "oneManualSessionProbeReturned404": true,
+    "centralTailObservedPath": "/__accesskit/session",
+    "followingFullIntegrationSuite": "87 checks passed; no product change"
+  },
+  "firebase": {
+    "domainAddedWithExplicitUserApproval": true,
+    "domain": "ak-auth-trial-20261114.nakwol.workers.dev",
+    "realLogin": "waiting for user account chooser selection after two CUA click timeouts"
+  }
+}

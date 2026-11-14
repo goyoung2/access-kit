@@ -1,0 +1,710 @@
+{
+  "at": "2026-11-14T05:55:30.361Z",
+  "kind": "auth",
+  "sampledObservedEvents": 58,
+  "limits": "Tail is observed samples for this trial, not account totals or all traffic.",
+  "summary": {
+    "/auth/firebase": {
+      "requests": 5,
+      "cpuMeanMs": 4.4,
+      "cpuP95Ms": 12,
+      "cpuMaxMs": 12,
+      "over10Ms": 1,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/favicon.ico": {
+      "requests": 3,
+      "cpuMeanMs": 0.3333333333333333,
+      "cpuP95Ms": 1,
+      "cpuMaxMs": 1,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/auth/firebase/config": {
+      "requests": 4,
+      "cpuMeanMs": 0,
+      "cpuP95Ms": 0,
+      "cpuMaxMs": 0,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/auth/firebase/status": {
+      "requests": 5,
+      "cpuMeanMs": 2.6,
+      "cpuP95Ms": 12,
+      "cpuMaxMs": 12,
+      "over10Ms": 1,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/sdk/v0.3.1/access-kit.js": {
+      "requests": 3,
+      "cpuMeanMs": 6.666666666666667,
+      "cpuP95Ms": 7,
+      "cpuMaxMs": 7,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/authorize": {
+      "requests": 7,
+      "cpuMeanMs": 12.714285714285714,
+      "cpuP95Ms": 21,
+      "cpuMaxMs": 21,
+      "over10Ms": 4,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/me": {
+      "requests": 17,
+      "cpuMeanMs": 4.0588235294117645,
+      "cpuP95Ms": 13,
+      "cpuMaxMs": 13,
+      "over10Ms": 1,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/auth/firebase/continue": {
+      "requests": 3,
+      "cpuMeanMs": 12,
+      "cpuP95Ms": 18,
+      "cpuMaxMs": 18,
+      "over10Ms": 2,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/token": {
+      "requests": 6,
+      "cpuMeanMs": 4.333333333333333,
+      "cpuP95Ms": 7,
+      "cpuMaxMs": 7,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/logout": {
+      "requests": 3,
+      "cpuMeanMs": 2,
+      "cpuP95Ms": 3,
+      "cpuMaxMs": 3,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/__accesskit/session": {
+      "requests": 1,
+      "cpuMeanMs": 3,
+      "cpuP95Ms": 3,
+      "cpuMaxMs": 3,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    },
+    "/api/health": {
+      "requests": 1,
+      "cpuMeanMs": 0,
+      "cpuP95Ms": 0,
+      "cpuMaxMs": 0,
+      "over10Ms": 0,
+      "outcomes": [
+        "ok"
+      ]
+    }
+  },
+  "events": [
+    {
+      "at": 1794634792869,
+      "path": "/auth/firebase",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 12,
+      "wallMs": 79,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634793313,
+      "path": "/favicon.ico",
+      "method": "GET",
+      "status": 404,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634793302,
+      "path": "/auth/firebase/config",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634793395,
+      "path": "/auth/firebase/status",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634908068,
+      "path": "/sdk/v0.3.1/access-kit.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 7,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634908303,
+      "path": "/authorize",
+      "method": "GET",
+      "status": 302,
+      "cpuMs": 14,
+      "wallMs": 88,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634908680,
+      "path": "/auth/firebase/config",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634908577,
+      "path": "/auth/firebase",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 38,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634908736,
+      "path": "/auth/firebase/status",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634913106,
+      "path": "/me",
+      "method": "GET",
+      "status": 403,
+      "cpuMs": 7,
+      "wallMs": 138,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634913567,
+      "path": "/me",
+      "method": "GET",
+      "status": 403,
+      "cpuMs": 5,
+      "wallMs": 38,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634913723,
+      "path": "/me",
+      "method": "GET",
+      "status": 403,
+      "cpuMs": 4,
+      "wallMs": 131,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634914162,
+      "path": "/authorize",
+      "method": "GET",
+      "status": 302,
+      "cpuMs": 21,
+      "wallMs": 95,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634914744,
+      "path": "/auth/firebase/continue",
+      "method": "GET",
+      "status": 302,
+      "cpuMs": 18,
+      "wallMs": 497,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634915438,
+      "path": "/token",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 7,
+      "wallMs": 112,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634915681,
+      "path": "/token",
+      "method": "POST",
+      "status": 400,
+      "cpuMs": 3,
+      "wallMs": 38,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794634915777,
+      "path": "/me",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 125,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635063928,
+      "path": "/sdk/v0.3.1/access-kit.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 6,
+      "wallMs": 7,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635064345,
+      "path": "/authorize",
+      "method": "GET",
+      "status": 302,
+      "cpuMs": 9,
+      "wallMs": 171,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635064739,
+      "path": "/auth/firebase",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 3,
+      "wallMs": 136,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635065592,
+      "path": "/auth/firebase/config",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635065747,
+      "path": "/favicon.ico",
+      "method": "GET",
+      "status": 404,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635065853,
+      "path": "/auth/firebase/status",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635068926,
+      "path": "/authorize",
+      "method": "GET",
+      "status": 302,
+      "cpuMs": 8,
+      "wallMs": 145,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635069405,
+      "path": "/auth/firebase",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 132,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635069986,
+      "path": "/sdk/v0.3.1/access-kit.js",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 7,
+      "wallMs": 8,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635071264,
+      "path": "/auth/firebase/config",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 0,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635071314,
+      "path": "/favicon.ico",
+      "method": "GET",
+      "status": 404,
+      "cpuMs": 1,
+      "wallMs": 2,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635071617,
+      "path": "/auth/firebase/status",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635071498,
+      "path": "/authorize",
+      "method": "GET",
+      "status": 302,
+      "cpuMs": 18,
+      "wallMs": 155,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635072014,
+      "path": "/auth/firebase",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 3,
+      "wallMs": 128,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635218261,
+      "path": "/me",
+      "method": "GET",
+      "status": 403,
+      "cpuMs": 13,
+      "wallMs": 82,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635218884,
+      "path": "/auth/firebase/status",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 12,
+      "wallMs": 545,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635221929,
+      "path": "/me",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 3,
+      "wallMs": 40,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635254215,
+      "path": "/me",
+      "method": "GET",
+      "status": 403,
+      "cpuMs": 2,
+      "wallMs": 45,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635254756,
+      "path": "/me",
+      "method": "GET",
+      "status": 403,
+      "cpuMs": 2,
+      "wallMs": 42,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635254357,
+      "path": "/me",
+      "method": "GET",
+      "status": 403,
+      "cpuMs": 9,
+      "wallMs": 140,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635255225,
+      "path": "/authorize",
+      "method": "GET",
+      "status": 302,
+      "cpuMs": 12,
+      "wallMs": 219,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635255988,
+      "path": "/auth/firebase/continue",
+      "method": "GET",
+      "status": 302,
+      "cpuMs": 6,
+      "wallMs": 480,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635256670,
+      "path": "/token",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 5,
+      "wallMs": 327,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635257210,
+      "path": "/token",
+      "method": "POST",
+      "status": 400,
+      "cpuMs": 1,
+      "wallMs": 128,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635257520,
+      "path": "/me",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 44,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635262540,
+      "path": "/logout",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 28,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635329646,
+      "path": "/__accesskit/session",
+      "method": "POST",
+      "status": 404,
+      "cpuMs": 3,
+      "wallMs": 4,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635353664,
+      "path": "/api/health",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 0,
+      "wallMs": 1,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635390457,
+      "path": "/me",
+      "method": "GET",
+      "status": 403,
+      "cpuMs": 5,
+      "wallMs": 148,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635390930,
+      "path": "/me",
+      "method": "GET",
+      "status": 403,
+      "cpuMs": 3,
+      "wallMs": 129,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635391257,
+      "path": "/me",
+      "method": "GET",
+      "status": 403,
+      "cpuMs": 2,
+      "wallMs": 136,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635391956,
+      "path": "/authorize",
+      "method": "GET",
+      "status": 302,
+      "cpuMs": 7,
+      "wallMs": 214,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635392453,
+      "path": "/auth/firebase/continue",
+      "method": "GET",
+      "status": 302,
+      "cpuMs": 12,
+      "wallMs": 139,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635392680,
+      "path": "/token",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 7,
+      "wallMs": 333,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635393222,
+      "path": "/token",
+      "method": "POST",
+      "status": 400,
+      "cpuMs": 3,
+      "wallMs": 134,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635393547,
+      "path": "/me",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 2,
+      "wallMs": 133,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635400636,
+      "path": "/logout",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 72,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635401665,
+      "path": "/me",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 5,
+      "wallMs": 140,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635402018,
+      "path": "/me",
+      "method": "GET",
+      "status": 200,
+      "cpuMs": 1,
+      "wallMs": 131,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635491946,
+      "path": "/logout",
+      "method": "POST",
+      "status": 200,
+      "cpuMs": 3,
+      "wallMs": 59,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    },
+    {
+      "at": 1794635704499,
+      "path": "/me",
+      "method": "GET",
+      "status": 401,
+      "cpuMs": 3,
+      "wallMs": 154,
+      "outcome": "ok",
+      "version": "1e52b7e6-3dc1-4181-9cb1-05c36bf5a5ef"
+    }
+  ]
+}

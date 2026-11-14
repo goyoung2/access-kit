@@ -1,0 +1,11 @@
+{
+  "at": "2026-11-14T05:51:31.085Z",
+  "before": 200,
+  "logout": {
+    "status": 204,
+    "revoke": "confirmed"
+  },
+  "sessionCookiesRemaining": 0,
+  "afterFileStatus": 401,
+  "afterPageStatus": 401
+}

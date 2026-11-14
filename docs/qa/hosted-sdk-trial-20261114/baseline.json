@@ -1,0 +1,14 @@
+{
+  "siteUrl": "https://ak-atlas-trial-20261114.nakwol.workers.dev/",
+  "authOrigin": "https://ak-auth-trial-20261114.nakwol.workers.dev",
+  "baselineVersion": "001b495e-5301-4624-8959-1af1c4b292da",
+  "resources": 47,
+  "decodedResourceBytes": 14758526,
+  "images": 37,
+  "uniqueImages": 36,
+  "records": 18000,
+  "loadEventMs": 1285.6,
+  "filterCount": 12,
+  "desktopOverflow": false,
+  "mobileOverflow": false
+}

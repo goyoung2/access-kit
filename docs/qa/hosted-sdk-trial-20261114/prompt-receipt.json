@@ -1,0 +1,18 @@
+{
+  "at": "2026-11-14T05:55:11.994Z",
+  "officialPromptExactPrefix": true,
+  "canonicalChars": 5954,
+  "promptSha256": "cb2ea17a211b0182e09fdee31f043955029de91eeb1bae45ba4bee1f4fdc1c98",
+  "packageSha256": "5d697230c0af6cb2a86a60a8fca269a53eab85d7098220e1cb18831e1c31a6e2",
+  "context": {
+    "sdkVersion": "0.3.1",
+    "authOrigin": "https://ak-auth-trial-20261114.nakwol.workers.dev",
+    "clientId": "atlas-trial",
+    "siteUrl": "https://ak-atlas-trial-20261114.nakwol.workers.dev/",
+    "hosting": "workers",
+    "assets": "dist",
+    "accessPolicy": "member",
+    "deploymentAllowed": true
+  },
+  "additionalInstallationHintsProvided": false
+}
