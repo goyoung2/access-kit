@@ -1,0 +1,51 @@
+{
+  "at": "2026-11-14T06:51:35.033Z",
+  "identity": "Synthetic central sessions; actual hosted signup, console approval, PKCE and SDK responses, no mocked APIs",
+  "adminUrl": "https://ak-auth-trial-20261114.nakwol.workers.dev/console#applications",
+  "checks": [
+    {
+      "name": "only nickname and CID input fields",
+      "passed": true
+    },
+    {
+      "name": "CID label visible",
+      "passed": true
+    },
+    {
+      "name": "nickname/CID request succeeds without server",
+      "passed": true
+    },
+    {
+      "name": "applicant is pending before approval",
+      "passed": true
+    },
+    {
+      "name": "unapproved applicant cannot read data",
+      "passed": true
+    },
+    {
+      "name": "request visible in real admin applications page",
+      "passed": true
+    },
+    {
+      "name": "roster resolves own season and affiliation",
+      "passed": true
+    },
+    {
+      "name": "real admin approval endpoint succeeds",
+      "passed": true
+    },
+    {
+      "name": "existing imported CID key and member ID preserved",
+      "passed": true
+    },
+    {
+      "name": "approved applicant completes actual browser PKCE and SDK gate",
+      "passed": true
+    },
+    {
+      "name": "approved applicant receives 18000 original records",
+      "passed": true
+    }
+  ]
+}
