@@ -13,7 +13,7 @@ import {getApplication,isAllowedRedirect} from './http';
 
 type C=Context<{Bindings:Env}>;
 const identityInput=z.object({idToken:z.string().min(1).max(16384)});
-const applicationInput=z.object({nickname:z.string().trim().min(1).max(40),realm:z.string().trim().min(1).max(64),gameUid:z.string().regex(/^\d{1,32}$/)});
+const applicationInput=z.object({nickname:z.string().trim().min(1).max(40),gameUid:z.string().regex(/^\d{1,32}$/)});
 async function current(c:C){return findSessionUser(c.env,parseCookies(c.req.header('Cookie')).accesskit_sid);}
 async function requestRow(c:C){
  return c.env.DB.prepare('SELECT * FROM oauth_requests WHERE id=? AND expires_at>?')
@@ -86,9 +86,16 @@ export function registerCommonRoutes(app:Hono<{Bindings:Env}>,verify=verifyGoogl
   const member=await c.env.DB.prepare('SELECT user_id FROM common_members WHERE user_id=?').bind(userId).first();
   if(member)return c.json({error:'이미 등록된 회원입니다.'},409);
   const b=applicationInput.parse(await c.req.json());
+  const gameUid=b.gameUid.replace(/^0+(?=\d)/,'');
+  // Keep legacy account/roster keys without asking applicants to select a server.
+  // Deleted roster entries are included so an exclusion cannot be bypassed by a new namespace.
+  const known=await c.env.DB.prepare('SELECT realm FROM game_accounts WHERE game_uid=? UNION SELECT realm FROM roster_entries WHERE game_uid=? UNION SELECT realm FROM member_applications WHERE game_uid=?')
+   .bind(gameUid,gameUid,gameUid).all<{realm:string}>();
+  if(known.results.length>1)return c.json({error:'이 CID의 명부 정보가 중복되어 있습니다. 관리자에게 확인을 요청해 주세요.'},409);
+  const realm=known.results[0]?.realm??'kr';
   const result=await c.env.DB.prepare(`INSERT INTO member_applications VALUES(?,?,?,?,'pending',?,NULL,NULL)
    ON CONFLICT(user_id) DO UPDATE SET realm=excluded.realm,game_uid=excluded.game_uid,nickname=excluded.nickname,status='pending',requested_at=excluded.requested_at,reviewed_at=NULL,reviewed_by=NULL WHERE member_applications.status='rejected'`)
-   .bind(userId,b.realm,b.gameUid.replace(/^0+(?=\d)/,''),b.nickname.normalize('NFC'),Date.now()).run();
+   .bind(userId,realm,gameUid,b.nickname.normalize('NFC'),Date.now()).run();
   if(result.meta.changes!==1)return c.json({error:'이미 승인 대기 중입니다.'},409);
   return c.json({ok:true});
  });

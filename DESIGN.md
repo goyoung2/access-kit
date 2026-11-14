@@ -10,6 +10,8 @@ Roster: a separate console page for records that may not yet have a Google login
 
 Login: single centered panel, service branding, Google button, application/status only. No management or SDK navigation. Console login is a separate intent and returns to console. Service branding includes title, safe HTTPS logo, accent, theme and short description, preview before save.
 
+Member registration collects only nickname and game CID. Do not ask the member to choose a game server or affiliation. Existing account/roster namespaces are resolved by CID on the server; new CID records use the existing Korean roster default. This internal storage key is not an applicant field or an authorization grant. The shared alliance roster and explicit administrator approval remain authoritative.
+
 Login membership states: after Google identity is established, replace the signed-out description with identity confirmation. First registration shows an empty application form; pending shows approval status and a refresh action; rejected shows a danger-colored notice and a prefilled editable reapplication form; suspended shows a danger-colored notice without an application form. Approved members who miss a service's affiliation restriction receive a separate service-specific notice. Never display a permanent blanket denial alongside onboarding. Reuse existing muted/danger/positive tokens and preserve server-side membership checks.
 
 Permission: existing operators retain superadmin authority. Scoped member managers only manage their organization; developers only own services. User identities and membership restrictions preserved. Role revocation server enforced. Last operator deletion rejected atomically.
