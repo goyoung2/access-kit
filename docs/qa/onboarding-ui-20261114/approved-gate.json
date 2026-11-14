@@ -1,0 +1,14 @@
+{
+  "at": "2026-11-14T06:36:24.730Z",
+  "identity": "Existing synthetic approved central session, real authorization/PKCE/token/me/SDK",
+  "authorizeStatus": 302,
+  "continueStatus": 302,
+  "tokenStatus": 200,
+  "sessionStatus": 204,
+  "memberDataStatus": 200,
+  "records": 18000,
+  "echoStatus": 200,
+  "postBodyAndBindingPreserved": true,
+  "anonymousDataStatus": 401,
+  "anonymousBytes": 0
+}

@@ -1,0 +1,71 @@
+{
+  "at": "2026-11-14T06:33:03.432Z",
+  "target": "local",
+  "identity": "Synthetic server-issued central sessions, real status/apply/continue handlers; no real Google login performed by this harness",
+  "results": [
+    {
+      "state": "registration",
+      "http": 200,
+      "intro": "Google 로그인이 완료되었습니다.",
+      "message": "서비스 이용을 위해 게임 계정 정보를 입력하고 가입을 신청해 주세요.",
+      "formVisible": true,
+      "actionVisible": false,
+      "overflow": false,
+      "jsErrors": [],
+      "submitTransition": "pending",
+      "retryStatusButton": "pending"
+    },
+    {
+      "state": "pending",
+      "http": 200,
+      "intro": "Google 로그인이 완료되었습니다.",
+      "message": "가입 신청이 접수되었습니다. 관리자 승인을 기다려 주세요.",
+      "formVisible": false,
+      "actionVisible": true,
+      "overflow": false,
+      "jsErrors": []
+    },
+    {
+      "state": "rejected",
+      "http": 200,
+      "intro": "Google 로그인이 완료되었습니다.",
+      "message": "가입 신청이 거절되었습니다. 입력한 게임 계정 정보를 확인하고 수정하여 다시 신청할 수 있습니다.",
+      "formVisible": true,
+      "actionVisible": false,
+      "overflow": false,
+      "jsErrors": [],
+      "submitTransition": "pending",
+      "retryStatusButton": "pending"
+    },
+    {
+      "state": "suspended",
+      "http": 200,
+      "intro": "Google 로그인이 완료되었습니다.",
+      "message": "회원 이용이 정지되어 있습니다. 관리자에게 해제 여부를 문의해 주세요.",
+      "formVisible": false,
+      "actionVisible": false,
+      "overflow": false,
+      "jsErrors": []
+    },
+    {
+      "state": "service-denied",
+      "http": 200,
+      "intro": "Google 로그인이 완료되었습니다.",
+      "message": "가입은 승인되었지만 이 서비스의 소속 조건과 일치하지 않습니다. 관리자에게 소속 등록을 확인해 주세요.",
+      "formVisible": false,
+      "actionVisible": true,
+      "overflow": false,
+      "jsErrors": []
+    },
+    {
+      "state": "signed-out",
+      "http": 200,
+      "intro": "Google 계정으로 로그인해 주세요.",
+      "message": "",
+      "formVisible": false,
+      "actionVisible": false,
+      "overflow": false,
+      "jsErrors": []
+    }
+  ]
+}
