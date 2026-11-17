@@ -1,6 +1,18 @@
 # LLM에 전달하는 Access Kit 설치 지시문
 
-> **적용 상태 — 2026-11-17:** 0.3.1 소스에 가입 상태별 화면과 닉네임·CID 두 항목 가입을 반영했습니다. 격리된 임시 서버에서 설치·가입·승인·게이트를 시험했고, 운영 서버·운영 DB·npm 게시는 진행하지 않았습니다. 공개 npm 조회는 11월 17일에도 E404이므로 미게시 검증은 운영자가 제공한 tarball과 SHA256을 사용합니다. 임시 검증과 실제 중앙 CPU 관측의 한계는 [README](../README.md)와 [호스팅 시험](https://github.com/goyoung2/access-kit/blob/main/docs/qa/hosted-sdk-trial-20261114.md)에 구분합니다. 운영 `/guide/llm` 갱신은 별도 서버 배포가 필요합니다.
+> **대상 — SDK 0.3.1:** 중앙 가입 화면은 닉네임·CID 두 항목과 가입 상태별 안내를 사용합니다. SDK는 공개 npm의 정확한 버전으로 설치하며 실제 게시 버전은 `npm view @goyoung2/access-kit versions --json`으로 확인합니다. npm 게시와 중앙 서버·운영 DB 반영은 별개입니다. 임시 검증과 실제 중앙 CPU 관측의 한계는 [README](../README.md)와 [호스팅 시험](https://github.com/goyoung2/access-kit/blob/main/docs/qa/hosted-sdk-trial-20261114.md)에 구분합니다.
+
+## 개발자가 전달할 짧은 지시문
+
+아래 블록만 사이트 소스를 연 코딩 LLM에게 전달하면 자세한 절차를 링크에서 읽습니다. 링크는 현재 임시 시험 서버이며 운영자는 정식 중앙 인증기를 배포한 뒤 해당 서버의 `/guide/llm` 주소를 제공합니다. 서비스 연결 정보는 기존 프로젝트나 설치 스튜디오에서 확보합니다.
+
+```text
+아래 공식 안내를 읽고 이 사이트에 Access Kit을 설치해 주세요.
+기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.
+서비스 연결 정보는 기존 설정이나 설치 스튜디오에서 확인하고, 사람이 필요한 로그인 단계만 요청하세요. 원격 배포는 별도 허락을 받으세요.
+
+https://ak-auth-trial-20261114.nakwol.workers.dev/guide/llm
+```
 
 기본 운영 후보는 Cloudflare Workers + D1 Free입니다. 유료 선결제는 설치 조건이 아니며, 무료 한도와 검증 범위는 [README](../README.md)와 아래 지시문에서 안내합니다. 상세 개발 검증은 [저장소의 CPU 검증 기록](https://github.com/goyoung2/access-kit/blob/main/docs/qa/admin-cpu-20261114.md)에 정리합니다.
 목표는 여러 개발자의 서비스가 **같은 중앙 명부와 회원 자격**을 사용하는 것입니다. 개발자가 Firebase 프로젝트나 회원 명부를 따로 만들지 않습니다. 아래 지시문 전체를 사이트 소스를 연 코딩 LLM에게 전달하세요. 중앙 인증기의 `/guide/llm`도 같은 지시문을 로그인 없이 제공합니다. 설치 스튜디오의 **에이전트용 전체 안내 복사**는 등록된 서비스의 연결 정보를 함께 넣습니다.

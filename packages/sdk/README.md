@@ -1,16 +1,26 @@
 # @goyoung2/access-kit
 
-> **적용 상태 — 2026-11-14:** 0.3.1 개발본입니다. 공개 npm에서는 아직 조회되지 않으며, 소스 반영만으로 npm 게시·중앙 서버 배포·운영 DB 변경이 이루어지지 않습니다. 아래 공개 npm 설치 명령은 버전 게시 후 사용하는 예시입니다.
+SDK **0.3.1** — Google 로그인, 중앙 명부의 승인 회원 접근 게이트와 설치 CLI입니다. SDK 설치와 중앙 인증 서버 배포·운영 DB 변경은 별개입니다.
 
-코딩 LLM에게 설치를 맡기려면 공식 설치 지시문 전체를 전달하세요. 중앙 인증기의 `/guide/llm`에서도 읽을 수 있으며 설치 스튜디오는 서비스 연결 정보를 포함해 복사합니다.
+## LLM에게 설치 맡기기
 
-GitHub 소스에서는 [저장소의 설치 지시문](https://github.com/goyoung2/access-kit/blob/main/docs/LLM_INSTALLATION.md)을 읽을 수 있습니다. 패키지 설치 후에는 `node_modules/@goyoung2/access-kit/docs/LLM_INSTALLATION.md`를 사용합니다.
+사이트 소스를 연 코딩 LLM에게 아래 지시문을 전달하세요.
 
-Google 로그인, 승인 회원 접근 게이트와 설치·관리 CLI입니다. 특정 맹이나 인증 서버에 고정되지 않으며 `authOrigin`으로 사용할 Access Kit 서버를 지정합니다.
+```text
+아래 공식 안내를 읽고 이 사이트에 Access Kit을 설치해 주세요.
+기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.
+서비스 연결 정보는 기존 설정이나 설치 스튜디오에서 확인하고, 사람이 필요한 로그인 단계만 요청하세요. 원격 배포는 별도 허락을 받으세요.
+
+https://ak-auth-trial-20261114.nakwol.workers.dev/guide/llm
+```
+
+이 링크는 현재 **임시 시험 서버**이며 정식 운영 주소는 운영자가 제공합니다. 다른 중앙 인증기를 쓰면 해당 운영자의 `/guide/llm` 링크로 바꾸세요. 안내는 로그인 없이 읽을 수 있습니다. 처음 한 번 중앙에서 개발자 권한과 서비스 등록이 필요합니다. 비공개 GitHub 저장소 접근은 필요 없습니다.
+
+패키지 설치 후 상세 지시문은 `node_modules/@goyoung2/access-kit/docs/LLM_INSTALLATION.md`에서도 읽을 수 있습니다. 특정 맹이나 인증 서버에 고정되지 않으며 `authOrigin`으로 사용할 중앙 서버를 지정합니다.
 
 ## 설치
 
-Node.js 22 LTS 이상을 준비하고 프로젝트 폴더에서 실행합니다. GitHub 저장소 초대나 npm 로그인은 필요 없습니다. 아래 명령은 해당 버전이 npm에 게시된 뒤 사용할 수 있습니다.
+Node.js 22 LTS 이상을 준비하고 프로젝트 폴더에서 실행합니다. GitHub 저장소 초대나 npm 로그인은 필요 없습니다.
 
 ```sh
 npm view @goyoung2/access-kit versions --json
