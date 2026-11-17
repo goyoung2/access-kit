@@ -1,0 +1,94 @@
+export const installationScript=String.raw`
+const $=s=>document.querySelector(s);
+let data,selected,saving=false,loaded=false;
+function message(text,tone='info'){const e=$('#status');e.textContent=text;e.dataset.tone=tone;e.hidden=!text;}
+function options(el,rows){el.replaceChildren(...rows.map(x=>new Option(x.name,x.id)));}
+function dirty(){return selected&&($('#name').value.trim()!==selected.name||$('#url').value!==JSON.parse(selected.redirect_uris)[0]||$('#mode').value!==selected.mode||($('#mode').value==='season'&&$('#organization').value!==selected.organization_id));}
+function settings(){return {clientId:selected.client_id,authOrigin:data.authOrigin,siteUrl:JSON.parse(selected.redirect_uris)[0],accessPolicy:selected.mode==='admin'?'admin':'member'};}
+function prompt(){return ['아래 공식 안내를 읽고 이 사이트에 Access Kit을 설치해 주세요.','기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.','서비스 연결 정보는 아래 값을 사용하세요. 사람이 필요한 로그인 단계만 요청하고, 원격 배포는 별도 허락을 받으세요.','','https://unpkg.com/access-kit-sdk@'+data.version+'/docs/LLM_INSTALLATION.md','','<access-kit-context>',JSON.stringify({sdkVersion:data.version,...settings(),deploymentAllowed:false},null,2),'</access-kit-context>'].join('\n');}
+function connection(){
+ const ready=Boolean(selected),changed=Boolean(dirty());
+ $('#connection-empty').hidden=ready;$('#connection-values').hidden=!ready;$('#prompt-preview').hidden=!ready;$('#manual-install').hidden=!ready;
+ $('#copy-all').disabled=!ready||!loaded||changed||saving;$('#unsaved-note').hidden=!changed;
+ $('#service-title').textContent=ready?'서비스 설정':'서비스 등록';$('#save-service').textContent=ready?'변경사항 저장':'서비스 등록';$('#save-service').classList.toggle('primary',!ready||changed);
+ if(ready){const s=settings();$('#connection-origin').textContent=s.authOrigin;$('#connection-id').textContent=s.clientId;$('#connection-site').textContent=s.siteUrl;$('#llm-instructions').textContent=prompt();}
+}
+function mode(){
+ const value=$('#mode').value,season=value==='season',locked=Boolean(selected&&!data.admin);
+ $('#organization-label').hidden=!season;$('#organization').required=season;$('#organization').disabled=locked||!data.organizations.length;
+ $('#policy-help').textContent=({approved:'소속을 구분하지 않고, 중앙에서 가입 승인된 회원이 이용합니다.',season:'선택한 맹의 승인 회원만 이용합니다. 진행 중으로 설정된 시즌 명부에서 소속을 확인합니다.',admin:'중앙 인증기의 최고 관리자만 이용합니다.'})[value]||'이 사이트를 이용할 사람을 선택하세요.';
+ $('#policy-lock-note').hidden=!locked;$('#organization-empty').hidden=!season||Boolean(data.organizations.length);
+ const unavailable=season&&selected&&selected.organization_id&&!data.organizations.some(o=>o.id===selected.organization_id);
+ $('#organization-unavailable').hidden=!unavailable;
+ connection();
+}
+function reset(){selected=null;$('#service-form').reset();$('#mode').disabled=false;options($('#organization'),[{id:'',name:'맹을 선택하세요'},...data.organizations]);$('#manual-install').open=false;mode();}
+function show(){
+ selected=data.services.find(x=>x.client_id===$('#existing').value);
+ if(!selected){reset();message('');return;}
+ $('#name').value=selected.name;$('#url').value=JSON.parse(selected.redirect_uris)[0];$('#mode').value=selected.mode;$('#mode').disabled=!data.admin;
+ options($('#organization'),[{id:'',name:'맹을 선택하세요'},...data.organizations]);
+ if(selected.mode==='season'&&selected.organization_id&&!data.organizations.some(o=>o.id===selected.organization_id))$('#organization').add(new Option('사용할 수 없는 맹 · 관리자 확인 필요',selected.organization_id));
+ $('#organization').value=selected.organization_id||'';mode();render();message('');
+}
+function step(n){if(!selected){message('먼저 서비스를 등록하세요.');return;}if(n===0){$('#manual-install').open=false;return;}$('#manual-install').open=true;document.querySelectorAll('#manual-install [data-panel]').forEach(e=>e.hidden=Number(e.dataset.panel)!==n);document.querySelectorAll('[data-step]').forEach(e=>{if(Number(e.dataset.step)===n)e.setAttribute('aria-current','step');else e.removeAttribute('aria-current');});}
+document.querySelectorAll('[data-step],[data-go]').forEach(b=>b.onclick=()=>step(Number(b.dataset.step??b.dataset.go)));
+const q=x=>"'"+String(x).replaceAll("'","''")+"'";
+function render(){
+ if(!selected)return;
+ const manual=$('#hosting').value==='server';$('#automation').hidden=manual;$('#verification-file').hidden=manual;$('#deploy-note').hidden=manual;
+ $('#install-note').textContent=manual?'SDK를 설치하고 아래 어댑터를 서버 요청 처리기에 연결하세요. 32바이트 이상의 무작위 세션 비밀키는 서버 환경변수 ACCESS_KIT_SESSION_SECRET에 보관하세요.':'프로젝트를 빌드한 뒤 명령을 순서대로 실행하세요. 배포는 별도 확인 후 진행하세요.';
+ const s=settings(),version=data.version,base=['npm install --save-exact access-kit-sdk@'+version];
+ if(!manual){
+  base.push('npm install --save-dev wrangler@4.160.1','npx wrangler login');
+  const init='npx access-kit init --client-id '+q(s.clientId)+' --auth-origin '+q(s.authOrigin)+' --site-url '+q(s.siteUrl)+' --access-policy '+s.accessPolicy+' --hosting '+$('#hosting').value+' --assets '+q($('#assets').value)+($('#hosting').value==='pages'?' --branch '+q($('#pages-branch').value):'')+($('#project').value?' --name '+q($('#project').value):'')+($('#config').value?' --config '+q($('#config').value):'');
+  base.push(init+' --plan',init,'npx access-kit doctor');
+  if($('#hosting').value==='pages'&&$('#pages-new').checked)base.push('npx wrangler pages project create '+q($('#project').value)+' --production-branch '+q($('#pages-branch').value));
+  base.push('npx access-kit secret','npx access-kit deploy');
+ }
+ $('#commands').textContent=base.join('\n');
+ $('#adapter').textContent="import {createGate} from 'access-kit-sdk/server';\nconst gate=createGate("+JSON.stringify(s,null,2)+");\nreturn gate(request,{sessionSecret:env.ACCESS_KIT_SESSION_SECRET,\n  serveAsset:(request,identity)=>existingHandler(request,env,ctx,identity)});";
+ $('#verify-command').textContent=manual?'호스팅 배포 후 익명 HTML·API·이미지 차단, Google 로그인·승인 전후 입장·재접속·로그아웃을 확인하세요.':'npx access-kit verify --url '+q(s.siteUrl)+'\n# API가 있다면 실제 경로를 추가하세요\nnpx access-kit verify --path /api/your-endpoint';
+ $('#update-command').textContent=manual?'npm install --save-exact access-kit-sdk@'+version+'\n기존 호스팅의 빌드·테스트·배포 절차를 따르세요.':'npx access-kit update --version '+version+'\nnpx access-kit deploy';
+}
+function environmentError(){
+ if($('#hosting').value==='server')return '';
+ if($('#hosting').value==='pages'&&!/^[A-Za-z0-9_./-]{1,128}$/.test($('#pages-branch').value))return 'Pages 운영 브랜치를 입력하세요.';
+ if($('#hosting').value==='pages'&&$('#pages-new').checked&&!$('#project').value)return '새 Pages 프로젝트 이름을 입력하세요.';
+ for(const id of ['assets','config']){const value=$('#'+id).value;if((id==='assets'&&!value)||(value&&!/^[A-Za-z0-9_. /-]+$/.test(value)))return '빌드 폴더와 설정 경로에는 영문·숫자·공백·하이픈을 사용하세요.';}
+ if($('#project').value&&!/^[a-z0-9][a-z0-9-]{0,62}$/.test($('#project').value))return '프로젝트 이름은 영문 소문자·숫자·하이픈으로 입력하세요.';
+ return '';
+}
+$('#mode').onchange=mode;$('#organization').onchange=connection;$('#existing').onchange=show;
+for(const id of ['name','url'])$('#'+id).oninput=()=>{connection();if($('#status').dataset.tone==='success')message('');};
+$('#hosting').onchange=()=>{$('#pages-new-label').hidden=$('#hosting').value!=='pages';$('#pages-branch-label').hidden=$('#hosting').value!=='pages';$('#cloudflare').hidden=$('#hosting').value==='server';$('#custom-note').hidden=$('#hosting').value!=='server';render();};
+$('#environment-next').onclick=()=>{const error=environmentError();if(error){message(error,'error');return;}render();message('');step(2);};
+async function load(id){
+ loaded=false;$('#service-fields').disabled=true;$('#copy-all').disabled=true;$('#retry-load').hidden=true;
+ const response=await fetch('/developer/services');if(!response.ok)throw Error(response.status===403?'개발자 권한을 확인해 주세요.':'연결 정보를 불러오지 못했습니다. 다시 시도해 주세요.');
+ data=await response.json();loaded=true;$('#admin').hidden=!data.admin;$('#member-admin').hidden=!data.admin;$('#catalog-link').hidden=!data.admin;
+ options($('#existing'),[{id:'',name:'새 서비스 등록'},...data.services.map(x=>({id:x.client_id,name:x.name}))]);$('#service-picker').hidden=!data.services.length;
+ $('#service-fields').disabled=false;
+ if(id){$('#existing').value=id;show();}else reset();
+}
+$('#service-form').onsubmit=async e=>{
+ e.preventDefault();if(saving||!data)return;
+ if($('#mode').value==='season'&&!$('#organization').value){message('이용할 맹을 선택하세요. 목록이 비어 있으면 중앙 관리자에게 맹 등록을 요청하세요.','error');return;}
+ let url;try{url=new URL($('#url').value);}catch{message('사이트 주소를 확인해 주세요.','error');return;}
+ if(url.protocol!=='https:'||url.username||url.password||url.pathname!=='/'||url.search||url.hash){message('사이트 주소는 https://도메인/ 형식으로 입력하세요.','error');return;}
+ saving=true;$('#save-service').disabled=true;connection();
+ try{
+  const response=await fetch('/developer/services',{method:'POST',headers:{'Content-Type':'application/json','X-Access-Kit-Action':'1'},body:JSON.stringify({clientId:$('#existing').value||undefined,name:$('#name').value.trim(),siteUrl:url.href,mode:$('#mode').value,organizationId:$('#mode').value==='season'?$('#organization').value:null})});
+  const body=await response.json();
+  if(!response.ok)throw Error(body.error==='ORGANIZATION_REQUIRED'?'맹 목록을 다시 확인하세요. 중앙 관리자에게 등록 상태를 문의할 수 있습니다.':response.status===403?'이 서비스를 수정할 권한을 확인해 주세요.':response.status===409?'다른 곳에서 설정이 바뀌었습니다. 새로고침 후 확인하세요.':'서비스를 저장하지 못했습니다. 다시 시도해 주세요.');
+  await load(body.clientId);message('저장했습니다. LLM 설치 지시문을 복사하세요.','success');
+ }catch(error){message(error instanceof Error?error.message:'서비스를 저장하지 못했습니다.','error');}
+ finally{saving=false;$('#save-service').disabled=false;connection();}
+};
+async function copy(text,button){const original=button.textContent;try{await navigator.clipboard.writeText(text);button.textContent='복사했습니다';message('클립보드에 복사했습니다.','success');}catch{message('자동 복사를 사용할 수 없습니다. 펼친 내용을 직접 선택해 복사하세요.','error');$('#prompt-preview').open=true;}finally{setTimeout(()=>button.textContent=original,1800);}}
+$('#copy').onclick=()=>{const error=environmentError();if(error){message(error,'error');return;}render();copy($('#commands').textContent,$('#copy'));};
+$('#copy-all').onclick=()=>{if(selected&&!dirty()&&!saving)copy(prompt(),$('#copy-all'));};
+$('#retry-load').onclick=()=>{message('연결 정보를 불러오는 중…');start();};
+function start(){load().then(()=>message('')).catch(error=>{message(error instanceof Error?error.message:'연결 정보를 불러오지 못했습니다.','error');$('#retry-load').hidden=false;});}
+start();
+`;
