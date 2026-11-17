@@ -1,0 +1,14 @@
+{
+  "at": "2026-11-17T15:11:48.767Z",
+  "target": "ak-auth-trial-20261114",
+  "version": "a1d51341-d156-4fc5-a8d3-77b0cc80b11d",
+  "bindingsAndVariableValuesPreserved": true,
+  "compatibilityPreserved": true,
+  "unchangedWorkers": [
+    "access-kit-validation-20261112",
+    "ak-atlas-trial-20261114"
+  ],
+  "databaseMigration": false,
+  "liveUiDatabaseWrites": false,
+  "npmPublished": false
+}

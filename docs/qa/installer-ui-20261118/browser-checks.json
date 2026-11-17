@@ -1,0 +1,22 @@
+{
+  "at": "2026-11-17T15:02:24.382Z",
+  "checks": [
+    "New developer selects registered alliance and creates service through actual API",
+    "Saved service locks developer policy with an explanation",
+    "Clipboard includes multiline public guide and saved non-secret context",
+    "Unsaved edits disable copying",
+    "Manual Pages commands preserve build folder, branch, project creation and real newlines",
+    "Other-server adapter remains available",
+    "Empty affiliations show administrator guidance and prevent season-policy submission without fallback",
+    "Load failure is visible; retry recovers when API is available",
+    "Save failure stays visible and retains entered values",
+    "Administrator can edit existing policy while developer cannot",
+    "Mobile long URL and stacked cards have no horizontal overflow"
+  ],
+  "responsiveResult": {
+    "overflow": false,
+    "scrollWidth": 341,
+    "viewport": 355
+  },
+  "scope": "Local synthetic sessions and real Hono/D1 except explicit transport error scenarios"
+}
