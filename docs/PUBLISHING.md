@@ -32,7 +32,7 @@ npm publish ./dist/access-kit-sdk-X.Y.Z.tgz --access public --registry=https://r
 - 최초 토큰 방식만 `first_publish=true`를 선택합니다. 이후 기본값 false는 OIDC Trusted Publishing을 사용합니다.
 - 로컬 검증과 tarball 생성 후 지정한 패키지만 공개 게시하고, 레지스트리 버전 조회와 `npm exec ... access-kit help`를 확인합니다.
 
-비공개 저장소의 공개 패키지에는 npm provenance가 생성되지 않습니다. SDK를 공개한다고 개발 저장소 공개나 provenance 완료를 주장하지 않습니다. 게시 방식과 요구사항은 [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/)과 [공개 scoped 패키지 안내](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages/)를 따릅니다.
+비공개 저장소의 공개 패키지에는 npm provenance가 생성되지 않습니다. SDK를 공개한다고 개발 저장소 공개나 provenance 완료를 주장하지 않습니다. 게시 방식과 요구사항은 [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/)과 [일반 공개 패키지 안내](https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages/)를 따릅니다.
 
 ## 서버와 소비 사이트 반영
 

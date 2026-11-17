@@ -2,6 +2,8 @@
 
 같은 맹의 여러 사이트가 **하나의 중앙 명부와 회원 자격**을 함께 사용하는 인증기와 SDK입니다. Google로 신원을 확인하고, 중앙 Access Kit이 가입 승인·정지·시즌·소속 조건으로 접근을 판단합니다. 사이트마다 Firebase나 명부를 새로 만들지 않습니다.
 
+공개 SDK: [access-kit-sdk@0.3.1](https://www.npmjs.com/package/access-kit-sdk). [짧은 지시문으로 npm 설치·게이트를 검증한 결과](docs/qa/npm-short-prompt-20261117.md)를 확인할 수 있습니다.
+
 ## LLM에게 설치 맡기기
 
 사이트 소스를 연 코딩 LLM에게 아래 지시문만 전달하세요. 자세한 설치 절차는 LLM이 안내 링크에서 읽습니다.
