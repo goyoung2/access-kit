@@ -2,14 +2,14 @@
 
 ## SDK 버전 올리기
 
-1. `npm view @goyoung2/access-kit versions --json`으로 게시된 버전을 확인하고 정확한 `X.Y.Z`를 선택합니다. npm 로그인이나 GitHub 초대는 필요 없습니다.
+1. `npm view access-kit-sdk versions --json`으로 게시된 버전을 확인하고 정확한 `X.Y.Z`를 선택합니다. npm 로그인이나 GitHub 초대는 필요 없습니다.
 2. 현재 소스와 package-lock.json을 커밋합니다.
 3. `npx access-kit update --version X.Y.Z`를 실행합니다. `latest`, 버전 범위, 파일 옵션과 혼합은 거부합니다.
 4. 도구가 package.json/lock을 `.access-kit/backups/시간/`에 보관하고 정확한 npm 버전을 설치합니다. 기존 build, 파일/경로 검사와 설치 버전 검사를 실행합니다. 실패하면 이전 의존성을 복원하고 실패를 보고합니다. 성공 기록은 `.access-kit/last-update.json`입니다.
 5. **새 프로세스**에서 `npx access-kit deploy`를 실행합니다. 설치된 새 런타임으로 배포하고 실제 사이트 버전을 확인합니다.
 6. Google 로그인·미승인 차단·기존 API·재접속을 확인한 후 package.json, lock, 설정을 커밋합니다.
 
-기존 SDK에 `--version` 옵션이 없다면 새 버전을 `npm install --save-exact @goyoung2/access-kit@X.Y.Z`로 설치한 뒤 build와 `npx access-kit doctor`를 실행합니다. 실패하면 이전 package/lock을 복원하고 `npm ci`로 되돌립니다. 설치 기록이 없는 수동 호스팅도 이 방식으로 자체 build/test/deploy를 사용합니다.
+기존 SDK에 `--version` 옵션이 없다면 새 버전을 `npm install --save-exact access-kit-sdk@X.Y.Z`로 설치한 뒤 build와 `npx access-kit doctor`를 실행합니다. 실패하면 이전 package/lock을 복원하고 `npm ci`로 되돌립니다. 설치 기록이 없는 수동 호스팅도 이 방식으로 자체 build/test/deploy를 사용합니다.
 
 파일 배포는 계속 `npx access-kit update --package ./SDK.tgz --sha256 실제64자리해시`로 지원합니다. 파일 해시 검사 후 tarball을 `vendor/`의 해시 이름으로 보관하고 같은 백업·검증·복구 과정을 거칩니다. 이 경우 vendor도 커밋합니다.
 

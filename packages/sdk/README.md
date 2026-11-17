@@ -1,4 +1,4 @@
-# @goyoung2/access-kit
+# access-kit-sdk
 
 SDK **0.3.1** — Google 로그인, 중앙 명부의 승인 회원 접근 게이트와 설치 CLI입니다. SDK 설치와 중앙 인증 서버 배포·운영 DB 변경은 별개입니다.
 
@@ -11,20 +11,20 @@ SDK **0.3.1** — Google 로그인, 중앙 명부의 승인 회원 접근 게이
 기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.
 서비스 연결 정보는 기존 설정이나 설치 스튜디오에서 확인하고, 사람이 필요한 로그인 단계만 요청하세요. 원격 배포는 별도 허락을 받으세요.
 
-https://ak-auth-trial-20261114.nakwol.workers.dev/guide/llm
+https://unpkg.com/access-kit-sdk@0.3.1/docs/LLM_INSTALLATION.md
 ```
 
-이 링크는 현재 **임시 시험 서버**이며 정식 운영 주소는 운영자가 제공합니다. 다른 중앙 인증기를 쓰면 해당 운영자의 `/guide/llm` 링크로 바꾸세요. 안내는 로그인 없이 읽을 수 있습니다. 처음 한 번 중앙에서 개발자 권한과 서비스 등록이 필요합니다. 비공개 GitHub 저장소 접근은 필요 없습니다.
+이 링크는 공개 npm 패키지에 포함된 버전 고정 문서로 로그인 없이 읽을 수 있습니다. 중앙 서버를 배포하지 않아도 SDK 안내를 제공합니다. 중앙 서버 주소와 서비스 ID는 운영자에게 받으며, 처음 한 번 중앙에서 개발자 권한과 서비스 등록이 필요합니다. 비공개 GitHub 저장소 접근은 필요 없습니다.
 
-패키지 설치 후 상세 지시문은 `node_modules/@goyoung2/access-kit/docs/LLM_INSTALLATION.md`에서도 읽을 수 있습니다. 특정 맹이나 인증 서버에 고정되지 않으며 `authOrigin`으로 사용할 중앙 서버를 지정합니다.
+패키지 설치 후 상세 지시문은 `node_modules/access-kit-sdk/docs/LLM_INSTALLATION.md`에서도 읽을 수 있습니다. 특정 맹이나 인증 서버에 고정되지 않으며 `authOrigin`으로 사용할 중앙 서버를 지정합니다.
 
 ## 설치
 
 Node.js 22 LTS 이상을 준비하고 프로젝트 폴더에서 실행합니다. GitHub 저장소 초대나 npm 로그인은 필요 없습니다.
 
 ```sh
-npm view @goyoung2/access-kit versions --json
-npm install --save-exact @goyoung2/access-kit@0.3.1
+npm view access-kit-sdk versions --json
+npm install --save-exact access-kit-sdk@0.3.1
 npx access-kit help
 ```
 
@@ -53,7 +53,7 @@ npx access-kit deploy
 ## 다른 Fetch API 서버
 
 ```js
-import {createGate} from '@goyoung2/access-kit/server';
+import {createGate} from 'access-kit-sdk/server';
 const gate=createGate({
   clientId:'APP_ID',authOrigin:'https://AUTH_HOST',
   siteUrl:'https://SITE_HOST/',accessPolicy:'member',
@@ -93,10 +93,10 @@ npx access-kit deploy
 
 업데이트는 의존성을 백업하고 정확한 버전을 설치한 뒤 기존 빌드와 새 프로세스의 export·doctor를 검사합니다. 실패하면 이전 package/lock과 의존성을 복구합니다. 설정·Client ID·세션 키·회원 제한은 유지합니다. 새 런타임 배포는 업데이트가 끝난 다음 명령으로 실행합니다. `latest`·버전 범위는 받지 않습니다.
 
-설치 기록이 없는 수동 서버는 `npm install --save-exact @goyoung2/access-kit@X.Y.Z` 후 기존 build/test/deploy를 사용합니다. 실패하면 이전 package/lock을 복원하고 `npm ci`를 실행합니다.
+설치 기록이 없는 수동 서버는 `npm install --save-exact access-kit-sdk@X.Y.Z` 후 기존 build/test/deploy를 사용합니다. 실패하면 이전 package/lock을 복원하고 `npm ci`를 실행합니다.
 
 기존 파일 설치도 `npx access-kit update --package SDK.tgz --sha256 HASH`로 지원합니다. 인증 서버·DB 업데이트는 별도이며 명부 CRUD가 포함된 현재 중앙 서버에는 migration 0006까지 소비 SDK보다 먼저 적용합니다. `package-lock.json`을 보관하고 재설치에는 `npm ci`를 사용합니다.
 
 ## 함께 제공하는 문서
 
-설치된 패키지의 `node_modules/@goyoung2/access-kit/docs/`에서 INSTALL.md, QUICKSTART.md, ADAPTERS.md, UPGRADE.md, CONSOLE.md, ROSTER.md를 읽을 수 있습니다. 비공개 개발 저장소 접근이 없어도 설치·업데이트 안내를 사용할 수 있습니다. 회원 명부·개인키·운영 환경설정은 배포 패키지에 포함하지 않습니다.
+설치된 패키지의 `node_modules/access-kit-sdk/docs/`에서 INSTALL.md, QUICKSTART.md, ADAPTERS.md, UPGRADE.md, CONSOLE.md, ROSTER.md를 읽을 수 있습니다. 비공개 개발 저장소 접근이 없어도 설치·업데이트 안내를 사용할 수 있습니다. 회원 명부·개인키·운영 환경설정은 배포 패키지에 포함하지 않습니다.

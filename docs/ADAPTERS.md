@@ -5,7 +5,7 @@
 인증기를 호출하는 쪽은 서버입니다. 세션 secret을 브라우저로 전달하지 않습니다. 모든 HTML·API·정적 자산 요청이 이 경로를 통과하도록 호스트 라우팅을 설정합니다.
 
 ```js
-import {createGate} from '@goyoung2/access-kit/server';
+import {createGate} from 'access-kit-sdk/server';
 import original from './existing-handler.js';
 import settings from './access-kit.json' with {type:'json'};
 const gate=createGate(settings);
@@ -30,7 +30,7 @@ Workers CLI는 위 adapter와 원본 Wrangler 설정 복사본을 생성합니�
 기존 루트 middleware의 onRequest를 `existing`이라는 로컬 변수로 바꾸고 인증 함수를 배열 맨 앞에 연결합니다. 같은 파일 안에서 변경하므로 기존 상대 import 경로는 유지됩니다.
 
 ```js
-import {createGate} from '@goyoung2/access-kit/server';
+import {createGate} from 'access-kit-sdk/server';
 import settings from '../access-kit.json' with {type:'json'};
 const gate=createGate(settings);
 // 기존 함수 본문을 그대로 유지합니다.

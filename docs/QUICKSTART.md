@@ -22,7 +22,7 @@ Cloudflare 대시보드에서 본인 계정의 workers.dev 하위 도메인을 �
 SDK는 npm에 해당 버전이 게시된 뒤 다음과 같이 설치합니다. `package.json`과 `package-lock.json`을 커밋하세요.
 
 ```sh
-npm install --save-exact @goyoung2/access-kit@0.3.1
+npm install --save-exact access-kit-sdk@0.3.1
 ```
 
 설치 도중 `secret`이 새 Worker 생성 여부를 물으면 위에서 정한 이름을 확인한 뒤 진행합니다. `deploy`가 출력한 URL과 등록 주소가 일치하는지 확인합니다. 익명 보호 검사 통과 후 브라우저에서 Google 로그인을 눌러 회원 승인 후 입장까지 확인합니다.

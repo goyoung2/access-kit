@@ -1,17 +1,17 @@
 # LLM에 전달하는 Access Kit 설치 지시문
 
-> **대상 — SDK 0.3.1:** 중앙 가입 화면은 닉네임·CID 두 항목과 가입 상태별 안내를 사용합니다. SDK는 공개 npm의 정확한 버전으로 설치하며 실제 게시 버전은 `npm view @goyoung2/access-kit versions --json`으로 확인합니다. npm 게시와 중앙 서버·운영 DB 반영은 별개입니다. 임시 검증과 실제 중앙 CPU 관측의 한계는 [README](../README.md)와 [호스팅 시험](https://github.com/goyoung2/access-kit/blob/main/docs/qa/hosted-sdk-trial-20261114.md)에 구분합니다.
+> **대상 — SDK 0.3.1:** 중앙 가입 화면은 닉네임·CID 두 항목과 가입 상태별 안내를 사용합니다. SDK는 공개 npm의 정확한 버전으로 설치하며 실제 게시 버전은 `npm view access-kit-sdk versions --json`으로 확인합니다. npm 게시와 중앙 서버·운영 DB 반영은 별개입니다. 임시 검증과 실제 중앙 CPU 관측의 한계는 [README](../README.md)와 [호스팅 시험](https://github.com/goyoung2/access-kit/blob/main/docs/qa/hosted-sdk-trial-20261114.md)에 구분합니다.
 
 ## 개발자가 전달할 짧은 지시문
 
-아래 블록만 사이트 소스를 연 코딩 LLM에게 전달하면 자세한 절차를 링크에서 읽습니다. 링크는 현재 임시 시험 서버이며 운영자는 정식 중앙 인증기를 배포한 뒤 해당 서버의 `/guide/llm` 주소를 제공합니다. 서비스 연결 정보는 기존 프로젝트나 설치 스튜디오에서 확보합니다.
+아래 블록만 사이트 소스를 연 코딩 LLM에게 전달하면 공개 npm 패키지의 버전 고정 문서에서 자세한 절차를 읽습니다. 중앙 서버 배포나 GitHub 접근은 필요 없습니다. 서비스 연결 정보는 기존 프로젝트나 설치 스튜디오에서 확보합니다. 아직 배포하지 않은 중앙 서버의 내장 안내와 SDK 패키지명이 다르면 이 버전의 문서를 따릅니다.
 
 ```text
 아래 공식 안내를 읽고 이 사이트에 Access Kit을 설치해 주세요.
 기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.
 서비스 연결 정보는 기존 설정이나 설치 스튜디오에서 확인하고, 사람이 필요한 로그인 단계만 요청하세요. 원격 배포는 별도 허락을 받으세요.
 
-https://ak-auth-trial-20261114.nakwol.workers.dev/guide/llm
+https://unpkg.com/access-kit-sdk@0.3.1/docs/LLM_INSTALLATION.md
 ```
 
 기본 운영 후보는 Cloudflare Workers + D1 Free입니다. 유료 선결제는 설치 조건이 아니며, 무료 한도와 검증 범위는 [README](../README.md)와 아래 지시문에서 안내합니다. 상세 개발 검증은 [저장소의 CPU 검증 기록](https://github.com/goyoung2/access-kit/blob/main/docs/qa/admin-cpu-20261114.md)에 정리합니다.
@@ -41,10 +41,10 @@ Cloudflare에서는 Workers + D1 Free를 기본 운영 후보로 삼으세요. �
 - 중앙 서버의 무료 한도는 Workers 계정당 하루 100,000요청·요청당 CPU 10ms, D1 하루 5,000,000행 읽기·100,000행 쓰기, DB당 500MB·계정 합계 5GB입니다(2026-11-14 기준). 작업 때 공식 한도를 다시 확인하고 중앙 인증 요청과 소비 사이트의 게이트·API·파일 요청을 따로 계산하세요. 같은 계정의 서비스는 계정 한도를 공유합니다.
 
 2. 공식 SDK와 문서 확보
-- 패키지는 @goyoung2/access-kit입니다. 새로운 OAuth/PKCE·쿠키 암호화·회원 판정 코드를 직접 구현하지 마세요.
-- SDK 버전은 context.sdkVersion 또는 운영자가 지정한 정확한 버전을 사용하세요. 공개 설치에서는 npm view @goyoung2/access-kit versions --json으로 존재 여부를 확인한 뒤 npm install --save-exact @goyoung2/access-kit@정확한버전을 실행하세요. package-lock.json을 보관하세요.
+- 패키지는 access-kit-sdk입니다. 새로운 OAuth/PKCE·쿠키 암호화·회원 판정 코드를 직접 구현하지 마세요.
+- SDK 버전은 context.sdkVersion 또는 운영자가 지정한 정확한 버전을 사용하세요. 공개 설치에서는 npm view access-kit-sdk versions --json으로 존재 여부를 확인한 뒤 npm install --save-exact access-kit-sdk@정확한버전을 실행하세요. package-lock.json을 보관하세요.
 - 아직 게시 전인 로컬 검증에서 context.packageFile과 packageSha256이 제공됐다면 파일의 SHA256을 직접 대조한 뒤 그 tarball을 npm install --save-exact로 설치하세요. 이 로컬 패키지 경로가 일반 공개 설치 경로라고 설명하지 마세요. E404를 무시하거나 비슷한 이름의 패키지로 바꾸지 마세요.
-- 설치된 node_modules/@goyoung2/access-kit/docs/INSTALL.md, ADAPTERS.md, UPGRADE.md와 LLM_INSTALLATION.md를 읽으세요. 설치 전에 문서가 필요하면 중앙의 /guide와 /guide/llm을 읽으세요. 비공개 개발 저장소 접근을 요구하지 마세요.
+- 설치된 node_modules/access-kit-sdk/docs/INSTALL.md, ADAPTERS.md, UPGRADE.md와 LLM_INSTALLATION.md를 읽으세요. 설치 전에 문서가 필요하면 중앙의 /guide와 /guide/llm을 읽으세요. 비공개 개발 저장소 접근을 요구하지 마세요.
 
 3. 중앙 명부와 서비스 정책 보존
 - Google은 신원 확인을 담당하고 회원 승인·정지·시즌·소속 판단은 중앙 Access Kit이 담당합니다. 게임 UID를 Google UID와 혼동하지 마세요.

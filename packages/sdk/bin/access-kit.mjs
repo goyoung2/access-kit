@@ -43,8 +43,8 @@ try {
   update --package ./SDK.tgz --sha256 HASH
                          오프라인 파일 → 해시 검사 → 같은 업데이트·복구
   automate               수동 실행 GitHub Actions 배포 workflow 생성
-문서: https://www.npmjs.com/package/@goyoung2/access-kit
-상세 안내: node_modules/@goyoung2/access-kit/docs/INSTALL.md
+문서: https://www.npmjs.com/package/access-kit-sdk
+상세 안내: node_modules/access-kit-sdk/docs/INSTALL.md
 인증 서버의 공개 안내: https://인증서버/guide`);
  }
 } catch(error) {console.error(error instanceof Error?error.message:String(error));process.exitCode=1;}

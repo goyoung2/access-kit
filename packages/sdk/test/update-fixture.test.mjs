@@ -32,7 +32,7 @@ test('actual npm install/update checks new exports and CLI in new processes and 
  await writeFile(join(app,'package.json'),JSON.stringify({name:'local-update-fixture',private:true,type:'module'}));
  await npmRun(app,'install','--save-exact',good);
  await mkdir(join(app,'dist'));await writeFile(join(app,'dist/index.html'),'private fixture');
- const cli=join(app,'node_modules/@goyoung2/access-kit/bin/access-kit.mjs');
+ const cli=join(app,'node_modules/access-kit-sdk/bin/access-kit.mjs');
  const run=(...args)=>exec(process.execPath,[cli,...args],{cwd:app,env:{...process.env,npm_execpath:npm,npm_config_audit:'false',npm_config_fund:'false'},maxBuffer:4*1024*1024});
  await run('init','--client-id','fixture','--site-url','https://fixture.test/','--auth-origin','https://auth.test','--assets','dist');
  const originalPackage=await readFile(join(app,'package.json'),'utf8'),originalLock=await readFile(join(app,'package-lock.json'),'utf8');
@@ -45,25 +45,25 @@ test('actual npm install/update checks new exports and CLI in new processes and 
  await run('update','--package',good,'--sha256',hash(await readFile(good)));
  const doctor=JSON.parse((await run('doctor')).stdout);assert.equal(doctor.ok,true);
  const updated=JSON.parse(await readFile(join(app,'package.json'),'utf8'));
- assert.match(updated.dependencies['@goyoung2/access-kit'],/^file:vendor\//);
+ assert.match(updated.dependencies['access-kit-sdk'],/^file:vendor\//);
 
  const archives={'0.3.10':await readFile(good),'0.3.11':await readFile(badExports)};
  const dependencies=JSON.parse(await readFile(join(sdk,'package.json'),'utf8')).dependencies;
  const registry=createServer((req,res)=>{
   const archive=archives[req.url.split('/').at(-1)?.replace('.tgz','')];
   if(req.url.startsWith('/tarballs/')&&archive){res.end(archive);return;}
-  if(decodeURIComponent(req.url).toLowerCase()==='/@goyoung2/access-kit'){
+  if(decodeURIComponent(req.url).toLowerCase()==='/access-kit-sdk'){
    const origin='http://127.0.0.1:'+registry.address().port;
    res.setHeader('Content-Type','application/json');
-   res.end(JSON.stringify({name:'@goyoung2/access-kit','dist-tags':{latest:'0.3.11'},versions:Object.fromEntries(Object.entries(archives).map(([version,bytes])=>[version,{name:'@goyoung2/access-kit',version,dependencies,dist:{tarball:origin+'/tarballs/'+version+'.tgz',integrity:'sha512-'+createHash('sha512').update(bytes).digest('base64')}}]))}));return;
+   res.end(JSON.stringify({name:'access-kit-sdk','dist-tags':{latest:'0.3.11'},versions:Object.fromEntries(Object.entries(archives).map(([version,bytes])=>[version,{name:'access-kit-sdk',version,dependencies,dist:{tarball:origin+'/tarballs/'+version+'.tgz',integrity:'sha512-'+createHash('sha512').update(bytes).digest('base64')}}]))}));return;
   }
   res.statusCode=404;res.end();
  });
  await new Promise(done=>registry.listen(0,'127.0.0.1',done));
  t.after(()=>new Promise((done,reject)=>registry.close(error=>error?reject(error):done())));
- await writeFile(join(app,'.npmrc'),'@goyoung2:registry=http://127.0.0.1:'+registry.address().port+'\n');
+ await writeFile(join(app,'.npmrc'),'registry=http://127.0.0.1:'+registry.address().port+'\n');
  await run('update','--version','0.3.10');
- assert.equal(JSON.parse(await readFile(join(app,'package.json'),'utf8')).dependencies['@goyoung2/access-kit'],'0.3.10');
+ assert.equal(JSON.parse(await readFile(join(app,'package.json'),'utf8')).dependencies['access-kit-sdk'],'0.3.10');
  assert.equal(JSON.parse(await readFile(join(app,'.access-kit/last-update.json'),'utf8')).version,'0.3.10');
  const registryPackage=await readFile(join(app,'package.json'),'utf8'),registryLock=await readFile(join(app,'package-lock.json'),'utf8');
  await assert.rejects(run('update','--version','0.3.11'));

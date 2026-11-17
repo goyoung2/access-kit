@@ -1,5 +1,5 @@
 {
-  "name": "@goyoung2/access-kit",
+  "name": "access-kit-sdk",
   "version": "0.3.1",
   "description": "Google sign-in, approved-member access gates and installation CLI for Access Kit",
   "type": "module",

@@ -11,10 +11,10 @@
 기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.
 서비스 연결 정보는 기존 설정이나 설치 스튜디오에서 확인하고, 사람이 필요한 로그인 단계만 요청하세요. 원격 배포는 별도 허락을 받으세요.
 
-https://ak-auth-trial-20261114.nakwol.workers.dev/guide/llm
+https://unpkg.com/access-kit-sdk@0.3.1/docs/LLM_INSTALLATION.md
 ```
 
-**현재 링크는 임시 시험 인증 서버입니다.** 운영 서버를 배포하지 않은 상태이며, 정식 운영 시 운영자가 안내 주소를 제공합니다. 안내는 로그인 없이 읽을 수 있습니다. 다른 중앙 인증기를 쓰면 위 주소를 해당 운영자가 제공한 `/guide/llm`으로 바꾸세요.
+안내 링크는 **공개 npm 패키지에 포함된 버전 고정 문서**입니다. GitHub 초대나 로그인 없이 읽으며, 중앙 서버를 배포하지 않아도 최신 SDK 설치 절차를 제공합니다. 중앙 인증 서버 주소와 서비스 ID는 운영자가 별도로 제공합니다.
 
 처음 한 번 운영자에게 개발자 권한을 받고 [설치 스튜디오](https://ak-auth-trial-20261114.nakwol.workers.dev/developer/install)에서 서비스를 등록합니다. 필요한 연결 정보는 중앙 주소·서비스 ID·사이트 URL입니다. SDK 설치가 회원 승인이나 관리자 권한을 부여하지 않습니다. 상세 [LLM 안내](docs/LLM_INSTALLATION.md)에는 입력값·검증 기준·복구 절차가 있습니다.
 
@@ -23,7 +23,7 @@ https://ak-auth-trial-20261114.nakwol.workers.dev/guide/llm
 Node.js 22 LTS 이상에서 공개 npm의 정확한 버전을 설치합니다. GitHub 초대나 소비자의 npm 로그인은 필요 없습니다.
 
 ```sh
-npm install --save-exact @goyoung2/access-kit@0.3.1
+npm install --save-exact access-kit-sdk@0.3.1
 npx access-kit help
 ```
 

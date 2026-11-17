@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Exact SDK version matching the selected vX.Y.Z tag'
+        description: 'Exact SDK version matching the selected access-kit-sdk-vX.Y.Z tag'
         required: true
         type: string
       first_publish:
@@ -34,8 +34,8 @@ jobs:
           import {readFileSync} from 'node:fs';
           const pkg=JSON.parse(readFileSync('packages/sdk/package.json','utf8'));
           const version=process.env.SDK_VERSION;
-          if(!/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(version)||pkg.version!==version||process.env.GITHUB_REF!=='refs/tags/v'+version)throw Error('Select the matching vX.Y.Z tag and package version');
-          if(pkg.name!=='@goyoung2/access-kit'||pkg.private===true||pkg.publishConfig.access!=='public'||pkg.publishConfig.registry!=='https://registry.npmjs.org/')throw Error('Unexpected publication target');
+          if(!/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(version)||pkg.version!==version||process.env.GITHUB_REF!=='refs/tags/access-kit-sdk-v'+version)throw Error('Select the matching access-kit-sdk-vX.Y.Z tag and package version');
+          if(pkg.name!=='access-kit-sdk'||pkg.private===true||pkg.publishConfig.access!=='public'||pkg.publishConfig.registry!=='https://registry.npmjs.org/')throw Error('Unexpected publication target');
           NODE
       - run: npm ci
       - run: npm run typecheck
@@ -60,5 +60,5 @@ jobs:
         run: npm publish "dist/access-kit-sdk-${SDK_VERSION}.tgz" --access public --registry=https://registry.npmjs.org/
       - name: Check anonymous registry installation
         run: |
-          npm view "@goyoung2/access-kit@${SDK_VERSION}" version --registry=https://registry.npmjs.org/
-          npm exec --yes --registry=https://registry.npmjs.org/ --package="@goyoung2/access-kit@${SDK_VERSION}" -- access-kit help
+          npm view "access-kit-sdk@${SDK_VERSION}" version --registry=https://registry.npmjs.org/
+          npm exec --yes --registry=https://registry.npmjs.org/ --package="access-kit-sdk@${SDK_VERSION}" -- access-kit help

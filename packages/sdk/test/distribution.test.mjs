@@ -31,7 +31,7 @@ test('public npm archive includes runnable SDK and standalone documentation with
  await writeFile(join(directory,'package.json'),JSON.stringify({name:'public-sdk-install-check',private:true}));
  await exec(process.execPath,[npm,'install','--save-exact',file],{cwd:directory,env});
  await mkdir(join(directory,'build'));await writeFile(join(directory,'build/index.html'),'protected fixture');
- const cli=join(directory,'node_modules/@goyoung2/access-kit/bin/access-kit.mjs');
+ const cli=join(directory,'node_modules/access-kit-sdk/bin/access-kit.mjs');
  await exec(process.execPath,[cli,'init','--client-id','fixture','--auth-origin','https://auth.test','--site-url','https://site.test/','--assets','build'],{cwd:directory,env});
  const doctor=JSON.parse((await exec(process.execPath,[cli,'doctor'],{cwd:directory,env})).stdout);
  assert.equal(doctor.ok,true);

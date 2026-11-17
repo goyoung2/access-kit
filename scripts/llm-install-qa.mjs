@@ -18,10 +18,10 @@ const hash=value=>createHash('sha256').update(value).digest('hex');
 const packageFile=join(root,'dist/access-kit-sdk-0.3.1.tgz');
 const text=async path=>readFile(path,'utf8');
 const git=(cwd,...args)=>execFileSync('git',args,{cwd,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
-async function prepare(){
+async function prepare(publicRegistry=false){
  const directory=await mkdtemp(join(tmpdir(),'access-kit-llm-qa-'));
  const packageSha256=hash(await readFile(packageFile));
- const snapshot=join(directory,'access-kit-sdk-0.3.1.tgz');await cp(packageFile,snapshot);
+ const snapshot=join(directory,'access-kit-sdk-0.3.1.tgz');if(!publicRegistry)await cp(packageFile,snapshot);
  const cases=[];
  for(const hosting of ['workers','pages']){
   const project=join(directory,hosting);await mkdir(join(project,'public'),{recursive:true});await mkdir(join(project,'scripts'));await mkdir(join(project,'src'));
@@ -29,8 +29,16 @@ async function prepare(){
   const write=(name,value)=>writeFile(join(project,name),value);
   await write('public/index.html','<!doctype html><title>Existing service</title><h1>Existing private service</h1>');
   await write('public/private.json',JSON.stringify({existing:true,value:'private-content'}));
+  if(publicRegistry){
+   await write('public/app.js','export const originalAsset=true;\n');
+   await write('public/style.css','body{font-family:system-ui}\n');
+   await write('public/image.svg','<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><rect width="10" height="10"/></svg>');
+   await write('public/download.txt','synthetic private download\n');
+   await write('.npmrc','registry=https://registry.npmjs.org/\nuserconfig=./anonymous.npmrc\ncache=./.npm-cache/\n');
+   await write('anonymous.npmrc','registry=https://registry.npmjs.org/\n');
+  }
   await write('scripts/build.mjs',"import {mkdir,cp} from 'node:fs/promises';await mkdir('dist',{recursive:true});await cp('public','dist',{recursive:true});\n");
-  await write('.gitignore','node_modules/\ndist/\n.access-kit/\n.dev.vars*\n.env*\n');
+  await write('.gitignore','node_modules/\ndist/\n.access-kit/\n.dev.vars*\n.env*\n.npm-cache/\n');
   const loader=pathToFileURL(join(root,'node_modules/tsx/dist/loader.mjs')).href;
   const localCommand=`node --import "${loader}" "${join(root,'scripts/llm-install-qa.mjs').replaceAll('\\','/')}" verify .`;
   await write('package.json',JSON.stringify({name:'existing-'+hosting+'-service',private:true,type:'module',scripts:{build:'node scripts/build.mjs',test:'node --test scripts/existing.test.mjs','verify:access-kit':localCommand}},null,2));
@@ -47,14 +55,15 @@ async function prepare(){
   const originals=hosting==='workers'?['src/worker.mjs','wrangler.jsonc']:['functions/api/echo.js','wrangler.toml'];
   const baseline={hosting,siteUrl,files:Object.fromEntries(await Promise.all(originals.map(async name=>[name,hash(await readFile(join(project,name)))])))};
   await write('.access-kit-qa-baseline.json',JSON.stringify(baseline,null,2));
-  git(project,'init','-b','codex/llm-fixture');git(project,'add','.');git(project,'-c','user.name=Installation QA','-c','user.email=qa@example.test','commit','-m','test: existing service before Access Kit');
   const context={sdkVersion:'0.3.1',authOrigin:'https://auth.test',clientId:'site',siteUrl,hosting,assets:'dist',accessPolicy:'member',projectPath:project.replaceAll('\\','/'),packageFile:snapshot.replaceAll('\\','/'),packageSha256,localVerificationCommand:'npm run verify:access-kit',deploymentAllowed:false};
+  if(publicRegistry){delete context.packageFile;delete context.packageSha256;await write('access-kit-context.json',JSON.stringify(context,null,2));}
+  git(project,'init','-b','codex/llm-fixture');git(project,'add','.');git(project,'-c','user.name=Installation QA','-c','user.email=qa@example.test','commit','-m','test: existing service before Access Kit');
   const base=installationInstructions('https://auth.test',{}).split('\n\n<access-kit-context>')[0];
-  const prompt=base+'\n\n<access-kit-context>\n'+JSON.stringify(context,null,2)+'\n</access-kit-context>\n';
+  const prompt=publicRegistry?(await text(join(root,'README.md'))).replaceAll('\r\n','\n').match(/```text\n([\s\S]*?)\n```/)[1]:base+'\n\n<access-kit-context>\n'+JSON.stringify(context,null,2)+'\n</access-kit-context>\n';
   await writeFile(join(directory,hosting+'-prompt.txt'),prompt);
   cases.push({hosting,project,prompt:join(directory,hosting+'-prompt.txt'),baselineCommit:git(project,'rev-parse','HEAD')});
  }
- await writeFile(join(directory,'manifest.json'),JSON.stringify({packageFile,packageSha256,cases},null,2));
+ await writeFile(join(directory,'manifest.json'),JSON.stringify({publicRegistry,packageFile,packageSha256,cases},null,2));
  console.log(JSON.stringify({directory,cases},null,2));
 }
 
@@ -73,7 +82,7 @@ async function verify(directory){
  }
  assert.deepEqual([settings.clientId,settings.authOrigin,settings.siteUrl,settings.accessPolicy],['site','https://auth.test',baseline.siteUrl,'member']);
  const state=JSON.parse(await text(join(project,'access-kit.install.json')));assert.equal(state.hosting,baseline.hosting);
- const sdk=join(project,'node_modules/@goyoung2/access-kit');
+ const sdk=join(project,'node_modules/access-kit-sdk');
  const metadata=JSON.parse(await text(join(sdk,'package.json')));assert.equal(metadata.version,'0.3.1');
  const specifier=baseline.hosting==='workers'?'access-kit.worker.mjs':'functions/_middleware.js';
  const installed=await import(pathToFileURL(join(project,specifier)).href);
@@ -128,6 +137,10 @@ async function verify(directory){
   await f.DB.prepare("UPDATE common_members SET status='suspended' WHERE user_id='user'").run();
   Date.now=()=>afterLease+300001;
   assert.equal((await request('/private.json',{headers:{Cookie:cookie}})).status,403);checks.push('global suspension denies after renewed lease');
+  const logout=await request('/__accesskit/logout',{method:'POST',headers:{Origin:new URL(settings.siteUrl).origin,Cookie:cookie}});
+  assert.equal(logout.status,204);assert.equal(logout.headers.get('X-Access-Kit-Revoke'),'confirmed');assert.match(logout.headers.get('Set-Cookie'),/Max-Age=0/);checks.push('logout revokes central token and clears browser cookie');
+  assert.equal((await request('/private.json',{headers:{Cookie:cookie}})).status,401);checks.push('captured cookie rejected in same runtime after logout');
+  assert.equal((await app.request('https://auth.test/me?client_id=site',{headers:{Authorization:'Bearer '+token}},f.env)).status,401);checks.push('central token rejected after logout');
   const evidence={ok:true,hosting:baseline.hosting,runtime:metadata.version,anonymousRequests:anonymous.checked,checks,realGoogleLogin:false,remoteDeployment:false,at:new Date().toISOString()};
   await mkdir(join(project,'.access-kit'),{recursive:true});await writeFile(join(project,'.access-kit/llm-local-verification.json'),JSON.stringify(evidence,null,2));
   console.log(JSON.stringify(evidence,null,2));
@@ -136,6 +149,7 @@ async function verify(directory){
 
 switch(process.argv[2]){
  case 'prepare':await prepare();break;
+ case 'prepare-public':await prepare(true);break;
  case 'verify':await verify(process.argv[3]||process.cwd());break;
- default:throw Error('Usage: node --import tsx scripts/llm-install-qa.mjs prepare|verify PROJECT');
+ default:throw Error('Usage: node --import tsx scripts/llm-install-qa.mjs prepare|prepare-public|verify PROJECT');
 }

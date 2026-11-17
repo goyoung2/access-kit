@@ -2,7 +2,7 @@
 
 코딩 LLM에게 설치를 맡기려면 [공식 설치 지시문](LLM_INSTALLATION.md)을 전달하세요. 중앙 인증기의 `/guide/llm`에서도 전체 지시문을 읽을 수 있으며 설치 스튜디오는 서비스 연결 정보를 포함해 복사합니다.
 
-자신의 사이트에 Google 로그인과 승인 회원 접근 제한을 연결하는 안내입니다. SDK는 공개 npm 패키지로 배포하며 GitHub 초대·GitHub CLI·npm 로그인은 설치 조건이 아닙니다. 인증 서버의 `/guide`와 npm README는 로그인 없이 읽을 수 있습니다. 상세 문서는 설치된 패키지의 `node_modules/@goyoung2/access-kit/docs/`에도 포함됩니다.
+자신의 사이트에 Google 로그인과 승인 회원 접근 제한을 연결하는 안내입니다. SDK는 공개 npm 패키지로 배포하며 GitHub 초대·GitHub CLI·npm 로그인은 설치 조건이 아닙니다. 인증 서버의 `/guide`와 npm README는 로그인 없이 읽을 수 있습니다. 상세 문서는 설치된 패키지의 `node_modules/access-kit-sdk/docs/`에도 포함됩니다.
 
 ## 1. 설치와 서버 사용 권한
 
@@ -12,8 +12,8 @@
 4. 기존 프로젝트를 먼저 빌드합니다. 처음 만드는 사이트는 [새 프로젝트 시작](QUICKSTART.md)을 사용합니다.
 
 ```sh
-npm view @goyoung2/access-kit versions --json
-npm install --save-exact @goyoung2/access-kit@0.3.1
+npm view access-kit-sdk versions --json
+npm install --save-exact access-kit-sdk@0.3.1
 npx access-kit help
 ```
 
@@ -62,7 +62,7 @@ JSON, JSONC, TOML 설정을 읽고 `wrangler.access-kit.json`을 별도로 생�
 | 상황 | 해결 |
 |---|---|
 | `node`/`npm` 명령을 찾지 못함 | Node.js 설치 후 터미널을 새로 열어 PATH 반영 |
-| npm E404 | 게시된 패키지·버전을 확인. 기존 `@goyoung2:registry` 설정이 GitHub Packages라면 npmjs.org를 사용하도록 수정 |
+| npm E404 | 게시된 패키지·버전과 registry 설정을 확인하고 공개 npmjs.org를 사용 |
 | 빌드 폴더/index.html 없음 | 기존 build 실행 후 실제 출력 폴더를 --assets로 지정 |
 | 원본 설정 변경 감지 | 변경 내용을 확인한 후 `access-kit sync` |
 | 생성 파일 수정 감지 | 직접 변경한 내용을 보존한 뒤 생성 파일과 비교 |

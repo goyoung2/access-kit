@@ -34,13 +34,13 @@ export async function run(command,args,options){
 async function installedCli(){
  // Resolve the package's declared CLI in a new process, including its public server entry.
  const source=`
-  import {createGate,RUNTIME_VERSION} from '@goyoung2/access-kit/server';
-  import {AccessKitClient} from '@goyoung2/access-kit/browser';
+  import {createGate,RUNTIME_VERSION} from 'access-kit-sdk/server';
+  import {AccessKitClient} from 'access-kit-sdk/browser';
   import {readFile} from 'node:fs/promises';
   import {resolve,relative,isAbsolute,sep} from 'node:path';
-  const root=resolve('node_modules/@goyoung2/access-kit');
+  const root=resolve('node_modules/access-kit-sdk');
   const metadata=JSON.parse(await readFile(resolve(root,'package.json'),'utf8'));
-  if(metadata.name!=='@goyoung2/access-kit'||typeof createGate!=='function'||typeof AccessKitClient!=='function'||!RUNTIME_VERSION)throw Error('Invalid Access Kit package exports');
+  if(metadata.name!=='access-kit-sdk'||typeof createGate!=='function'||typeof AccessKitClient!=='function'||!RUNTIME_VERSION)throw Error('Invalid Access Kit package exports');
   const gate=createGate({clientId:'doctor',siteUrl:'https://doctor.test/',authOrigin:'https://auth.test',accessPolicy:'member'});
   const reply=await gate(new Request('https://doctor.test/'),{sessionSecret:'doctor-only-session-secret-0123456789',serveAsset:async()=>new Response('private')});
   if(reply.status!==401||reply.headers.get('X-Access-Kit-Runtime')!==RUNTIME_VERSION)throw Error('Invalid Access Kit gate');
@@ -114,7 +114,7 @@ export async function update(options={}){
  let source,archive;
  if(options.version!==undefined){
   if(options.package||options.sha256||!/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(options.version))throw Error('npm 업데이트는 --version X.Y.Z로 정확한 버전만 지정하세요. --package/--sha256와 함께 사용할 수 없습니다.');
-  source='@goyoung2/access-kit@'+options.version;
+  source='access-kit-sdk@'+options.version;
  }else{
   if(!options.package||! /^[a-f0-9]{64}$/i.test(options.sha256||''))throw Error('--version X.Y.Z 또는 --package SDK.tgz --sha256 HASH를 지정하세요.');
   archive=await readFile(options.package);if(digest(archive)!==options.sha256.toLowerCase())throw Error('SDK 해시가 일치하지 않습니다. 설치하지 않았습니다.');

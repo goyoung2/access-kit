@@ -19,7 +19,8 @@ try{
  execFileSync(process.execPath,[npm,'pack',join(staging,'sdk'),'--pack-destination',resolve('dist')],{stdio:'inherit'});
 }finally{await rm(staging,{recursive:true,force:true});}
 const filename='access-kit-sdk-'+pkg.version+'.tgz';
-await copyFile('dist/'+pkg.name.replace('@','').replace('/','-')+'-'+pkg.version+'.tgz','dist/'+filename);
+const packedName=pkg.name.replace('@','').replace('/','-')+'-'+pkg.version+'.tgz';
+if(packedName!==filename)await copyFile('dist/'+packedName,'dist/'+filename);
 const hash=createHash('sha256').update(await readFile('dist/'+filename)).digest('hex');
 await writeFile('dist/SHA256SUMS',hash+'  '+filename+'\n');
 console.log(filename+' SHA256 '+hash);
