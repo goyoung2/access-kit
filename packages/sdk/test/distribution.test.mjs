@@ -7,8 +7,9 @@ import {tmpdir} from 'node:os';
 import {join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {t as list,x as extract} from 'tar';
+import {createHash} from 'node:crypto';
 
-test('public npm archive includes runnable SDK and standalone documentation without server sources or private data',async t=>{
+test('npm archive includes gates and a pinned independent server template without raw source trees or private data',async t=>{
  const root=fileURLToPath(new URL('../../../',import.meta.url));
  const metadata=JSON.parse(await readFile(join(root,'packages/sdk/package.json'),'utf8'));
  await promisify(execFile)(process.execPath,['scripts/pack-sdk.mjs'],{cwd:root});
@@ -16,12 +17,14 @@ test('public npm archive includes runnable SDK and standalone documentation with
  const entries=[];
  await list({file,onReadEntry:entry=>entries.push({path:entry.path,type:entry.type})});
  for(const entry of entries){
-  assert.match(entry.path,/^package\/(?:package\.json|README\.md|LICENSE|browser\.js|(?:bin|server|docs)\/[A-Za-z0-9_.-]+)$/);
+  assert.match(entry.path,/^package\/(?:package\.json|README\.md|LICENSE|browser\.js|(?:bin|server|docs)\/[A-Za-z0-9_.-]+|auth\/(?:worker\.mjs|template\.json|migrations\/\d{4}_[a-z0-9_]+\.sql))$/);
   assert.equal(entry.type,'File');
  }
- for(const required of ['package.json','README.md','bin/access-kit.mjs','server/gate.mjs','browser.js','docs/INSTALL.md','docs/QUICKSTART.md','docs/ADAPTERS.md','docs/UPGRADE.md','docs/CONSOLE.md','docs/ROSTER.md','docs/LLM_INSTALLATION.md'])assert.ok(entries.some(entry=>entry.path==='package/'+required),required);
+ for(const required of ['package.json','README.md','bin/access-kit.mjs','bin/auth-project.mjs','server/gate.mjs','browser.js','docs/INSTALL.md','docs/QUICKSTART.md','docs/ADAPTERS.md','docs/UPGRADE.md','docs/CONSOLE.md','docs/ROSTER.md','docs/LLM_INSTALLATION.md','docs/LLM_INDEPENDENT.md','docs/INDEPENDENT_AUTH.md','auth/worker.mjs','auth/template.json','auth/migrations/0008_service_rosters.sql'])assert.ok(entries.some(entry=>entry.path==='package/'+required),required);
  const directory=await mkdtemp(join(tmpdir(),'ak-public-package-'));t.after(()=>rm(directory,{recursive:true,force:true}));
  await extract({file,cwd:directory});
+ const template=JSON.parse(await readFile(join(directory,'package/auth/template.json'),'utf8'));assert.equal(template.schema,1);
+ for(const [name,digest] of Object.entries(template.files))assert.equal(createHash('sha256').update(await readFile(join(directory,'package/auth',name))).digest('hex'),digest,name);
  const packed=JSON.parse(await readFile(join(directory,'package/package.json'),'utf8'));
  assert.deepEqual(packed.publishConfig,{access:'public',registry:'https://registry.npmjs.org/'});
  assert.notEqual(packed.private,true);

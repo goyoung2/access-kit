@@ -1,5 +1,9 @@
 # access-kit-sdk
 
+Google 로그인·닉네임/CID 명부 대조·서버 게이트를 연결합니다. 기존 창천 등 인증 환경을 공유하거나 자기 서버·DB·Firebase에서 독립 운영할 수 있습니다. 독립 운영에서는 가입자·CID 연결·회원 상태·관리자 권한도 자기 DB에 저장합니다. 같은 맹의 여러 사이트만 그 환경을 공유합니다.
+
+공유 연결 안내: `docs/LLM_INSTALLATION.md`. 독립 설치 안내: `docs/LLM_INDEPENDENT.md`, 운영 절차: `docs/INDEPENDENT_AUTH.md`. `access-kit auth init`은 독립 서버·마이그레이션을 로컬 생성하며 자동 배포하지 않습니다. 새 독립 기능은 미게시 개발본이므로 공개 npm 0.3.1에 포함됐다고 가정하지 마세요.
+
 SDK **0.3.1** — Google 로그인, 중앙 명부의 승인 회원 접근 게이트와 설치 CLI입니다. SDK 설치와 중앙 인증 서버 배포·운영 DB 변경은 별개입니다.
 
 ## LLM에게 설치 맡기기

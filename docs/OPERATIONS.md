@@ -2,7 +2,9 @@
 
 ## 독립 리소스
 
-Firebase 프로젝트 `nslg-auth-system`의 Google 로그인을 사용할 수 있습니다. 웹 앱 apiKey/projectId/authDomain/appId는 클라이언트 설정입니다. Firebase Admin 개인키 없이 Google 공개 서명키로 토큰을 검증합니다.
+새 운영자는 [독립 설치](INDEPENDENT_AUTH.md)의 `access-kit auth init`으로 서버·마이그레이션·관리자 페이지를 생성합니다. 각 운영자의 명부·가입자·CID 연결·회원 상태·최고 관리자는 그 운영자 소유의 DB에서 관리합니다. 같은 맹의 여러 사이트만 그 환경을 공유합니다. 첫 관리자는 Google 로그인 후 `auth bootstrap --firebase-uid`로 자기 DB에서 명시적으로 지정합니다. 공개 npm 0.3.1에는 이 새 설치 명령이 없으며 아직 미게시 개발본입니다.
+
+독립 운영자는 자기 Firebase 프로젝트의 Google 로그인을 설정합니다. 웹 앱 apiKey/projectId/authDomain/appId는 클라이언트 설정입니다. Firebase Admin 개인키 없이 Google 공개 서명키로 토큰을 검증합니다. 창천 연결을 사용하는 개발자는 기존 창천 Firebase 설정을 변경하지 않습니다.
 
 새 Worker와 새 D1을 만듭니다. 기존 인증기의 Worker/D1에 배포하지 않습니다. `wrangler d1 create access-kit` 결과의 database_id를 wrangler.jsonc에 넣고, `wrangler d1 migrations apply access-kit --remote`로 초기 스키마를 적용합니다. 최초 배포 전 Firebase 승인 도메인에 새 인증 서버 호스트를 등록합니다.
 

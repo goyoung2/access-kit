@@ -37,6 +37,13 @@ test('administrator service instructions carry the SDK administrator policy inst
  assert.equal((await app.request('https://auth.test/guide/llm?access_policy=guest',{},{} as Env)).status,400);
 });
 
+test('independent public instructions do not bind a new operator to the guide host or its service IDs',async()=>{
+ const output=await(await app.request('https://changcheon.test/guide/llm?mode=independent&client_id=foreign',{},{} as Env)).text();
+ const context=JSON.parse(output.split('<access-kit-context>\n')[1].split('\n</access-kit-context>')[0]);
+ assert.deepEqual(context,{sdkVersion:'0.3.1',mode:'independent'});
+ assert.equal((await app.request('https://auth.test/guide/llm?mode=invalid',{},{} as Env)).status,400);
+});
+
 test('installing the delivered administrator context admits an operator without common membership',async t=>{
  const f=await createAuthFixture();t.after(f.dispose);
  await f.DB.batch([f.DB.prepare("INSERT INTO auth_operators VALUES('user','operator',0,NULL)"),f.DB.prepare("INSERT INTO common_application_policies VALUES('site','admin',NULL)")]);

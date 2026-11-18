@@ -1,10 +1,14 @@
 # Access Kit
 
-같은 맹의 여러 사이트가 **하나의 중앙 명부와 회원 자격**을 함께 사용하는 인증기와 SDK입니다. Google로 신원을 확인하고, 중앙 Access Kit이 가입 승인·정지·시즌·소속 조건으로 접근을 판단합니다. 사이트마다 Firebase나 명부를 새로 만들지 않습니다.
+**Google 간편 로그인 + 닉네임·CID 명부 대조 + 서버 게이트**를 한 세트로 제공하는 인증 도구입니다. 창천 개발자는 기존 창천 인증 서버와 명부를 공유합니다. 다른 맹은 **자기 서버·DB·Firebase에서 명부와 가입자·CID 연결·회원 상태·관리자 권한을 독립 관리**하고, 같은 맹의 여러 사이트가 그 환경을 공유합니다. 게이트는 각 사이트 서버에 설치합니다.
 
 공개 SDK: [access-kit-sdk@0.3.1](https://www.npmjs.com/package/access-kit-sdk). [짧은 지시문으로 npm 설치·게이트를 검증한 결과](docs/qa/npm-short-prompt-20261117.md)를 확인할 수 있습니다.
 
 ## LLM에게 설치 맡기기
+
+두 경로를 제공합니다. **공유 연결**은 기존 인증 서버에 사이트 SDK를 연결합니다. **독립 운영**은 자기 인증 서버·DB·관리자 페이지를 만든 뒤 사이트 SDK를 연결합니다. 독립 설치 도구와 새 역할 필드는 아직 미게시 개발본이며 공개 npm 0.3.1에 자동 반영되지 않습니다. 현재 독립 경로는 검증된 로컬 tarball과 아래 문서로 시험합니다.
+
+공유 연결 — 창천 등 기존 명부 사용:
 
 사이트 소스를 연 코딩 LLM에게 아래 지시문만 전달하세요. 자세한 설치 절차는 LLM이 안내 링크에서 읽습니다.
 
@@ -17,6 +21,16 @@ https://unpkg.com/access-kit-sdk@0.3.1/docs/LLM_INSTALLATION.md
 ```
 
 안내 링크는 **공개 npm 패키지에 포함된 버전 고정 문서**입니다. GitHub 초대나 로그인 없이 읽으며, 중앙 서버를 배포하지 않아도 최신 SDK 설치 절차를 제공합니다. 중앙 인증 서버 주소와 서비스 ID는 운영자가 별도로 제공합니다.
+
+독립 운영 — 자기 DB·명부·회원 관리:
+
+```text
+Access Kit으로 내 명부와 회원 정보를 내 서버·DB에서 독립 관리하도록 설치해 주세요.
+아래 안내를 읽고 인증 서버·관리자 페이지·사이트 SDK를 연결한 뒤 가입 분류와 게이트를 검증하세요. 원격 변경·배포는 별도 허락을 받으세요.
+docs/LLM_INDEPENDENT.md
+```
+
+[독립 LLM 안내](docs/LLM_INDEPENDENT.md) · [독립 운영 절차](docs/INDEPENDENT_AUTH.md). 안내 경로는 저장소 또는 설치된 패키지의 문서를 사용합니다. 새 독립 안내의 공개 링크는 다음 게시 후 제공하며 현재 작동하는 공개 설치 링크로 취급하지 않습니다. 미게시 검증에서는 packageFile·SHA256을 전달하고 해당 tarball로 설치합니다.
 
 처음 한 번 운영자에게 개발자 권한을 받고 [설치 스튜디오](https://ak-auth-trial-20261114.nakwol.workers.dev/developer/install)에서 서비스를 등록합니다. 필요한 연결 정보는 중앙 주소·서비스 ID·사이트 URL입니다. SDK 설치가 회원 승인이나 관리자 권한을 부여하지 않습니다. 상세 [LLM 안내](docs/LLM_INSTALLATION.md)에는 입력값·검증 기준·복구 절차가 있습니다.
 
@@ -35,7 +49,9 @@ npx access-kit help
 
 ## 운영과 검증
 
-작업 브랜치에 [서비스별 개발자·공유/자체 명부](docs/SERVICE_ROSTERS.md)를 추가했습니다. 개발자는 자신의 서비스에 기본 공유 명부 또는 자신의 명부를 연결합니다. 중앙 서버 마이그레이션과 새 SDK 역할 필드의 공개 배포는 별도이며 현재 공개 npm `0.3.1`과 시험 서버에 자동 반영되지는 않습니다.
+- [공유 연결·독립 운영의 짧은 LLM 설치 검증](docs/qa/independent-auth-20261118.md) — 102개 테스트와 두 새 프로젝트의 설치·게이트 검증. 실제 Google 로그인·원격 배포는 미실시.
+
+[서비스별 개발자·명부](docs/SERVICE_ROSTERS.md)는 각 인증 환경 내부의 권한 분리입니다. 외부 맹을 창천 DB에 수용하는 방식으로 독립 운영을 대신하지 않습니다. 독립 환경의 관리자 권한·정지·가입·CID 연결은 창천에 영향을 주지 않습니다. 중앙 서버 마이그레이션과 새 SDK 기능 공개 배포는 별도입니다.
 
 - [운영 가이드](docs/OPERATIONS.md) · [관리자 콘솔](docs/CONSOLE.md) · [명부 CRUD](docs/ROSTER.md) · [SDK 게시](docs/PUBLISHING.md)
 - [시험 소비 사이트](https://ak-atlas-trial-20261114.nakwol.workers.dev/) · [시험 관리자](https://ak-auth-trial-20261114.nakwol.workers.dev/console#applications) — 관리자 권한 필요

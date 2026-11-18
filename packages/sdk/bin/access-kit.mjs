@@ -4,12 +4,14 @@ import {createInterface} from 'node:readline/promises';
 import {install, doctor, loadState, sync, prepare} from './project.mjs';
 import {verify} from './verify.mjs';
 import {update, deploy, secret, automate} from './operations.mjs';
-const strings=['client-id','auth-origin','site-url','access-policy','assets','hosting','config','name','branch','url','package','sha256','version','path','report'];
+import {authCommand} from './auth-project.mjs';
+const strings=['client-id','auth-origin','site-url','access-policy','assets','hosting','config','name','branch','url','package','sha256','version','path','report','directory','database-id','firebase-project-id','firebase-api-key','firebase-auth-domain','firebase-app-id','firebase-uid'];
 const options=Object.fromEntries(strings.map(k=>[k,{type:'string'}]));
-for(const k of ['plan','local']) options[k]={type:'boolean'};
+for(const k of ['plan','local','remote']) options[k]={type:'boolean'};
 try {
  const {values,positionals}=parseArgs({allowPositionals:true,options});
  switch(positionals[0]) {
+  case 'auth': console.log(JSON.stringify(await authCommand(positionals[1],values),null,2));break;
   case 'wizard': {
    if(!process.stdin.isTTY) throw Error('대화형 터미널에서 wizard를 실행하거나 init 옵션을 사용하세요.');
    const rl=createInterface({input:process.stdin,output:process.stdout});
@@ -30,6 +32,12 @@ try {
    console.log(JSON.stringify(result,null,2));if(!result.ok)process.exitCode=1;break;
   }
   default: console.log(`Access Kit 설치 → 배포 → 업데이트
+  auth init --directory access-kit-auth --name NAME --auth-origin https://AUTH --firebase-project-id ID --firebase-api-key KEY --firebase-auth-domain HOST --firebase-app-id ID [--database-id UUID] [--plan]
+                         독립 인증 서버·DB 마이그레이션·관리자 페이지 생성 (원격 변경 없음)
+  auth doctor --directory DIR [--local]
+  auth migrate --directory DIR [--local|--remote] [--plan]
+  auth bootstrap --directory DIR --firebase-uid UID [--local|--remote] [--plan]
+                         자기 DB에서 Google 로그인한 계정을 첫 관리자로 지정
   init --client-id ID --auth-origin https://AUTH --site-url https://SITE --assets dist [--config wrangler.jsonc] [--hosting workers|pages] [--plan]
   wizard                 질문에 답하며 설치
   doctor                 파일·설정·빌드·SDK 검사

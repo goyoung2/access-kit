@@ -18,7 +18,7 @@ const hash=value=>createHash('sha256').update(value).digest('hex');
 const packageFile=join(root,'dist/access-kit-sdk-0.3.1.tgz');
 const text=async path=>readFile(path,'utf8');
 const git=(cwd,...args)=>execFileSync('git',args,{cwd,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
-async function prepare(publicRegistry=false){
+async function prepare(publicRegistry=false,shortPrompt=false){
  const directory=await mkdtemp(join(tmpdir(),'access-kit-llm-qa-'));
  const packageSha256=hash(await readFile(packageFile));
  const snapshot=join(directory,'access-kit-sdk-0.3.1.tgz');if(!publicRegistry)await cp(packageFile,snapshot);
@@ -56,10 +56,12 @@ async function prepare(publicRegistry=false){
   const baseline={hosting,siteUrl,files:Object.fromEntries(await Promise.all(originals.map(async name=>[name,hash(await readFile(join(project,name)))])))};
   await write('.access-kit-qa-baseline.json',JSON.stringify(baseline,null,2));
   const context={sdkVersion:'0.3.1',authOrigin:'https://auth.test',clientId:'site',siteUrl,hosting,assets:'dist',accessPolicy:'member',projectPath:project.replaceAll('\\','/'),packageFile:snapshot.replaceAll('\\','/'),packageSha256,localVerificationCommand:'npm run verify:access-kit',deploymentAllowed:false};
-  if(publicRegistry){delete context.packageFile;delete context.packageSha256;await write('access-kit-context.json',JSON.stringify(context,null,2));}
+  if(publicRegistry){delete context.packageFile;delete context.packageSha256;}
+  if(publicRegistry||shortPrompt)await write('access-kit-context.json',JSON.stringify(context,null,2));
+  if(shortPrompt)await cp(join(root,'docs/LLM_INSTALLATION.md'),join(project,'GUIDE.md'));
   git(project,'init','-b','codex/llm-fixture');git(project,'add','.');git(project,'-c','user.name=Installation QA','-c','user.email=qa@example.test','commit','-m','test: existing service before Access Kit');
   const base=installationInstructions('https://auth.test',{}).split('\n\n<access-kit-context>')[0];
-  const prompt=publicRegistry?(await text(join(root,'README.md'))).replaceAll('\r\n','\n').match(/```text\n([\s\S]*?)\n```/)[1]:base+'\n\n<access-kit-context>\n'+JSON.stringify(context,null,2)+'\n</access-kit-context>\n';
+  const prompt=shortPrompt?'GUIDE.md 안내를 읽고 이 사이트에 Access Kit을 설치해 주세요.\n연결 정보는 access-kit-context.json을 사용하고 npm 설치부터 게이트 검증까지 끝내세요. 원격 배포·npm 게시는 하지 마세요.':publicRegistry?(await text(join(root,'README.md'))).replaceAll('\r\n','\n').match(/```text\n([\s\S]*?)\n```/)[1]:base+'\n\n<access-kit-context>\n'+JSON.stringify(context,null,2)+'\n</access-kit-context>\n';
   await writeFile(join(directory,hosting+'-prompt.txt'),prompt);
   cases.push({hosting,project,prompt:join(directory,hosting+'-prompt.txt'),baselineCommit:git(project,'rev-parse','HEAD')});
  }
@@ -149,6 +151,7 @@ async function verify(directory){
 
 switch(process.argv[2]){
  case 'prepare':await prepare();break;
+ case 'prepare-short':await prepare(false,true);break;
  case 'prepare-public':await prepare(true);break;
  case 'verify':await verify(process.argv[3]||process.cwd());break;
  default:throw Error('Usage: node --import tsx scripts/llm-install-qa.mjs prepare|prepare-public|verify PROJECT');
