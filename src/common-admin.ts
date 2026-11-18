@@ -137,7 +137,9 @@ export const membershipOverviewSql=[
   FROM users u ${registrationJoinsSql} WHERE m.user_id IS NOT NULL OR registration.user_id IS NOT NULL ORDER BY nickname,u.display_name`,
  catalogSelect('season')+' ORDER BY e.rowid DESC',catalogSelect('organization')+' ORDER BY e.name',
  memberAssignmentsSql,
- 'SELECT a.client_id,a.name,p.mode,p.organization_id FROM applications a LEFT JOIN common_application_policies p ON p.client_id=a.client_id',
+ `SELECT a.client_id,a.name,p.mode,p.organization_id,b.roster_id,COALESCE(o.name,r.name) AS roster_name FROM applications a
+  LEFT JOIN common_application_policies p ON p.client_id=a.client_id LEFT JOIN application_rosters b ON b.client_id=a.client_id
+  LEFT JOIN access_rosters r ON r.id=b.roster_id LEFT JOIN member_organizations o ON o.id=COALESCE(r.organization_id,p.organization_id)`,
 ] as const;
 export async function membershipOverview(env:Env){
  const [applications,members,seasons,organizations,assignments,services]=await env.DB.batch<Record<string,unknown>>(membershipOverviewSql.map(sql=>env.DB.prepare(sql)));

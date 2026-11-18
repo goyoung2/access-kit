@@ -3,7 +3,7 @@ const $=s=>document.querySelector(s);
 let data,selected,saving=false,loaded=false;
 function message(text,tone='info'){const e=$('#status');e.textContent=text;e.dataset.tone=tone;e.hidden=!text;}
 function options(el,rows){el.replaceChildren(...rows.map(x=>new Option(x.name,x.id)));}
-function dirty(){return selected&&($('#name').value.trim()!==selected.name||$('#url').value!==JSON.parse(selected.redirect_uris)[0]||$('#mode').value!==selected.mode||($('#mode').value==='season'&&$('#organization').value!==selected.organization_id));}
+function dirty(){return selected&&($('#name').value.trim()!==selected.name||$('#url').value!==JSON.parse(selected.redirect_uris)[0]||$('#mode').value!==selected.mode||($('#mode').value==='roster'&&$('#organization').value!==selected.roster_id));}
 function settings(){return {clientId:selected.client_id,authOrigin:data.authOrigin,siteUrl:JSON.parse(selected.redirect_uris)[0],accessPolicy:selected.mode==='admin'?'admin':'member'};}
 function prompt(){return ['아래 공식 안내를 읽고 이 사이트에 Access Kit을 설치해 주세요.','기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.','서비스 연결 정보는 아래 값을 사용하세요. 사람이 필요한 로그인 단계만 요청하고, 원격 배포는 별도 허락을 받으세요.','','https://unpkg.com/access-kit-sdk@'+data.version+'/docs/LLM_INSTALLATION.md','','<access-kit-context>',JSON.stringify({sdkVersion:data.version,...settings(),deploymentAllowed:false},null,2),'</access-kit-context>'].join('\n');}
 function connection(){
@@ -14,22 +14,23 @@ function connection(){
  if(ready){const s=settings();$('#connection-origin').textContent=s.authOrigin;$('#connection-id').textContent=s.clientId;$('#connection-site').textContent=s.siteUrl;$('#llm-instructions').textContent=prompt();}
 }
 function mode(){
- const value=$('#mode').value,season=value==='season',locked=Boolean(selected&&!data.admin);
- $('#organization-label').hidden=!season;$('#organization').required=season;$('#organization').disabled=locked||!data.organizations.length;
- $('#policy-help').textContent=({approved:'소속을 구분하지 않고, 중앙에서 가입 승인된 회원이 이용합니다.',season:'선택한 맹의 승인 회원만 이용합니다. 진행 중으로 설정된 시즌 명부에서 소속을 확인합니다.',admin:'중앙 인증기의 최고 관리자만 이용합니다.'})[value]||'이 사이트를 이용할 사람을 선택하세요.';
- $('#policy-lock-note').hidden=!locked;$('#organization-empty').hidden=!season||Boolean(data.organizations.length);
- const unavailable=season&&selected&&selected.organization_id&&!data.organizations.some(o=>o.id===selected.organization_id);
+ const value=$('#mode').value,season=value==='roster';
+ $('#organization-label').hidden=!season;$('#organization').required=season;$('#organization').disabled=!data.rosters.some(r=>r.status==='active');
+ $('#policy-help').textContent=({approved:'기존 중앙 승인 회원 기준입니다. 새 서비스는 명부 기준을 권장합니다.',roster:'선택한 명부의 CID만 이 서비스의 회원으로 이용합니다. 서비스 소유자는 이 서비스의 개발자로 접근합니다.',admin:'중앙 인증기의 최고 관리자만 이용하는 기존 정책입니다.'})[value]||'이 사이트를 이용할 사람을 선택하세요.';
+ $('#policy-lock-note').hidden=true;$('#organization-empty').hidden=!season||data.rosters.some(r=>r.status==='active');
+ const unavailable=season&&selected&&selected.roster_id&&!data.rosters.some(r=>r.id===selected.roster_id&&r.status==='active');
  $('#organization-unavailable').hidden=!unavailable;
  connection();
 }
-function reset(){selected=null;$('#service-form').reset();$('#mode').disabled=false;options($('#organization'),[{id:'',name:'맹을 선택하세요'},...data.organizations]);$('#manual-install').open=false;mode();}
+function rosterOptions(){return [{id:'',name:'명부를 선택하세요'},...data.rosters.filter(r=>r.status==='active').map(r=>({id:r.id,name:(r.owner_user_id?'내 명부 · ':'공유 · ')+r.name+(r.is_default?' (기본값)':'')}))];}
+function reset(){selected=null;$('#service-form').reset();$('#mode').disabled=false;$('#mode').value='roster';options($('#organization'),rosterOptions());$('#organization').value=data.defaultRosterId||'';$('#manual-install').open=false;mode();}
 function show(){
- selected=data.services.find(x=>x.client_id===$('#existing').value);
+ const raw=data.services.find(x=>x.client_id===$('#existing').value);selected=raw?{...raw,mode:raw.mode==='season'?'roster':raw.mode}:null;
  if(!selected){reset();message('');return;}
- $('#name').value=selected.name;$('#url').value=JSON.parse(selected.redirect_uris)[0];$('#mode').value=selected.mode;$('#mode').disabled=!data.admin;
- options($('#organization'),[{id:'',name:'맹을 선택하세요'},...data.organizations]);
- if(selected.mode==='season'&&selected.organization_id&&!data.organizations.some(o=>o.id===selected.organization_id))$('#organization').add(new Option('사용할 수 없는 맹 · 관리자 확인 필요',selected.organization_id));
- $('#organization').value=selected.organization_id||'';mode();render();message('');
+ $('#name').value=selected.name;$('#url').value=JSON.parse(selected.redirect_uris)[0];$('#mode').value=selected.mode;$('#mode').disabled=false;
+ options($('#organization'),rosterOptions());
+ if(selected.mode==='roster'&&selected.roster_id&&!data.rosters.some(r=>r.id===selected.roster_id&&r.status==='active'))$('#organization').add(new Option('사용할 수 없는 명부 · 다른 명부를 선택하세요',selected.roster_id));
+ $('#organization').value=selected.roster_id||'';mode();render();message('');
 }
 function step(n){if(!selected){message('먼저 서비스를 등록하세요.');return;}if(n===0){$('#manual-install').open=false;return;}$('#manual-install').open=true;document.querySelectorAll('#manual-install [data-panel]').forEach(e=>e.hidden=Number(e.dataset.panel)!==n);document.querySelectorAll('[data-step]').forEach(e=>{if(Number(e.dataset.step)===n)e.setAttribute('aria-current','step');else e.removeAttribute('aria-current');});}
 document.querySelectorAll('[data-step],[data-go]').forEach(b=>b.onclick=()=>step(Number(b.dataset.step??b.dataset.go)));
@@ -73,14 +74,14 @@ async function load(id){
 }
 $('#service-form').onsubmit=async e=>{
  e.preventDefault();if(saving||!data)return;
- if($('#mode').value==='season'&&!$('#organization').value){message('이용할 맹을 선택하세요. 목록이 비어 있으면 중앙 관리자에게 맹 등록을 요청하세요.','error');return;}
+ if($('#mode').value==='roster'&&!$('#organization').value){message('공유 명부를 선택하거나 내 명부를 먼저 만들어 주세요.','error');return;}
  let url;try{url=new URL($('#url').value);}catch{message('사이트 주소를 확인해 주세요.','error');return;}
  if(url.protocol!=='https:'||url.username||url.password||url.pathname!=='/'||url.search||url.hash){message('사이트 주소는 https://도메인/ 형식으로 입력하세요.','error');return;}
  saving=true;$('#save-service').disabled=true;connection();
  try{
-  const response=await fetch('/developer/services',{method:'POST',headers:{'Content-Type':'application/json','X-Access-Kit-Action':'1'},body:JSON.stringify({clientId:$('#existing').value||undefined,name:$('#name').value.trim(),siteUrl:url.href,mode:$('#mode').value,organizationId:$('#mode').value==='season'?$('#organization').value:null})});
+  const response=await fetch('/developer/services',{method:'POST',headers:{'Content-Type':'application/json','X-Access-Kit-Action':'1'},body:JSON.stringify({clientId:$('#existing').value||undefined,name:$('#name').value.trim(),siteUrl:url.href,mode:$('#mode').value,organizationId:null,rosterId:$('#mode').value==='roster'?$('#organization').value:undefined})});
   const body=await response.json();
-  if(!response.ok)throw Error(body.error==='ORGANIZATION_REQUIRED'?'맹 목록을 다시 확인하세요. 중앙 관리자에게 등록 상태를 문의할 수 있습니다.':response.status===403?'이 서비스를 수정할 권한을 확인해 주세요.':response.status===409?'다른 곳에서 설정이 바뀌었습니다. 새로고침 후 확인하세요.':'서비스를 저장하지 못했습니다. 다시 시도해 주세요.');
+  if(!response.ok)throw Error(body.error==='ROSTER_REQUIRED'?'사용할 수 있는 공유 명부 또는 내 명부를 선택하세요.':response.status===403?'이 서비스를 수정할 권한을 확인해 주세요.':response.status===409?'다른 곳에서 설정이 바뀌었습니다. 새로고침 후 확인하세요.':'서비스를 저장하지 못했습니다. 다시 시도해 주세요.');
   await load(body.clientId);message('저장했습니다. LLM 설치 지시문을 복사하세요.','success');
  }catch(error){message(error instanceof Error?error.message:'서비스를 저장하지 못했습니다.','error');}
  finally{saving=false;$('#save-service').disabled=false;connection();}

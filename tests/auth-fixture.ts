@@ -3,12 +3,12 @@ import { readFile, readdir } from 'node:fs/promises';
 import * as miniflare from 'miniflare';
 import type { Env } from '../src/types';
 
-export async function createAuthFixture() {
+export async function createAuthFixture(optionsFilter:{readonly throughMigration?:string}={}) {
   const options = { modules: true, script: 'export default {fetch(){return new Response("ok")}}', d1Databases: ['DB'] };
   const mf = new miniflare.Miniflare('convertV4MiniflareOptions' in miniflare ? miniflare.convertV4MiniflareOptions(options) : options);
   const DB = await mf.getD1Database('DB');
   const migrations = new URL('../migrations/', import.meta.url);
-  for (const file of (await readdir(migrations)).filter(f=>f.endsWith('.sql')).sort()) {
+  for (const file of (await readdir(migrations)).filter(f=>f.endsWith('.sql')&&(!optionsFilter.throughMigration||f<=optionsFilter.throughMigration)).sort()) {
     const sql = await readFile(new URL(file,migrations),'utf8');
     for (const statement of migrationStatements(sql)) await DB.prepare(statement).run();
   }

@@ -24,10 +24,10 @@ if(screen.consoleLogin){if(d.consoleAccess){location.replace('/console');return;
 if(params.has('developer')){if(d.consoleAccess)location.replace('/developer/install');else message.textContent='개발자 접근 권한이 필요합니다.';return;}
 if(request&&d.serviceAccess?.allowed){location.replace(base+'/continue?request='+encodeURIComponent(request));return;}
 if(d.member?.status==='suspended'){showState('suspended','회원 이용이 정지되어 있습니다. 관리자에게 해제 여부를 문의해 주세요.');return;}
-if(d.member?.status==='visitor'){showState('visitor',request?'방문자로 가입되었습니다. 이 서비스는 맹원 전용입니다.':'방문자로 가입되었습니다. 명부에 등록되면 맹원 권한이 자동으로 반영됩니다.');resume.hidden=false;resume.textContent='이용 상태 다시 확인';resume.dataset.action='refresh';return;}
+if(d.member?.status==='visitor'){showState('visitor',request?'방문자로 가입되었습니다. 이 서비스는 선택한 명부의 회원만 이용할 수 있습니다.':'방문자로 가입되었습니다. 명부에 등록되면 맹원 권한이 자동으로 반영됩니다.');resume.hidden=false;resume.textContent='이용 상태 다시 확인';resume.dataset.action='refresh';return;}
 if(d.member?.status==='approved'){
  if(request&&d.requestExpired){showState('expired','로그인 요청이 만료되었습니다. 서비스로 돌아가 로그인을 다시 시작해 주세요.');resume.hidden=false;resume.textContent='서비스로 돌아가기';resume.dataset.action='restart';return;}
- if(request){const reason=d.serviceAccess?.reason;showState('service-denied',reason==='SEASON_MEMBERSHIP_REQUIRED'?'가입은 승인되었지만 이 서비스의 소속 조건과 일치하지 않습니다. 관리자에게 소속 등록을 확인해 주세요.':reason==='AUTH_OPERATOR_REQUIRED'?'가입은 승인되었지만 이 서비스는 관리자 전용입니다.':reason==='APP_DISABLED'?'이 서비스의 이용이 중지되어 있습니다. 서비스 관리자에게 문의해 주세요.':'가입은 승인되었지만 서비스 이용 조건을 확인하지 못했습니다. 관리자에게 문의해 주세요.');resume.hidden=false;resume.textContent='이용 상태 다시 확인';resume.dataset.action='refresh';return;}
+ if(request){const reason=d.serviceAccess?.reason;showState('service-denied',reason==='ROSTER_MEMBERSHIP_REQUIRED'?'이 서비스의 명부에 등록되어 있지 않습니다. 서비스 관리자에게 확인해 주세요.':reason==='SEASON_MEMBERSHIP_REQUIRED'?'가입은 승인되었지만 이 서비스의 소속 조건과 일치하지 않습니다. 관리자에게 소속 등록을 확인해 주세요.':reason==='AUTH_OPERATOR_REQUIRED'?'가입은 승인되었지만 이 서비스는 관리자 전용입니다.':reason==='APP_DISABLED'?'이 서비스의 이용이 중지되어 있습니다. 서비스 관리자에게 문의해 주세요.':'가입은 승인되었지만 서비스 이용 조건을 확인하지 못했습니다. 관리자에게 문의해 주세요.');resume.hidden=false;resume.textContent='이용 상태 다시 확인';resume.dataset.action='refresh';return;}
  showState('approved','맹원으로 가입되었습니다. 이용할 서비스에서 접속해 주세요.');return;
 }
 if(d.application?.status==='pending'){showState('pending','가입 신청이 접수되었습니다. 관리자 승인을 기다려 주세요.');resume.hidden=false;resume.textContent='승인 상태 확인';resume.dataset.action='refresh';return;}

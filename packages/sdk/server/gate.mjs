@@ -90,7 +90,7 @@ async function verify(token, settings, diagnostic) {
     return { status: 200, expires: body.expires_at, authorization: {
       clientId: settings.clientId, siteOrigin: new URL(settings.siteUrl).origin,
       authOrigin: settings.authOrigin, accessPolicy: settings.accessPolicy,
-      userId: body.data.id, displayName: typeof body.data.display_name==='string'?body.data.display_name.slice(0,128):'', membershipAdmin:body.data.membershipAdmin===true, allowed: true, source: body.application_access.source,
+      userId: body.data.id, displayName: typeof body.data.display_name==='string'?body.data.display_name.slice(0,128):'', membershipAdmin:body.data.membershipAdmin===true, serviceDeveloper:body.data.serviceDeveloper===true, allowed: true, source: body.application_access.source,
       verifiedAt, leaseUntil,
     } };
   } catch(error) { console.warn('access-kit AUTH request failed',{type:error instanceof Error?error.name:'unknown',message:error instanceof Error?error.message:'unknown'});return { status: 503 }; }
@@ -230,7 +230,7 @@ export async function serveProtected(request, env, settings) {
     renewedCookie = await sessionCookie({ version: 2, token: session.token, expires, authorization }, env.ACCESS_KIT_SESSION_SECRET, audience);
   }
   if (isRevoked(sessionId(session.token, settings))) return denied(request, 401, settings);
-  const identity=Object.freeze({id:authorization.userId,displayName:authorization.displayName || '',membershipAdmin:authorization.membershipAdmin===true});
+  const identity=Object.freeze({id:authorization.userId,displayName:authorization.displayName || '',membershipAdmin:authorization.membershipAdmin===true,serviceDeveloper:authorization.serviceDeveloper===true});
   const asset = await env.ASSETS.fetch(request, identity);
   const headers = new Headers(asset.headers);
   // Conditional requests also require a valid authorization lease before returning 304.

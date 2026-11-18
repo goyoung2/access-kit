@@ -22,7 +22,7 @@ export async function consoleData(env:Env,identity:ConsoleIdentity){
   ['seasons',jsonRows(seasons,['id','name','status',...catalogFields.slice(2)])],
   ['organizations',jsonRows(organizations,catalogFields,all?'1':'id IN (SELECT value FROM scopes)')],
   ['assignments',jsonRows(assignments,['user_id','season_id','organization_id','status','updated_at','updated_by'],all?'1':scoped)],
-  ['services',jsonRows(serviceSql,['client_id','name','mode','organization_id'])],
+  ['services',jsonRows(serviceSql,['client_id','name','mode','organization_id','roster_id','roster_name'])],
   ['identity','json((SELECT identity FROM viewer))'],
   ['users',jsonRows('SELECT u.id,u.display_name,u.status,g.nickname,g.game_uid,o.role AS operator_role,d.status AS developer_status FROM users u LEFT JOIN game_accounts g ON g.user_id=u.id LEFT JOIN auth_operators o ON o.user_id=u.id LEFT JOIN developers d ON d.user_id=u.id ORDER BY u.display_name',['id','display_name','status','nickname','game_uid','operator_role','developer_status'],all?'1':'0')],
   ['managers',jsonRows('SELECT * FROM member_managers',['user_id','organization_id','granted_by','created_at'],all?'1':'0')],

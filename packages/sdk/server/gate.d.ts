@@ -13,6 +13,7 @@ export interface GateIdentity {
  readonly id:string;
  readonly displayName:string;
  readonly membershipAdmin:boolean;
+ readonly serviceDeveloper:boolean;
 }
 export interface GateHost {
  /** Optional trusted server transport, e.g. a Cloudflare service binding. */

@@ -27,7 +27,7 @@ function delimited(text:string):readonly (readonly string[])[]{
 }
 export class RosterInputError extends Error {}
 
-export function parseRosterInput(text:string):{readonly items:readonly RosterItem[];readonly errors:readonly InputIssue[];readonly duplicateCount:number}{
+export function parseRosterInput(text:string,canonicalizeUid=false):{readonly items:readonly RosterItem[];readonly errors:readonly InputIssue[];readonly duplicateCount:number}{
  const input=text.replace(/^\uFEFF/,'').trim();
  let rows:readonly unknown[]=[];
  try{
@@ -61,9 +61,10 @@ export function parseRosterInput(text:string):{readonly items:readonly RosterIte
   const record=object.safeParse(row);
   const value=record.success?rosterItem.safeParse({nickname:record.data.nickname??record.data.stored_nickname??record.data.input_nickname,gameUid:record.data.gameUid??record.data.game_uid??record.data.cid??record.data.uid}):null;
   if(!value?.success){errors.push({row:index+1,message:'닉네임(1~40자)과 숫자 UID를 확인하세요. 긴 UID는 JSON 문자열로 입력하세요.'});return;}
-  const existing=known.get(value.data.gameUid);
+  const item=canonicalizeUid?{...value.data,gameUid:value.data.gameUid.replace(/^0+(?=\d)/,'')}:value.data;
+  const existing=known.get(item.gameUid);
   if(existing!==undefined){if(existing!==value.data.nickname)errors.push({row:index+1,message:'같은 UID에 서로 다른 닉네임이 있습니다.'});else duplicateCount++;return;}
-  known.set(value.data.gameUid,value.data.nickname);items.push(value.data);
+  known.set(item.gameUid,item.nickname);items.push(item);
  });
  return {items,errors,duplicateCount};
 }

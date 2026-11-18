@@ -1,5 +1,7 @@
 # LLM에 전달하는 Access Kit 설치 지시문
 
+중앙 서버의 [서비스별 명부](SERVICE_ROSTERS.md)를 사용할 때도 소비 사이트의 연결 정보는 동일합니다. 개발자 설치 화면에서 기본 공유 명부 또는 내 명부를 선택하고 저장한 뒤 지시문을 복사합니다. 회원 명단을 소비 사이트에 복사하지 않습니다. 새 서버 SDK 역할 필드의 게시 상태는 위 문서에서 확인합니다.
+
 > **대상 — SDK 0.3.1:** 중앙 가입 화면은 닉네임·CID 두 항목과 가입 상태별 안내를 사용합니다. SDK는 공개 npm의 정확한 버전으로 설치하며 실제 게시 버전은 `npm view access-kit-sdk versions --json`으로 확인합니다. npm 게시와 중앙 서버·운영 DB 반영은 별개입니다. 임시 검증과 실제 중앙 CPU 관측의 한계는 [README](../README.md)와 [호스팅 시험](https://github.com/goyoung2/access-kit/blob/main/docs/qa/hosted-sdk-trial-20261114.md)에 구분합니다.
 
 ## 개발자가 전달할 짧은 지시문

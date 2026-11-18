@@ -35,6 +35,8 @@ npx access-kit help
 
 ## 운영과 검증
 
+작업 브랜치에 [서비스별 개발자·공유/자체 명부](docs/SERVICE_ROSTERS.md)를 추가했습니다. 개발자는 자신의 서비스에 기본 공유 명부 또는 자신의 명부를 연결합니다. 중앙 서버 마이그레이션과 새 SDK 역할 필드의 공개 배포는 별도이며 현재 공개 npm `0.3.1`과 시험 서버에 자동 반영되지는 않습니다.
+
 - [운영 가이드](docs/OPERATIONS.md) · [관리자 콘솔](docs/CONSOLE.md) · [명부 CRUD](docs/ROSTER.md) · [SDK 게시](docs/PUBLISHING.md)
 - [시험 소비 사이트](https://ak-atlas-trial-20261114.nakwol.workers.dev/) · [시험 관리자](https://ak-auth-trial-20261114.nakwol.workers.dev/console#applications) — 관리자 권한 필요
 - [기존 호스팅 설치 시험](docs/qa/hosted-sdk-trial-20261114.md) · [가입 상태별 화면](docs/qa/onboarding-ui-20261114.md) · [CID 가입·승인](docs/qa/cid-signup-20261114.md) · [검증 기록](docs/VALIDATION.md)

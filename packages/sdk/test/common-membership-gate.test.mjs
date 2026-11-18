@@ -12,7 +12,7 @@ test('seven day site session reuses identity locally and rechecks season permiss
  });
  const gate=createGate({clientId:'common-test',siteUrl:'https://site.test/',authOrigin:'https://auth.test',accessPolicy:'member',provider:'firebase',authorizationLeaseMs:300000,sessionMaxAgeSeconds:604800});
  const host={sessionSecret:'test-only-32-character-session-secret',serveAsset:async(request,identity)=>{
-  served++;assert.deepEqual(identity,{id:'existing-user',displayName:'기존 회원',membershipAdmin:false});return Response.json(identity);
+  served++;assert.deepEqual(identity,{id:'existing-user',displayName:'기존 회원',membershipAdmin:false,serviceDeveloper:false});return Response.json(identity);
  }};
  for(const method of ['GET','HEAD'])assert.equal((await gate(new Request('https://site.test/private.json',{method}),host)).status,401);
  const login=await gate(new Request('https://site.test/__accesskit/session',{method:'POST',headers:{Origin:'https://site.test','Content-Type':'application/json'},body:JSON.stringify({access_token:'seven-day-fixture'})}),host);

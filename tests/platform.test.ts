@@ -80,7 +80,7 @@ test('operator invites developers once and can revoke access without granting me
  assert.equal((await f.DB.prepare("SELECT status FROM developers WHERE user_id='dev'").first())?.status,'inactive');
 });
 
-test('developer can rename legacy non-season policy with unused organization but cannot weaken season policy',async t=>{
+test('service owner can change its own policy and normalizes unused legacy organization',async t=>{
  const f=await createAuthFixture();t.after(f.dispose);
  await f.DB.batch([
   f.DB.prepare("INSERT INTO developers VALUES('user','active')"),
@@ -93,6 +93,6 @@ test('developer can rename legacy non-season policy with unused organization but
  assert.equal((await post('approved')).status,200);
  assert.equal((await f.DB.prepare("SELECT organization_id FROM common_application_policies WHERE client_id='site'").first())?.organization_id,null);
  await f.DB.prepare("UPDATE common_application_policies SET mode='season',organization_id='own' WHERE client_id='site'").run();
- assert.equal((await post('approved')).status,409);
- assert.equal((await f.DB.prepare("SELECT mode FROM common_application_policies WHERE client_id='site'").first())?.mode,'season');
+ assert.equal((await post('approved')).status,200);
+ assert.equal((await f.DB.prepare("SELECT mode FROM common_application_policies WHERE client_id='site'").first())?.mode,'approved');
 });

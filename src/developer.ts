@@ -1,24 +1,17 @@
-import type {Hono,Context} from 'hono';
+import type {Hono} from 'hono';
 import {z} from 'zod';
 import type {Env} from './types';
 import {parseCookies} from './http';
 import {findSessionUser} from './store';
-import {isPlatformAdmin} from './policy';
 import {randomToken,sha256Base64Url} from './crypto';
 import {atomicMutation,activeOperator} from './atomic-mutation';
 import {installationPage} from './installation-page';
 import {developerAdminPage,invitationPage} from './developer-admin-page';
 import {catalogAvailable} from './membership-catalog';
-type C=Context<{Bindings:Env}>;
-async function developer(c:C){
- const user=await findSessionUser(c.env,parseCookies(c.req.header('Cookie')).accesskit_sid);
- if(!user)return null;
- if(await isPlatformAdmin(c.env,user))return {user,admin:true};
- const row=await c.env.DB.prepare("SELECT d.user_id FROM developers d JOIN users u ON u.id=d.user_id WHERE d.user_id=? AND d.status='active' AND u.status='active'").bind(user).first();
- return row?{user,admin:false}:null;
-}
+import {developerIdentity as developer} from './developer-identity';
+import {availableRosters,usableRosterSql,defaultRosterSql} from './access-rosters';
 const origin=z.url().refine(value=>{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password&&u.pathname==='/'&&!u.search&&!u.hash;},'HTTPS 사이트 루트를 입력하세요.');
-const serviceInput=z.object({clientId:z.string().regex(/^[A-Za-z0-9_-]{1,128}$/).optional(),name:z.string().trim().min(1).max(80),siteUrl:origin,mode:z.enum(['approved','season','admin']),organizationId:z.string().min(1).nullable()});
+const serviceInput=z.object({clientId:z.string().regex(/^[A-Za-z0-9_-]{1,128}$/).optional(),name:z.string().trim().min(1).max(80),siteUrl:origin,mode:z.enum(['approved','season','admin','roster']).optional(),organizationId:z.string().min(1).nullable().default(null),rosterId:z.string().min(1).max(192).optional()});
 export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
  app.get('/developer/invitation',c=>c.html(invitationPage()));
  app.get('/developer/admin',async c=>{
@@ -73,9 +66,9 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
  });
  app.get('/developer/services',async c=>{
   const identity=await developer(c);if(!identity)return c.json({error:'DEVELOPER_REQUIRED'},403);
-  const services=await c.env.DB.prepare(`SELECT a.*,p.mode,p.organization_id FROM applications a JOIN application_owners o ON o.client_id=a.client_id JOIN common_application_policies p ON p.client_id=a.client_id WHERE ?=1 OR o.user_id=? ORDER BY a.name`).bind(identity.admin?1:0,identity.user).all();
+  const services=await c.env.DB.prepare(`SELECT a.*,p.mode,p.organization_id,COALESCE(b.roster_id,CASE WHEN p.mode='season' THEN 'shared_'||p.organization_id END) AS roster_id FROM applications a JOIN application_owners o ON o.client_id=a.client_id JOIN common_application_policies p ON p.client_id=a.client_id LEFT JOIN application_rosters b ON b.client_id=a.client_id WHERE ?=1 OR o.user_id=? ORDER BY a.name`).bind(identity.admin?1:0,identity.user).all();
   const organizations=await c.env.DB.prepare(`SELECT id,name FROM member_organizations o WHERE ${catalogAvailable('organization','o.id')} ORDER BY name`).all();
-  return c.json({services:services.results,organizations:organizations.results,authOrigin:new URL(c.req.url).origin,version:'0.3.1',admin:identity.admin});
+  return c.json({services:services.results,organizations:organizations.results,rosters:await availableRosters(c.env,identity.user,identity.admin),defaultRosterId:await c.env.DB.prepare(defaultRosterSql).first<string>('id'),authOrigin:new URL(c.req.url).origin,version:'0.3.1',admin:identity.admin});
  });
  app.post('/developer/services',async c=>{
   if(c.req.header('Origin')!==new URL(c.req.url).origin||c.req.header('X-Access-Kit-Action')!=='1')return c.json({error:'ORIGIN_DENIED'},403);
@@ -85,13 +78,19 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
    const owner=await c.env.DB.prepare('SELECT user_id FROM application_owners WHERE client_id=?').bind(id).first<{user_id:string}>();
    if(!owner||(!identity.admin&&owner.user_id!==identity.user))return c.json({error:'OWNER_REQUIRED'},403);
   }
-  if(b.mode==='season'&&(!b.organizationId||!await c.env.DB.prepare(`SELECT id FROM member_organizations o WHERE o.id=? AND ${catalogAvailable('organization','o.id')}`).bind(b.organizationId).first()))return c.json({error:'ORGANIZATION_REQUIRED'},400);
+  const previousPolicy=b.clientId?await c.env.DB.prepare(`SELECT p.mode,p.organization_id,COALESCE(b.roster_id,CASE WHEN p.mode='season' THEN 'shared_'||p.organization_id END) AS roster_id FROM common_application_policies p LEFT JOIN application_rosters b ON b.client_id=p.client_id WHERE p.client_id=?`)
+   .bind(id).first<{mode:'approved'|'season'|'admin'|'roster';organization_id:string|null;roster_id:string|null}>():null;
+  const mode=b.mode??previousPolicy?.mode??'roster',organizationId=b.mode===undefined?(previousPolicy?.organization_id??b.organizationId):b.organizationId;
+  if(mode==='season'&&(!organizationId||!await c.env.DB.prepare(`SELECT id FROM member_organizations o WHERE o.id=? AND ${catalogAvailable('organization','o.id')}`).bind(organizationId).first()))return c.json({error:'ORGANIZATION_REQUIRED'},400);
+  const rosterId=mode==='roster'?(b.rosterId??previousPolicy?.roster_id??await c.env.DB.prepare(defaultRosterSql).first<string>('id')):null;
+  const rosterGuard=`EXISTS(SELECT 1 FROM access_rosters r WHERE r.id=? AND ${usableRosterSql} AND (r.owner_user_id IS NULL OR r.owner_user_id=? OR ${activeOperator}))`;
+  if(mode==='roster'&&(!rosterId||!await c.env.DB.prepare('SELECT 1 WHERE '+rosterGuard).bind(rosterId,identity.user,identity.user).first()))return c.json({error:'ROSTER_REQUIRED'},400);
   const transaction=atomicMutation(c.env);
-  if(b.mode==='season')transaction.require(catalogAvailable('organization','?'),b.organizationId);
+  if(mode==='season')transaction.require(catalogAvailable('organization','?'),organizationId);
+  if(mode==='roster')transaction.require(rosterGuard,rosterId,identity.user,identity.user);
   transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM developers d JOIN users u ON u.id=d.user_id WHERE d.user_id=? AND d.status='active' AND u.status='active')`,identity.user,identity.user);
   if(b.clientId) {
    transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM application_owners WHERE client_id=? AND user_id=?)`,identity.user,id,identity.user);
-   transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM common_application_policies WHERE client_id=? AND mode=? AND (mode<>'season' OR organization_id IS ?))`,identity.user,id,b.mode,b.mode==='season'?b.organizationId:null);
   }
   const previous=b.clientId?await c.env.DB.prepare('SELECT redirect_uris FROM applications WHERE client_id=?').bind(id).first<{redirect_uris:string}>():null;
   const previousUris=previous?z.array(z.string()).parse(JSON.parse(previous.redirect_uris)):[];
@@ -99,9 +98,11 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
   transaction.add(
    c.env.DB.prepare("INSERT INTO applications VALUES(?,?,?,'active',?,?) ON CONFLICT(client_id) DO UPDATE SET name=excluded.name,redirect_uris=excluded.redirect_uris,updated_at=excluded.updated_at").bind(id,b.name,JSON.stringify(redirectUris),now,now),
    c.env.DB.prepare('INSERT INTO application_owners VALUES(?,?) ON CONFLICT(client_id) DO NOTHING').bind(id,identity.user),
-   c.env.DB.prepare('INSERT INTO common_application_policies VALUES(?,?,?) ON CONFLICT(client_id) DO UPDATE SET mode=excluded.mode,organization_id=excluded.organization_id').bind(id,b.mode,b.mode==='season'?b.organizationId:null),
-   c.env.DB.prepare("INSERT INTO auth_events VALUES(?,?,?,'service.configure',?,?)").bind('evt_'+randomToken(10),identity.user,id,JSON.stringify({mode:b.mode}),now),
+   c.env.DB.prepare('INSERT INTO common_application_policies VALUES(?,?,?) ON CONFLICT(client_id) DO UPDATE SET mode=excluded.mode,organization_id=excluded.organization_id').bind(id,mode,mode==='season'?organizationId:null),
+   c.env.DB.prepare("INSERT INTO auth_events VALUES(?,?,?,'service.configure',?,?)").bind('evt_'+randomToken(10),identity.user,id,JSON.stringify({mode,rosterId}),now),
   );
+  if(mode==='roster')transaction.add(c.env.DB.prepare('INSERT INTO application_rosters VALUES(?,?) ON CONFLICT(client_id) DO UPDATE SET roster_id=excluded.roster_id').bind(id,rosterId));
+  else transaction.add(c.env.DB.prepare('DELETE FROM application_rosters WHERE client_id=?').bind(id));
   await transaction.commit();
   return c.json({clientId:id});
  });

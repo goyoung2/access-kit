@@ -5,6 +5,7 @@ import {registerCommonRoutes} from './common-routes';
 import {MutationConflict} from './atomic-mutation';
 import {registerConsole} from './console';
 import {registerDeveloperRoutes} from './developer';
+import {registerDeveloperRosters,DeveloperRosterError} from './developer-rosters';
 import {randomToken} from './crypto';
 import {getApplication,isAllowedRedirect,isAllowedOrigin,parseCookies} from './http';
 import {findSessionUser,exchangeAuthorizationCode,revokeAccessToken,cleanupExpiredAuthData} from './store';
@@ -25,6 +26,7 @@ app.use('*',async(c,next)=>{
  await next();
 });
 app.onError((error,c)=>{
+ if(error instanceof DeveloperRosterError)return c.json({error:error.message},error.status);
  if(error instanceof MutationConflict)return c.json({error:error.message},409);
  if(error instanceof z.ZodError)return c.json({error:'INVALID_INPUT'},400);
  console.error('access-kit request failed',{type:error.name,path:c.req.path});
@@ -33,6 +35,7 @@ app.onError((error,c)=>{
 registerConsole(app);
 registerCommonRoutes(app);
 registerDeveloperRoutes(app);
+registerDeveloperRosters(app);
 app.get('/',c=>c.redirect('/auth/firebase'));
 app.get('/guide',c=>c.html(publicGuidePage()));
 app.get('/guide/llm',c=>c.text(installationInstructions(new URL(c.req.url).origin,c.req.query())));
