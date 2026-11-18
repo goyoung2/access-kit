@@ -1,0 +1,25 @@
+{
+  "at": "2026-11-18T08:38:30.097Z",
+  "source": "af72cc1cde34a0c688a7b8264292a4ab12bb4d67",
+  "target": "ak-auth-trial-20261114",
+  "version": "00a72482-c044-4e14-b399-5bbdb6f6df64",
+  "database": "ak-trial-20261114",
+  "migration": "0007_automatic_registration.sql",
+  "backupCreated": true,
+  "realRosterCount": 200,
+  "season": "Trial Season",
+  "affiliation": "창천",
+  "consumerPolicy": "atlas-trial -> season / 창천",
+  "bindingsAndVariablesPreserved": true,
+  "compatibilityPreserved": true,
+  "unchangedWorkers": [
+    "access-kit-validation-20261112",
+    "ak-atlas-trial-20261114"
+  ],
+  "hostedChecks": 34,
+  "syntheticAccountsCleaned": 4,
+  "actualGoogleSignup": "Awaiting user-operated signup; not performed by agent",
+  "productionDeployment": false,
+  "npmPublished": false,
+  "githubPushed": false
+}

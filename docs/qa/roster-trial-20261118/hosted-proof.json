@@ -1,0 +1,169 @@
+{
+  "at": "2026-11-18T08:36:20.671Z",
+  "realRosterCount": 200,
+  "allSourcePairsMatch": true,
+  "sameNicknameDifferentCidsPreserved": true,
+  "scope": "Real hosted Hono+D1+PKCE+consumer gate. Synthetic pre-authenticated identities; no Google-popup claim.",
+  "checks": [
+    {
+      "name": "member-changed signup response",
+      "passed": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "member-changed classification",
+      "passed": true,
+      "detail": {
+        "status": "approved"
+      }
+    },
+    {
+      "name": "member-changed no pending approval",
+      "passed": true
+    },
+    {
+      "name": "member-changed no nickname comparison exposed",
+      "passed": true
+    },
+    {
+      "name": "member-changed cannot read admin data",
+      "passed": true
+    },
+    {
+      "name": "member-equal signup response",
+      "passed": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "member-equal classification",
+      "passed": true,
+      "detail": {
+        "status": "approved"
+      }
+    },
+    {
+      "name": "member-equal no pending approval",
+      "passed": true
+    },
+    {
+      "name": "member-equal no nickname comparison exposed",
+      "passed": true
+    },
+    {
+      "name": "member-equal cannot read admin data",
+      "passed": true
+    },
+    {
+      "name": "visitor signup response",
+      "passed": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "visitor classification",
+      "passed": true,
+      "detail": {
+        "status": "visitor"
+      }
+    },
+    {
+      "name": "visitor no pending approval",
+      "passed": true
+    },
+    {
+      "name": "visitor no nickname comparison exposed",
+      "passed": true
+    },
+    {
+      "name": "visitor cannot read admin data",
+      "passed": true
+    },
+    {
+      "name": "duplicate signup response",
+      "passed": true,
+      "detail": {
+        "status": 409
+      }
+    },
+    {
+      "name": "member-changed authorize redirect",
+      "passed": true
+    },
+    {
+      "name": "member authorization code issued",
+      "passed": true
+    },
+    {
+      "name": "member PKCE token exchange",
+      "passed": true
+    },
+    {
+      "name": "member central access",
+      "passed": true
+    },
+    {
+      "name": "member uses submitted nickname",
+      "passed": true
+    },
+    {
+      "name": "visitor authorize redirect",
+      "passed": true
+    },
+    {
+      "name": "visitor gets no authorization code",
+      "passed": true
+    },
+    {
+      "name": "real consumer gate session",
+      "passed": true,
+      "detail": {
+        "status": 204
+      }
+    },
+    {
+      "name": "member protected HTML",
+      "passed": true
+    },
+    {
+      "name": "member protected asset",
+      "passed": true
+    },
+    {
+      "name": "member protected API",
+      "passed": true
+    },
+    {
+      "name": "anonymous protected HTML blocked",
+      "passed": true
+    },
+    {
+      "name": "anonymous protected API blocked",
+      "passed": true
+    },
+    {
+      "name": "anonymous protected asset blocked",
+      "passed": true
+    },
+    {
+      "name": "visitor cannot mint consumer session",
+      "passed": true
+    },
+    {
+      "name": "admin mismatch flag",
+      "passed": true
+    },
+    {
+      "name": "source roster nickname preserved",
+      "passed": true
+    },
+    {
+      "name": "central token invalid after logout",
+      "passed": true
+    }
+  ]
+}
