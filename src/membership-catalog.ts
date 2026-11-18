@@ -22,7 +22,8 @@ export function catalogSelect(kind:Kind){
  const foreign=kind==='season'?'season_id':'organization_id';
  return `SELECT e.*,c.revision,c.deleted_at,
  (SELECT COUNT(*) FROM roster_entries r WHERE r.${foreign}=e.id) AS roster_count,
- (SELECT COUNT(*) FROM season_memberships sm WHERE sm.${foreign}=e.id) AS member_count,
+ ((SELECT COUNT(*) FROM season_memberships sm WHERE sm.${foreign}=e.id AND NOT EXISTS(SELECT 1 FROM automatic_registrations registration WHERE registration.user_id=sm.user_id))
+ + (SELECT COUNT(*) FROM roster_entries r JOIN game_accounts g ON g.realm=r.realm AND g.game_uid=r.game_uid JOIN automatic_registrations registration ON registration.user_id=g.user_id WHERE r.${foreign}=e.id)) AS member_count,
  ${kind==='organization'?"(SELECT COUNT(*) FROM member_managers mm WHERE mm.organization_id=e.id)":"0"} AS manager_count,
  ${kind==='organization'?"(SELECT COUNT(*) FROM common_application_policies p WHERE p.mode='season' AND p.organization_id=e.id)":"0"} AS service_count
  FROM ${tables[kind]} e JOIN catalog_state c ON c.kind='${kind}' AND c.entity_id=e.id`;

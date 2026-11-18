@@ -7,7 +7,7 @@ import {registerCommonRoutes} from '../src/common-routes';
 import type {Env} from '../src/types';
 import {mutateMembership,MembershipConflict} from '../src/common-admin';
 
-test('CID-only signup retains deleted roster exclusions during approval',async t=>{
+test('CID-only signup keeps deleted roster CID as a visitor in its historical namespace',async t=>{
  const f=await createAuthFixture();t.after(f.dispose);
  await f.DB.batch([
   f.DB.prepare("INSERT INTO auth_operators VALUES('user','operator',0,NULL)"),
@@ -18,8 +18,9 @@ test('CID-only signup retains deleted roster exclusions during approval',async t
  ]);
  const session=await createSession(f.env,'applicant');const app=new Hono<{Bindings:Env}>();registerCommonRoutes(app);
  const r=await app.request('https://auth.test/auth/firebase/apply',{method:'POST',headers:{Origin:'https://auth.test','X-Access-Kit-Action':'1','Content-Type':'application/json',Cookie:'accesskit_sid='+session.token},body:JSON.stringify({nickname:'Applicant',gameUid:'999'})},f.env);
- assert.equal(r.status,200);assert.equal((await f.DB.prepare("SELECT realm FROM member_applications WHERE user_id='applicant'").first())?.realm,'legacy-roster');
- await assert.rejects(()=>mutateMembership(f.env,'user',{action:'approve',userId:'applicant',seasonId:'season',organizationId:'own'}),MembershipConflict);
+ assert.equal(r.status,200);assert.equal((await f.DB.prepare("SELECT realm FROM game_accounts WHERE user_id='applicant'").first())?.realm,'legacy-roster');
+ const status=await app.request('https://auth.test/auth/firebase/status',{headers:{Cookie:'accesskit_sid='+session.token}},f.env);
+ assert.equal((await status.json()).member.status,'visitor');
  assert.equal(await f.DB.prepare("SELECT * FROM common_members WHERE user_id='applicant'").first(),null);
 });
 
@@ -28,19 +29,18 @@ test('registration accepts nickname and CID only and does not let the client cho
  const app=new Hono<{Bindings:Env}>();registerCommonRoutes(app);
  const post=(body:unknown)=>app.request('https://auth.test/auth/firebase/apply',{method:'POST',headers:{Origin:'https://auth.test','X-Access-Kit-Action':'1','Content-Type':'application/json',Cookie:'accesskit_sid='+session.token},body:JSON.stringify(body)},f.env);
  assert.equal((await post({nickname:'First',gameUid:'000123'})).status,200);
- assert.deepEqual(await f.DB.prepare("SELECT nickname,game_uid,realm,status FROM member_applications WHERE user_id='user'").first(),{nickname:'First',game_uid:'123',realm:'kr',status:'pending'});
- await f.DB.prepare("UPDATE member_applications SET status='rejected' WHERE user_id='user'").run();
- assert.equal((await post({nickname:'Revised',gameUid:'000456',realm:'client-chosen-server'})).status,200);
- assert.equal((await f.DB.prepare("SELECT realm FROM member_applications WHERE user_id='user'").first())?.realm,'kr');
+ assert.deepEqual(await f.DB.prepare("SELECT nickname,game_uid,realm FROM game_accounts WHERE user_id='user'").first(),{nickname:'First',game_uid:'123',realm:'kr'});
+ assert.equal((await post({nickname:'Revised',gameUid:'000456',realm:'client-chosen-server'})).status,409);
+ assert.equal((await f.DB.prepare("SELECT realm FROM game_accounts WHERE user_id='user'").first())?.realm,'kr');
  assert.equal((await f.DB.prepare("SELECT COUNT(*) AS n FROM common_members").first<{n:number}>())?.n,0);
 });
 
-test('CID-only signup preserves the namespace of an existing game account',async t=>{
+test('CID-only signup cannot claim an existing game account through another namespace',async t=>{
  const f=await createAuthFixture();t.after(f.dispose);
  await f.DB.batch([f.DB.prepare("INSERT INTO users VALUES('existing','Existing',NULL,'active',0,0)"),f.DB.prepare("INSERT INTO game_accounts VALUES('existing','legacy-realm','321','Existing')")]);
  const session=await createSession(f.env,'user');const app=new Hono<{Bindings:Env}>();registerCommonRoutes(app);
  const r=await app.request('https://auth.test/auth/firebase/apply',{method:'POST',headers:{Origin:'https://auth.test','X-Access-Kit-Action':'1','Content-Type':'application/json',Cookie:'accesskit_sid='+session.token},body:JSON.stringify({nickname:'Applicant',gameUid:'000321'})},f.env);
- assert.equal(r.status,200);assert.equal((await f.DB.prepare("SELECT realm FROM member_applications WHERE user_id='user'").first())?.realm,'legacy-realm');
+ assert.equal(r.status,409);assert.equal(await f.DB.prepare("SELECT realm FROM game_accounts WHERE user_id='user'").first(),null);
  assert.equal((await f.DB.prepare("SELECT user_id FROM game_accounts WHERE game_uid='321'").first())?.user_id,'existing');
  assert.equal((await f.DB.prepare("SELECT COUNT(*) AS n FROM common_members").first<{n:number}>())?.n,0);
 });
@@ -56,9 +56,9 @@ test('CID-only signup retains legacy pending application keys so duplicate appro
  ]);
  const session=await createSession(f.env,'new');const app=new Hono<{Bindings:Env}>();registerCommonRoutes(app);
  const r=await app.request('https://auth.test/auth/firebase/apply',{method:'POST',headers:{Origin:'https://auth.test','X-Access-Kit-Action':'1','Content-Type':'application/json',Cookie:'accesskit_sid='+session.token},body:JSON.stringify({nickname:'New',gameUid:'555'})},f.env);
- assert.equal(r.status,200);assert.equal((await f.DB.prepare("SELECT realm FROM member_applications WHERE user_id='new'").first())?.realm,'legacy-pending');
- await mutateMembership(f.env,'user',{action:'approve',userId:'old',seasonId:'season',organizationId:'own'});
- await assert.rejects(()=>mutateMembership(f.env,'user',{action:'approve',userId:'new',seasonId:'season',organizationId:'own'}),MembershipConflict);
+ assert.equal(r.status,200);assert.equal((await f.DB.prepare("SELECT realm FROM game_accounts WHERE user_id='new'").first())?.realm,'legacy-pending');
+ await assert.rejects(()=>mutateMembership(f.env,'user',{action:'approve',userId:'old',seasonId:'season',organizationId:'own'}),MembershipConflict);
+ assert.equal((await f.DB.prepare("SELECT user_id FROM game_accounts WHERE game_uid='555'").first())?.user_id,'new');
  assert.equal((await f.DB.prepare("SELECT COUNT(*) AS n FROM game_accounts WHERE game_uid='555'").first<{n:number}>())?.n,1);
 });
 

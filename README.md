@@ -31,7 +31,7 @@ npx access-kit help
 
 [설치](docs/INSTALL.md) · [Workers / Pages 시작](docs/QUICKSTART.md) · [기존 서버 어댑터](docs/ADAPTERS.md) · [업데이트·복구](docs/UPGRADE.md)
 
-모든 보호 HTML·자산·API는 서버 게이트를 통과해야 합니다. Google 로그인 후 가입 신청은 **닉네임과 게임 CID 두 항목**만 받습니다. 관리자는 `/console#applications`에서 승인·거절하고, `/console`에서 명부와 시즌·소속을 관리합니다.
+모든 보호 HTML·자산·API는 서버 게이트를 통과해야 합니다. Google 로그인 후 **닉네임과 게임 CID 두 항목**으로 가입합니다. 진행 중인 시즌의 유효한 명부에 CID가 있으면 맹원, 없으면 방문자로 자동 가입하며 새 가입의 관리자 승인은 필요 없습니다. 닉네임은 자격 판정에 사용하지 않고, 명부와 다르면 `/console#members`에 관리자용 확인 표시를 보여줍니다. 명부는 `/console#roster`에서 관리합니다. 중앙 서버 변경에는 `0007_automatic_registration.sql` 적용이 필요하며 기존 운영 서버와 공개 npm 패키지에 자동 적용되지는 않습니다.
 
 ## 운영과 검증
 

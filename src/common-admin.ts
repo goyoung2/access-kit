@@ -3,6 +3,7 @@ import type {Env} from './types';
 import {randomToken} from './crypto';
 import {atomicMutation,activeOperator,MutationConflict} from './atomic-mutation';
 import {catalogAvailable,catalogSelect} from './membership-catalog';
+import {activeRosterSql,effectiveMemberStatusSql,registrationJoinsSql} from './automatic-registration';
 const id=z.string().min(1).max(128);
 export const adminAction=z.discriminatedUnion('action',[
  z.object({action:z.literal('approve'),userId:id,seasonId:id,organizationId:id,existingUserId:id.optional()}),
@@ -28,8 +29,8 @@ export async function mutateMembership(env:Env,actor:string,action:z.infer<typeo
   else {
    transaction.require(`${activeOperator} OR ${scope}`,actor,actor,action.organizationId);
    if(action.action==='assign') transaction.require(`${activeOperator} OR (
-    NOT EXISTS(SELECT 1 FROM season_memberships sm WHERE sm.user_id=? AND sm.season_id=? AND NOT EXISTS(SELECT 1 FROM member_managers mm WHERE mm.user_id=? AND mm.organization_id=sm.organization_id AND ${catalogAvailable('organization','mm.organization_id')}))
-    AND EXISTS(SELECT 1 FROM season_memberships WHERE user_id=? AND organization_id=?)
+    NOT EXISTS(SELECT 1 FROM (${memberAssignmentsSql}) sm WHERE sm.user_id=? AND sm.season_id=? AND NOT EXISTS(SELECT 1 FROM member_managers mm WHERE mm.user_id=? AND mm.organization_id=sm.organization_id AND ${catalogAvailable('organization','mm.organization_id')}))
+    AND EXISTS(SELECT 1 FROM (${memberAssignmentsSql}) WHERE user_id=? AND organization_id=?)
    )`,actor,action.userId,action.seasonId,actor,action.userId,action.organizationId);
   }
  } else transaction.require(activeOperator,actor);
@@ -79,13 +80,16 @@ export async function mutateMembership(env:Env,actor:string,action:z.infer<typeo
   break;
  }
  case 'reject':transaction.require("EXISTS(SELECT 1 FROM member_applications WHERE user_id=? AND status='pending')",action.userId);statements.push(q("UPDATE member_applications SET status='rejected',reviewed_at=?,reviewed_by=? WHERE user_id=? AND status='pending'",now,actor,action.userId));break;
- case 'member':statements.push(q('UPDATE common_members SET status=? WHERE user_id=?',action.status,action.userId));break;
+ case 'member':
+  transaction.require('EXISTS(SELECT 1 FROM common_members WHERE user_id=?) OR EXISTS(SELECT 1 FROM automatic_registrations WHERE user_id=?)',action.userId,action.userId);
+  statements.push(q('INSERT INTO common_members VALUES(?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET status=excluded.status',action.userId,action.status,now,actor));break;
  case 'organization':statements.push(q('INSERT INTO member_organizations VALUES(?,?)',action.id,action.name));break;
  case 'season':statements.push(q("INSERT INTO member_seasons VALUES(?,?,'draft')",action.id,action.name));break;
  case 'assign':{
-  const valid=await q(`SELECT m.user_id FROM common_members m,member_seasons s WHERE m.user_id=? AND m.status='approved' AND s.id=? AND s.status IN ('draft','active')`,action.userId,action.seasonId).first();
+  const eligibility=`SELECT 1 FROM users u ${registrationJoinsSql},member_seasons s WHERE u.id=? AND ${effectiveMemberStatusSql}='approved' AND s.id=? AND s.status IN ('draft','active')`;
+  const valid=await q(eligibility,action.userId,action.seasonId).first();
   if(!valid)throw new MembershipConflict('승인된 회원과 준비 중 또는 진행 중인 시즌을 선택해 주세요.');
-  transaction.require(`EXISTS(SELECT 1 FROM common_members m,member_seasons s WHERE m.user_id=? AND m.status='approved' AND s.id=? AND s.status IN ('draft','active'))`,action.userId,action.seasonId);
+  transaction.require(`EXISTS(${eligibility})`,action.userId,action.seasonId);
   statements.push(q(`INSERT INTO season_memberships VALUES(?,?,?,?,?,?) ON CONFLICT(user_id,season_id) DO UPDATE SET organization_id=excluded.organization_id,status=excluded.status,updated_at=excluded.updated_at,updated_by=excluded.updated_by`,action.userId,action.seasonId,action.organizationId,action.status,now,actor));break;
  }
  case 'activate':{
@@ -122,11 +126,17 @@ export async function mutateMembership(env:Env,actor:string,action:z.infer<typeo
  }
 }
 
+export const memberAssignmentsSql=`SELECT sm.* FROM season_memberships sm WHERE NOT EXISTS(SELECT 1 FROM automatic_registrations registration WHERE registration.user_id=sm.user_id)
+ UNION ALL SELECT g.user_id,r.season_id,r.organization_id,CASE WHEN r.status='active' THEN 'active' ELSE 'inactive' END AS status,r.updated_at,r.updated_by
+ FROM roster_entries r JOIN game_accounts g ON g.realm=r.realm AND g.game_uid=r.game_uid JOIN automatic_registrations registration ON registration.user_id=g.user_id`;
 export const membershipOverviewSql=[
  `SELECT r.*,u.display_name,(SELECT COUNT(*) FROM member_applications x WHERE x.realm=r.realm AND x.game_uid=r.game_uid AND x.user_id<>r.user_id AND x.status='pending') AS pending_duplicates,(SELECT user_id FROM game_accounts g WHERE g.realm=r.realm AND g.game_uid=r.game_uid) AS registered_user FROM member_applications r JOIN users u ON u.id=r.user_id ORDER BY requested_at DESC`,
- 'SELECT u.id,u.display_name,m.status,g.realm,g.game_uid,g.nickname FROM common_members m JOIN users u ON u.id=m.user_id LEFT JOIN game_accounts g ON g.user_id=u.id ORDER BY g.nickname,u.display_name',
+ `SELECT u.id,u.display_name,${effectiveMemberStatusSql} AS status,g.realm,g.game_uid,COALESCE(registration.nickname,g.nickname) AS nickname,
+  (SELECT r.nickname FROM (${activeRosterSql}) r WHERE r.realm=g.realm AND r.game_uid=g.game_uid) AS roster_nickname,
+  CASE WHEN registration.user_id IS NOT NULL AND EXISTS(SELECT 1 FROM (${activeRosterSql}) r WHERE r.realm=g.realm AND r.game_uid=g.game_uid AND r.nickname<>registration.nickname) THEN 1 ELSE 0 END AS nickname_mismatch
+  FROM users u ${registrationJoinsSql} WHERE m.user_id IS NOT NULL OR registration.user_id IS NOT NULL ORDER BY nickname,u.display_name`,
  catalogSelect('season')+' ORDER BY e.rowid DESC',catalogSelect('organization')+' ORDER BY e.name',
- 'SELECT * FROM season_memberships',
+ memberAssignmentsSql,
  'SELECT a.client_id,a.name,p.mode,p.organization_id FROM applications a LEFT JOIN common_application_policies p ON p.client_id=a.client_id',
 ] as const;
 export async function membershipOverview(env:Env){

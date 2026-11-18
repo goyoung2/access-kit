@@ -18,7 +18,7 @@ export async function consoleData(env:Env,identity:ConsoleIdentity){
  const catalogFields=['id','name','revision','deleted_at','roster_count','member_count','manager_count','service_count'];
  const fields=[
   ['applications',jsonRows(applications,['user_id','realm','game_uid','nickname','status','requested_at','reviewed_at','reviewed_by','display_name','pending_duplicates','registered_user'],all?'1':identity.scopes.length?`status='pending' AND registered_user IS NULL`:'0')],
-  ['members',jsonRows(members,['id','display_name','status','realm','game_uid','nickname'],all?'1':`id IN (SELECT user_id FROM season_memberships WHERE ${scoped})`)],
+  ['members',jsonRows(members,['id','display_name','status','realm','game_uid','nickname','roster_nickname','nickname_mismatch'],all?'1':`id IN (SELECT user_id FROM (${assignments}) WHERE ${scoped})`)],
   ['seasons',jsonRows(seasons,['id','name','status',...catalogFields.slice(2)])],
   ['organizations',jsonRows(organizations,catalogFields,all?'1':'id IN (SELECT value FROM scopes)')],
   ['assignments',jsonRows(assignments,['user_id','season_id','organization_id','status','updated_at','updated_by'],all?'1':scoped)],

@@ -76,7 +76,7 @@ test('HTTP registration requires login; admin requires operator and same origin'
  assert.equal((await post('/admin/action',{action:'activate',seasonId:'s2'},cookie)).status,403);
  assert.equal((await post('/apply',{nickname:'A',realm:'kr-1',gameUid:'00123'},cookie,'https://evil.test')).status,403);
  assert.equal((await post('/apply',{nickname:'A',realm:'kr-1',gameUid:'00123'},cookie)).status,200);
- assert.equal((await f.DB.prepare("SELECT game_uid FROM member_applications WHERE nickname='A'").first())?.game_uid,'123');
+ assert.equal((await f.DB.prepare("SELECT game_uid FROM game_accounts WHERE nickname='A'").first())?.game_uid,'123');
  assert.equal((await post('/apply',{nickname:'B',realm:'kr-1',gameUid:'99'},cookie)).status,409);
 });
 

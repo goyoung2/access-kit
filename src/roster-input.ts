@@ -39,6 +39,7 @@ export function parseRosterInput(text:string):{readonly items:readonly RosterIte
     if(!parsed.success)throw new RosterInputError('JSON 배열 또는 닉네임·UID 매핑을 사용하세요.');
     const data=parsed.data;
     if(Array.isArray(data.records))rows=data.records;
+    else if(Array.isArray(data.members))rows=data.members;
     else{
      const mapping=object.parse(data.nickname_to_cid??data.input_nickname_to_cid??data);
      rows=Object.entries(mapping).map(([nickname,gameUid])=>({nickname,gameUid}));

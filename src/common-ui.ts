@@ -24,15 +24,16 @@ if(screen.consoleLogin){if(d.consoleAccess){location.replace('/console');return;
 if(params.has('developer')){if(d.consoleAccess)location.replace('/developer/install');else message.textContent='개발자 접근 권한이 필요합니다.';return;}
 if(request&&d.serviceAccess?.allowed){location.replace(base+'/continue?request='+encodeURIComponent(request));return;}
 if(d.member?.status==='suspended'){showState('suspended','회원 이용이 정지되어 있습니다. 관리자에게 해제 여부를 문의해 주세요.');return;}
+if(d.member?.status==='visitor'){showState('visitor',request?'방문자로 가입되었습니다. 이 서비스는 맹원 전용입니다.':'방문자로 가입되었습니다. 명부에 등록되면 맹원 권한이 자동으로 반영됩니다.');resume.hidden=false;resume.textContent='이용 상태 다시 확인';resume.dataset.action='refresh';return;}
 if(d.member?.status==='approved'){
  if(request&&d.requestExpired){showState('expired','로그인 요청이 만료되었습니다. 서비스로 돌아가 로그인을 다시 시작해 주세요.');resume.hidden=false;resume.textContent='서비스로 돌아가기';resume.dataset.action='restart';return;}
  if(request){const reason=d.serviceAccess?.reason;showState('service-denied',reason==='SEASON_MEMBERSHIP_REQUIRED'?'가입은 승인되었지만 이 서비스의 소속 조건과 일치하지 않습니다. 관리자에게 소속 등록을 확인해 주세요.':reason==='AUTH_OPERATOR_REQUIRED'?'가입은 승인되었지만 이 서비스는 관리자 전용입니다.':reason==='APP_DISABLED'?'이 서비스의 이용이 중지되어 있습니다. 서비스 관리자에게 문의해 주세요.':'가입은 승인되었지만 서비스 이용 조건을 확인하지 못했습니다. 관리자에게 문의해 주세요.');resume.hidden=false;resume.textContent='이용 상태 다시 확인';resume.dataset.action='refresh';return;}
- showState('approved','가입 승인이 완료되었습니다. 이용할 서비스에서 접속해 주세요.');return;
+ showState('approved','맹원으로 가입되었습니다. 이용할 서비스에서 접속해 주세요.');return;
 }
 if(d.application?.status==='pending'){showState('pending','가입 신청이 접수되었습니다. 관리자 승인을 기다려 주세요.');resume.hidden=false;resume.textContent='승인 상태 확인';resume.dataset.action='refresh';return;}
-const rejected=d.application?.status==='rejected';form.hidden=false;form.querySelector('h2').textContent=rejected?'가입 재신청':'가입 신청';form.querySelector('button').textContent=rejected?'수정 후 재신청':'가입 신청';
+const rejected=d.application?.status==='rejected';form.hidden=false;form.querySelector('h2').textContent='회원 가입';form.querySelector('button').textContent='가입하기';
 if(rejected){$('#nickname').value=d.application.nickname;$('#uid').value=d.application.game_uid;}
-showState(rejected?'rejected':'registration',rejected?'가입 신청이 거절되었습니다. 입력한 게임 계정 정보를 확인하고 수정하여 다시 신청할 수 있습니다.':'서비스 이용을 위해 게임 계정 정보를 입력하고 가입을 신청해 주세요.');}
+showState(rejected?'rejected':'registration',rejected?'이전 가입 신청이 거절되었습니다. 게임 계정 정보를 확인한 뒤 다시 가입해 주세요.':'닉네임과 CID를 입력해 주세요. 명부에 있는 CID는 맹원으로, 그 외에는 방문자로 가입됩니다.');}
 resume.onclick=()=>{if(resume.dataset.action==='refresh')refresh().catch(e=>message.textContent=e.message);else location.assign(base+'/continue?request='+encodeURIComponent(request));};
 $('#application').onsubmit=async e=>{e.preventDefault();const b=e.target.querySelector('button');b.disabled=true;try{await post('/apply',{nickname:$('#nickname').value,gameUid:$('#uid').value});await refresh();}catch(e){message.textContent=e.message;}finally{b.disabled=false;}};
 try{const config=await(await fetch(base+'/config')).json(),auth=getAuth(initializeApp(config));await setPersistence(auth,inMemoryPersistence);auth.languageCode='ko';$('#google').disabled=false;$('#google').onclick=async()=>{const b=$('#google');b.disabled=true;message.textContent='로그인 중…';try{const result=await signInWithPopup(auth,new GoogleAuthProvider());await post('/session',{idToken:await result.user.getIdToken()});await signOut(auth);await refresh();}catch(e){message.textContent=e.message;}finally{b.disabled=false;}};await refresh();}catch(e){message.textContent=e.message||'로그인 연결을 확인한 뒤 새로고침해 주세요.';}`;

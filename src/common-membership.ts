@@ -1,6 +1,7 @@
 import type {Env} from './types';
 import {sha256Base64Url} from './crypto';
 import {catalogAvailable} from './membership-catalog';
+import {activeRosterSql,effectiveMemberStatusSql,registrationJoinsSql} from './automatic-registration';
 
 /** Explicit application policy is required; missing policy never grants access. */
 export async function commonAccess(env:Env,userId:string,clientId:string,requireMember=false,token:string|null=null) {
@@ -9,17 +10,18 @@ export async function commonAccess(env:Env,userId:string,clientId:string,require
   .bind(clientId).first<{mode:string;organization_id:string|null}>();
  if(!policy)return null;
  const tokenHash=token?await sha256Base64Url(token):null;
- const row=await env.DB.prepare(`SELECT u.id,COALESCE(g.nickname,u.display_name) AS display_name,u.avatar_url,u.status,m.status AS member_status,
+ const row=await env.DB.prepare(`SELECT u.id,COALESCE(registration.nickname,g.nickname,u.display_name) AS display_name,u.avatar_url,u.status,${effectiveMemberStatusSql} AS member_status,
   a.name,a.redirect_uris,a.status AS app_status,t.expires_at,
   EXISTS(SELECT 1 FROM auth_operators o WHERE o.user_id=u.id) AS operator,
-  EXISTS(SELECT 1 FROM season_memberships sm JOIN member_seasons s ON s.id=sm.season_id
-    WHERE sm.user_id=u.id AND s.status='active' AND sm.status='active' AND sm.organization_id=? AND ${catalogAvailable('season','s.id')} AND ${catalogAvailable('organization','sm.organization_id')}) AS season_member
+  CASE WHEN registration.user_id IS NOT NULL THEN EXISTS(SELECT 1 FROM (${activeRosterSql}) r WHERE r.realm=g.realm AND r.game_uid=g.game_uid AND r.organization_id=?)
+  ELSE EXISTS(SELECT 1 FROM season_memberships sm JOIN member_seasons s ON s.id=sm.season_id
+    WHERE sm.user_id=u.id AND s.status='active' AND sm.status='active' AND sm.organization_id=? AND ${catalogAvailable('season','s.id')} AND ${catalogAvailable('organization','sm.organization_id')}) END AS season_member
   FROM applications a
   LEFT JOIN access_tokens t ON t.token_hash=? AND t.client_id=a.client_id AND t.revoked_at IS NULL AND t.expires_at>?
     AND NOT EXISTS(SELECT 1 FROM user_reauthentication r WHERE r.user_id=t.user_id AND t.created_at<=r.requested_at)
   LEFT JOIN users u ON u.id=CASE WHEN ? IS NULL THEN ? ELSE t.user_id END
-  LEFT JOIN common_members m ON m.user_id=u.id LEFT JOIN game_accounts g ON g.user_id=u.id WHERE a.client_id=?`)
-  .bind(policy.organization_id,tokenHash,Date.now(),tokenHash,userId,clientId)
+  ${registrationJoinsSql} WHERE a.client_id=?`)
+  .bind(policy.organization_id,policy.organization_id,tokenHash,Date.now(),tokenHash,userId,clientId)
   .first<{id:string|null;display_name:string;avatar_url:string|null;status:string;member_status:string|null;name:string;redirect_uris:string;app_status:string;expires_at:number|null;operator:number;season_member:number}>();
  const approved=row?.member_status==='approved';
  const allowed=Boolean(row?.id && row.status==='active' && row.app_status==='active' &&

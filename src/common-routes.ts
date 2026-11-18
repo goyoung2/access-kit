@@ -10,6 +10,7 @@ import {adminAction,mutateMembership,membershipOverview,MembershipConflict} from
 import {commonPage} from './common-ui';
 import {getBranding,escapeHtml} from './branding';
 import {getApplication,isAllowedRedirect} from './http';
+import {registerFromRoster,RegistrationConflict,effectiveMemberStatusSql,registrationJoinsSql} from './automatic-registration';
 
 type C=Context<{Bindings:Env}>;
 const identityInput=z.object({idToken:z.string().min(1).max(16384)});
@@ -26,7 +27,7 @@ export function registerCommonRoutes(app:Hono<{Bindings:Env}>,verify=verifyGoogl
   if(c.req.method==='POST'&&(c.req.header('Origin')!==new URL(c.req.url).origin || c.req.header('X-Access-Kit-Action')!=='1'))return c.json({error:'ORIGIN_DENIED'},403);
   try{await next();}catch(error){
    if(error instanceof z.ZodError)return c.json({error:'입력 내용을 확인해 주세요.'},400);
-   if(error instanceof MembershipConflict)return c.json({error:error.message},409);
+   if(error instanceof MembershipConflict||error instanceof RegistrationConflict)return c.json({error:error.message},409);
    throw error;
   }
  });
@@ -70,7 +71,8 @@ export function registerCommonRoutes(app:Hono<{Bindings:Env}>,verify=verifyGoogl
   const userId=await current(c);if(!userId)return c.json({loggedIn:false});
   const user=await c.env.DB.prepare('SELECT display_name,status FROM users WHERE id=?').bind(userId).first();
   if(!user||user.status!=='active')return c.json({loggedIn:true,user,blocked:true,consoleAccess:false});
-  const member=await c.env.DB.prepare('SELECT status FROM common_members WHERE user_id=?').bind(userId).first();
+  const membership=await c.env.DB.prepare(`SELECT ${effectiveMemberStatusSql} AS status FROM users u ${registrationJoinsSql} WHERE u.id=?`).bind(userId).first<{status:string|null}>();
+  const member=membership?.status?membership:null;
   const application=await c.env.DB.prepare('SELECT nickname,realm,game_uid,status FROM member_applications WHERE user_id=?').bind(userId).first();
   const admin=await isPlatformAdmin(c.env,userId);
   const manager=await c.env.DB.prepare('SELECT user_id FROM member_managers WHERE user_id=? LIMIT 1').bind(userId).first();
@@ -83,20 +85,10 @@ export function registerCommonRoutes(app:Hono<{Bindings:Env}>,verify=verifyGoogl
   const userId=await current(c);if(!userId)return c.json({error:'LOGIN_REQUIRED'},401);
   const user=await c.env.DB.prepare("SELECT id FROM users WHERE id=? AND status='active'").bind(userId).first();
   if(!user)return c.json({error:'ACCESS_DENIED'},403);
-  const member=await c.env.DB.prepare('SELECT user_id FROM common_members WHERE user_id=?').bind(userId).first();
-  if(member)return c.json({error:'이미 등록된 회원입니다.'},409);
   const b=applicationInput.parse(await c.req.json());
   const gameUid=b.gameUid.replace(/^0+(?=\d)/,'');
-  // Keep legacy account/roster keys without asking applicants to select a server.
-  // Deleted roster entries are included so an exclusion cannot be bypassed by a new namespace.
-  const known=await c.env.DB.prepare('SELECT realm FROM game_accounts WHERE game_uid=? UNION SELECT realm FROM roster_entries WHERE game_uid=? UNION SELECT realm FROM member_applications WHERE game_uid=?')
-   .bind(gameUid,gameUid,gameUid).all<{realm:string}>();
-  if(known.results.length>1)return c.json({error:'이 CID의 명부 정보가 중복되어 있습니다. 관리자에게 확인을 요청해 주세요.'},409);
-  const realm=known.results[0]?.realm??'kr';
-  const result=await c.env.DB.prepare(`INSERT INTO member_applications VALUES(?,?,?,?,'pending',?,NULL,NULL)
-   ON CONFLICT(user_id) DO UPDATE SET realm=excluded.realm,game_uid=excluded.game_uid,nickname=excluded.nickname,status='pending',requested_at=excluded.requested_at,reviewed_at=NULL,reviewed_by=NULL WHERE member_applications.status='rejected'`)
-   .bind(userId,realm,gameUid,b.nickname.normalize('NFC'),Date.now()).run();
-  if(result.meta.changes!==1)return c.json({error:'이미 승인 대기 중입니다.'},409);
+  try{await registerFromRoster(c.env,userId,b.nickname.normalize('NFC'),gameUid);}
+  catch(error){if(error instanceof RegistrationConflict)return c.json({error:error.message},409);throw error;}
   return c.json({ok:true});
  });
  app.get('/auth/firebase/continue',async c=>{
