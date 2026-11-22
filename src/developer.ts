@@ -68,7 +68,7 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
   const identity=await developer(c);if(!identity)return c.json({error:'DEVELOPER_REQUIRED'},403);
   const services=await c.env.DB.prepare(`SELECT a.*,p.mode,p.organization_id,COALESCE(b.roster_id,CASE WHEN p.mode='season' THEN 'shared_'||p.organization_id END) AS roster_id FROM applications a JOIN application_owners o ON o.client_id=a.client_id JOIN common_application_policies p ON p.client_id=a.client_id LEFT JOIN application_rosters b ON b.client_id=a.client_id WHERE ?=1 OR o.user_id=? ORDER BY a.name`).bind(identity.admin?1:0,identity.user).all();
   const organizations=await c.env.DB.prepare(`SELECT id,name FROM member_organizations o WHERE ${catalogAvailable('organization','o.id')} ORDER BY name`).all();
-  return c.json({services:services.results,organizations:organizations.results,rosters:await availableRosters(c.env,identity.user,identity.admin),defaultRosterId:await c.env.DB.prepare(defaultRosterSql).first<string>('id'),authOrigin:new URL(c.req.url).origin,version:'0.3.1',admin:identity.admin});
+  return c.json({services:services.results,organizations:organizations.results,rosters:await availableRosters(c.env,identity.user,identity.admin),defaultRosterId:await c.env.DB.prepare(defaultRosterSql).first<string>('id'),authOrigin:new URL(c.req.url).origin,version:'0.4.0',admin:identity.admin});
  });
  app.post('/developer/services',async c=>{
   if(c.req.header('Origin')!==new URL(c.req.url).origin||c.req.header('X-Access-Kit-Action')!=='1')return c.json({error:'ORIGIN_DENIED'},403);

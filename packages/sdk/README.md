@@ -2,9 +2,9 @@
 
 Google 로그인·닉네임/CID 명부 대조·서버 게이트를 연결합니다. 기존 창천 등 인증 환경을 공유하거나 자기 서버·DB·Firebase에서 독립 운영할 수 있습니다. 독립 운영에서는 가입자·CID 연결·회원 상태·관리자 권한도 자기 DB에 저장합니다. 같은 맹의 여러 사이트만 그 환경을 공유합니다.
 
-공유 연결 안내: `docs/LLM_INSTALLATION.md`. 독립 설치 안내: `docs/LLM_INDEPENDENT.md`, 운영 절차: `docs/INDEPENDENT_AUTH.md`. `access-kit auth init`은 독립 서버·마이그레이션을 로컬 생성하며 자동 배포하지 않습니다. 새 독립 기능은 미게시 개발본이므로 공개 npm 0.3.1에 포함됐다고 가정하지 마세요.
+공유 연결 안내: `docs/LLM_INSTALLATION.md`. 독립 설치 안내: `docs/LLM_INDEPENDENT.md`, 운영 절차: `docs/INDEPENDENT_AUTH.md`. `access-kit auth init`은 독립 서버·마이그레이션을 로컬 생성하며 자동 배포하지 않습니다. 독립 설치 도구와 서버 실행본은 SDK 0.4.0부터 포함됩니다.
 
-SDK **0.3.1** — Google 로그인, 중앙 명부의 승인 회원 접근 게이트와 설치 CLI입니다. SDK 설치와 중앙 인증 서버 배포·운영 DB 변경은 별개입니다.
+SDK **0.4.0** — Google 로그인, 중앙 명부의 승인 회원 접근 게이트와 설치 CLI입니다. SDK 설치와 중앙 인증 서버 배포·운영 DB 변경은 별개입니다.
 
 ## LLM에게 설치 맡기기
 
@@ -15,12 +15,19 @@ SDK **0.3.1** — Google 로그인, 중앙 명부의 승인 회원 접근 게이
 기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.
 서비스 연결 정보는 기존 설정이나 설치 스튜디오에서 확인하고, 사람이 필요한 로그인 단계만 요청하세요. 원격 배포는 별도 허락을 받으세요.
 
-https://unpkg.com/access-kit-sdk@0.3.1/docs/LLM_INSTALLATION.md
+https://unpkg.com/access-kit-sdk@0.4.0/docs/LLM_INSTALLATION.md
 ```
 
 이 링크는 공개 npm 패키지에 포함된 버전 고정 문서로 로그인 없이 읽을 수 있습니다. 중앙 서버를 배포하지 않아도 SDK 안내를 제공합니다. 중앙 서버 주소와 서비스 ID는 운영자에게 받으며, 처음 한 번 중앙에서 개발자 권한과 서비스 등록이 필요합니다. 비공개 GitHub 저장소 접근은 필요 없습니다.
 
 패키지 설치 후 상세 지시문은 `node_modules/access-kit-sdk/docs/LLM_INSTALLATION.md`에서도 읽을 수 있습니다. 특정 맹이나 인증 서버에 고정되지 않으며 `authOrigin`으로 사용할 중앙 서버를 지정합니다.
+
+자기 명부·회원·DB를 독립 관리하려면 다음 지시문을 전달하세요.
+
+```text
+아래 공식 안내를 읽고 Access Kit의 독립 인증 서버·관리자 페이지·사이트 SDK를 설치하고 가입 분류와 게이트까지 검증해 주세요. 원격 변경·배포는 별도 허락을 받으세요.
+https://unpkg.com/access-kit-sdk@0.4.0/docs/LLM_INDEPENDENT.md
+```
 
 ## 설치
 
@@ -28,7 +35,7 @@ Node.js 22 LTS 이상을 준비하고 프로젝트 폴더에서 실행합니다.
 
 ```sh
 npm view access-kit-sdk versions --json
-npm install --save-exact access-kit-sdk@0.3.1
+npm install --save-exact access-kit-sdk@0.4.0
 npx access-kit help
 ```
 
@@ -52,7 +59,7 @@ npx access-kit secret
 npx access-kit deploy
 ```
 
-배포 후 익명 HTML·API·이미지 차단, Google 로그인, 승인 전 차단·승인 후 입장과 재접속을 확인합니다. `init`이나 `doctor` 성공만으로 운영 보호가 완료된 것은 아닙니다. 기존 세션 키는 유지합니다.
+배포 후 익명 HTML·API·이미지 차단, Google 로그인, 명부 회원 입장·방문자 차단과 재접속을 확인합니다. `init`이나 `doctor` 성공만으로 운영 보호가 완료된 것은 아닙니다. 기존 세션 키는 유지합니다.
 
 ## 다른 Fetch API 서버
 
@@ -72,7 +79,7 @@ return gate(request,{
 
 ## 입장 정책
 
-중앙 서버에서 승인 회원 전체 / 진행 중인 시즌의 지정 소속 / 최고 관리자 전용을 서비스별로 선택합니다. SDK의 기본 `member`는 중앙에서 해당 서비스의 조건을 확인하며, 특정 맹을 고정하지 않습니다. 로컬 `admin` 게이트는 중앙 서비스 허용과 운영자 여부를 모두 요구합니다.
+인증 서버에서 서비스가 사용할 명부 / 전체 회원 / 최고 관리자 전용 조건을 선택합니다. SDK의 기본 `member`는 중앙에서 해당 서비스의 조건을 확인하며, 특정 맹을 고정하지 않습니다. 로컬 `admin` 게이트는 중앙 서비스 허용과 운영자 여부를 모두 요구합니다.
 
 Google 로그인만으로 회원 승인이 부여되지는 않습니다. 공개 SDK를 설치해도 다른 운영자의 명부·관리 권한을 얻지 않습니다. 기존 회원 ID와 이용 제한을 유지합니다.
 

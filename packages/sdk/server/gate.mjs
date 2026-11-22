@@ -1,6 +1,6 @@
 import { loginPage, diagnosticsPage } from './login.mjs';
 
-export const RUNTIME_VERSION = '0.3.1';
+export const RUNTIME_VERSION = '0.4.0';
 export const COOKIE = '__Host-accesskit_connect';
 export const AUTHORIZATION_LEASE_MS = 60 * 60 * 1000;
 const encoder = new TextEncoder();
