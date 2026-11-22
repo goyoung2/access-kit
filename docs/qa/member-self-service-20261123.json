@@ -1,0 +1,364 @@
+{
+  "at": "2026-11-22T18:08:08.968Z",
+  "source": "fa2681ec6f4fe91eae652568f07c34a7c8620933",
+  "health": {
+    "ok": true,
+    "service": "access-kit",
+    "version": "0.6.0"
+  },
+  "local": {
+    "testsPassed": 113,
+    "typecheckPassed": true,
+    "finalFocusedPassed": 11
+  },
+  "remote": {
+    "at": "2026-11-22T17:58:07.733Z",
+    "isolatedRemote": true,
+    "syntheticIdentities": true,
+    "realGooglePopupTested": false,
+    "sourceRosterUsed": false,
+    "checks": [
+      {
+        "name": "member studio without developer grant",
+        "passed": true
+      },
+      {
+        "name": "member console visible",
+        "passed": true
+      },
+      {
+        "name": "member status advertises console",
+        "passed": true
+      },
+      {
+        "name": "no explicit developer grant",
+        "passed": true
+      },
+      {
+        "name": "member creates own service",
+        "passed": true
+      },
+      {
+        "name": "visitor cannot create service",
+        "passed": true
+      },
+      {
+        "name": "owner adds coadmin",
+        "passed": true
+      },
+      {
+        "name": "coadmin manages assigned service",
+        "passed": true
+      },
+      {
+        "name": "sibling service denied",
+        "passed": true
+      },
+      {
+        "name": "shared roster invisible before delegation",
+        "passed": true
+      },
+      {
+        "name": "owner cannot delegate shared source",
+        "passed": true
+      },
+      {
+        "name": "shared source write denied",
+        "passed": true
+      },
+      {
+        "name": "operator delegates source",
+        "passed": true
+      },
+      {
+        "name": "delegated roster visible",
+        "passed": true
+      },
+      {
+        "name": "operator withdraws source",
+        "passed": true
+      },
+      {
+        "name": "withdrawn roster invisible",
+        "passed": true
+      },
+      {
+        "name": "reserve before target signup",
+        "passed": true
+      },
+      {
+        "name": "wrong CID cannot accept",
+        "passed": true
+      },
+      {
+        "name": "future user signs up",
+        "passed": true
+      },
+      {
+        "name": "CID signup does not grant admin",
+        "passed": true
+      },
+      {
+        "name": "invited CID accepts secret",
+        "passed": true
+      },
+      {
+        "name": "invitation single use",
+        "passed": true
+      },
+      {
+        "name": "future account sees assigned service",
+        "passed": true
+      },
+      {
+        "name": "future account cannot see other service",
+        "passed": true
+      },
+      {
+        "name": "coadmin cannot reserve global role",
+        "passed": true
+      },
+      {
+        "name": "owner revokes future admin",
+        "passed": true
+      },
+      {
+        "name": "revoked future admin denied",
+        "passed": true
+      },
+      {
+        "name": "operator cancels pending grant",
+        "passed": true
+      },
+      {
+        "name": "cancelled secret denied",
+        "passed": true
+      },
+      {
+        "name": "explicit registration revocation retained",
+        "passed": true
+      },
+      {
+        "name": "original synthetic source unchanged",
+        "passed": true
+      }
+    ]
+  },
+  "remoteCleanup": {
+    "at": "2026-11-22T18:05:16.291Z",
+    "createdWorkerRemoved": true,
+    "createdDatabaseRemoved": true,
+    "originalServersWritten": false
+  },
+  "production": {
+    "at": "2026-11-22T18:06:38.317Z",
+    "serverVersion": "0.6.0",
+    "source": "fa2681ec6f4fe91eae652568f07c34a7c8620933",
+    "preSignupReservationCreatedByRealOperatorInBrowser": true,
+    "syntheticRecipient": true,
+    "newGoogleIdentityCreated": false,
+    "role": "service_admin",
+    "registrationStatus": "visitor",
+    "beforeAcceptConsole": 403,
+    "acceptViaBrowser": true,
+    "afterAcceptConsole": 200,
+    "onlyAssignedService": true,
+    "superadmin": false,
+    "sharedRosterVisible": false,
+    "sharedRosterRows": 0,
+    "hostedSiteAdmitted": true,
+    "hostedDatasetRows": 4000,
+    "hostedProfileStatus": 200,
+    "revokedByRealOperator": true,
+    "consoleAfterRevocation": 403,
+    "ownServiceAfterRevocation": 403,
+    "otherServiceDenied": 403,
+    "syntheticRecipientRemoved": true,
+    "testReservationRemoved": true
+  },
+  "npm": {
+    "at": "2026-11-22T18:06:48.540Z",
+    "package": "access-kit-sdk",
+    "version": "0.6.0",
+    "archiveSha256": "8c252b021545d7d6ca23b6542f81be1a9235aadc9720c6ac701fc9c70f639584",
+    "registryShasum": "786cf7f63acacebc76b7b04624e2c4d9572f1cff",
+    "anonymousPublicInstall": true,
+    "guides": [
+      {
+        "url": "https://unpkg.com/access-kit-sdk@0.6.0/docs/LLM_INSTALLATION.md",
+        "status": 200
+      },
+      {
+        "url": "https://unpkg.com/access-kit-sdk@0.6.0/docs/LLM_INDEPENDENT.md",
+        "status": 200
+      }
+    ],
+    "doctor": {
+      "ok": true,
+      "runtime": "0.6.0",
+      "hosting": "workers",
+      "siteUrl": "https://ak-team-trial-20261123.nslg-hub.workers.dev/",
+      "assets": 1,
+      "checks": [
+        "generated-files",
+        "source-config",
+        "gate-settings",
+        "build-output",
+        "protected-routing"
+      ],
+      "next": "access-kit secret 후 deploy. 로그인은 배포 사이트에서 확인하세요."
+    },
+    "remoteConsumerDeploy": false
+  },
+  "preservation": {
+    "at": "2026-11-22T18:06:41.401Z",
+    "allOriginalRowsPreserved": true,
+    "checks": [
+      {
+        "table": "users",
+        "originalRows": 2,
+        "preserved": true
+      },
+      {
+        "table": "auth_identities",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "memberships",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "applications",
+        "originalRows": 2,
+        "preserved": true
+      },
+      {
+        "table": "auth_operators",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "user_reauthentication",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "common_members",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "game_accounts",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "member_applications",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "member_organizations",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "member_seasons",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "season_memberships",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "member_approval_receipts",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "developers",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "application_owners",
+        "originalRows": 2,
+        "preserved": true
+      },
+      {
+        "table": "developer_invitations",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "member_managers",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "login_branding",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "roster_entries",
+        "originalRows": 198,
+        "preserved": true
+      },
+      {
+        "table": "catalog_state",
+        "originalRows": 2,
+        "preserved": true
+      },
+      {
+        "table": "automatic_registrations",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "access_rosters",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "access_roster_entries",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "application_rosters",
+        "originalRows": 2,
+        "preserved": true
+      },
+      {
+        "table": "default_access_roster",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "common_application_policies",
+        "originalRows": 2,
+        "preserved": true
+      },
+      {
+        "table": "application_administrators",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "service_roster_grants",
+        "originalRows": 0,
+        "preserved": true
+      }
+    ],
+    "rosterCount": 198,
+    "rosterSha256": "8b1a127553f6aef89aa3915aebddbb0e6ab8b4deedb1953ca6a63d91b40ae749",
+    "unrelatedWorkersUnchanged": true,
+    "existingPagesUnchanged": true,
+    "oldAuthServerWritten": false
+  }
+}
