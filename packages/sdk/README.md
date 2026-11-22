@@ -2,9 +2,9 @@
 
 Google 로그인·닉네임/CID 명부 대조·서버 게이트를 연결합니다. 기존 창천 등 인증 환경을 공유하거나 자기 서버·DB·Firebase에서 독립 운영할 수 있습니다. 독립 운영에서는 가입자·CID 연결·회원 상태·관리자 권한도 자기 DB에 저장합니다. 같은 맹의 여러 사이트만 그 환경을 공유합니다.
 
-공유 연결 안내: `docs/LLM_INSTALLATION.md`. 독립 설치 안내: `docs/LLM_INDEPENDENT.md`, 운영 절차: `docs/INDEPENDENT_AUTH.md`. `access-kit auth init`은 독립 서버·마이그레이션을 로컬 생성하며 자동 배포하지 않습니다. 독립 설치 도구와 서버 실행본은 SDK 0.4.0부터 포함됩니다.
+공유 연결 안내: `docs/LLM_INSTALLATION.md`. 독립 설치 안내: `docs/LLM_INDEPENDENT.md`, 운영 절차: `docs/INDEPENDENT_AUTH.md`. `access-kit auth init`은 독립 서버·마이그레이션을 로컬 생성하며 자동 배포하지 않습니다. 독립 설치 도구와 서버 실행본은 SDK 0.5.0부터 포함됩니다.
 
-SDK **0.4.0** — Google 로그인, 중앙 명부의 승인 회원 접근 게이트와 설치 CLI입니다. SDK 설치와 중앙 인증 서버 배포·운영 DB 변경은 별개입니다.
+SDK **0.5.0** — Google 로그인, 중앙 명부의 승인 회원 접근 게이트와 설치 CLI입니다. SDK 설치와 중앙 인증 서버 배포·운영 DB 변경은 별개입니다.
 
 ## LLM에게 설치 맡기기
 
@@ -15,7 +15,7 @@ SDK **0.4.0** — Google 로그인, 중앙 명부의 승인 회원 접근 게이
 기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.
 서비스 연결 정보는 기존 설정이나 설치 스튜디오에서 확인하고, 사람이 필요한 로그인 단계만 요청하세요.
 
-https://unpkg.com/access-kit-sdk@0.4.0/docs/LLM_INSTALLATION.md
+https://unpkg.com/access-kit-sdk@0.5.0/docs/LLM_INSTALLATION.md
 ```
 
 이 링크는 공개 npm 패키지에 포함된 버전 고정 문서로 로그인 없이 읽을 수 있습니다. 중앙 서버를 배포하지 않아도 SDK 안내를 제공합니다. 중앙 서버 주소와 서비스 ID는 운영자에게 받으며, 처음 한 번 중앙에서 개발자 권한과 서비스 등록이 필요합니다. 비공개 GitHub 저장소 접근은 필요 없습니다.
@@ -26,7 +26,7 @@ https://unpkg.com/access-kit-sdk@0.4.0/docs/LLM_INSTALLATION.md
 
 ```text
 아래 공식 안내를 읽고 Access Kit의 독립 인증 서버·관리자 페이지·사이트 SDK를 설치하고 가입 분류와 게이트까지 검증해 주세요.
-https://unpkg.com/access-kit-sdk@0.4.0/docs/LLM_INDEPENDENT.md
+https://unpkg.com/access-kit-sdk@0.5.0/docs/LLM_INDEPENDENT.md
 ```
 
 ## 설치
@@ -35,7 +35,7 @@ Node.js 22 LTS 이상을 준비하고 프로젝트 폴더에서 실행합니다.
 
 ```sh
 npm view access-kit-sdk versions --json
-npm install --save-exact access-kit-sdk@0.4.0
+npm install --save-exact access-kit-sdk@0.5.0
 npx access-kit help
 ```
 

@@ -1,8 +1,8 @@
 # LLM에 전달하는 Access Kit 설치 지시문
 
-이 문서는 **기존 인증 환경에 사이트를 연결하는 공유 방식**입니다. 창천 개발자는 창천 인증 서버를, 방주 독립 운영자가 만드는 추가 사이트는 방주 인증 서버를 사용합니다. 명부·가입자·CID 연결·정지는 선택한 인증 서버의 DB에 있습니다. 자기 서버와 DB를 처음 만드는 개발자는 [독립 설치 지시문](LLM_INDEPENDENT.md)을 먼저 따릅니다. SDK 0.4.0은 공유 연결과 독립 설치를 모두 제공합니다.
+이 문서는 **기존 인증 환경에 사이트를 연결하는 공유 방식**입니다. 창천 개발자는 창천 인증 서버를, 방주 독립 운영자가 만드는 추가 사이트는 방주 인증 서버를 사용합니다. 명부·가입자·CID 연결·정지는 선택한 인증 서버의 DB에 있습니다. 자기 서버와 DB를 처음 만드는 개발자는 [독립 설치 지시문](LLM_INDEPENDENT.md)을 먼저 따릅니다. SDK 0.5.0은 공유 연결과 독립 설치를 모두 제공합니다.
 
-> **대상 — SDK 0.4.0:** 중앙 가입 화면은 닉네임·CID 두 항목과 가입 상태별 안내를 사용합니다. SDK는 공개 npm의 정확한 버전으로 설치하며 실제 게시 버전은 `npm view access-kit-sdk versions --json`으로 확인합니다. npm 게시와 중앙 서버·운영 DB 반영은 별개입니다. 임시 검증과 실제 중앙 CPU 관측의 한계는 [README](../README.md)와 [호스팅 시험](https://github.com/goyoung2/access-kit/blob/main/docs/qa/hosted-sdk-trial-20261114.md)에 구분합니다.
+> **대상 — SDK 0.5.0:** 중앙 가입 화면은 닉네임·CID 두 항목과 가입 상태별 안내를 사용합니다. SDK는 공개 npm의 정확한 버전으로 설치하며 실제 게시 버전은 `npm view access-kit-sdk versions --json`으로 확인합니다. npm 게시와 중앙 서버·운영 DB 반영은 별개입니다. 임시 검증과 실제 중앙 CPU 관측의 한계는 [README](../README.md)와 [호스팅 시험](https://github.com/goyoung2/access-kit/blob/main/docs/qa/hosted-sdk-trial-20261114.md)에 구분합니다.
 
 ## 개발자가 전달할 짧은 지시문
 
@@ -13,7 +13,7 @@
 기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.
 서비스 연결 정보는 기존 설정이나 설치 스튜디오에서 확인하고, 사람이 필요한 로그인 단계만 요청하세요.
 
-https://unpkg.com/access-kit-sdk@0.4.0/docs/LLM_INSTALLATION.md
+https://unpkg.com/access-kit-sdk@0.5.0/docs/LLM_INSTALLATION.md
 ```
 
 기본 운영 후보는 Cloudflare Workers + D1 Free입니다. 유료 선결제는 설치 조건이 아니며, 무료 한도와 검증 범위는 [README](../README.md)와 아래 지시문에서 안내합니다. 상세 개발 검증은 [저장소의 CPU 검증 기록](https://github.com/goyoung2/access-kit/blob/main/docs/qa/admin-cpu-20261114.md)에 정리합니다.
@@ -87,7 +87,7 @@ Cloudflare에서는 Workers + D1 Free를 기본 운영 후보로 삼으세요. �
 
 ```json
 {
-  "sdkVersion": "0.4.0",
+  "sdkVersion": "0.5.0",
   "authOrigin": "https://인증서버",
   "clientId": "등록된서비스ID",
   "siteUrl": "https://서비스주소/",

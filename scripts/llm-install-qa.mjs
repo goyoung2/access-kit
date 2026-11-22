@@ -15,13 +15,13 @@ import {parse as parseToml} from 'smol-toml';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const hash=value=>createHash('sha256').update(value).digest('hex');
-const packageFile=join(root,'dist/access-kit-sdk-0.4.0.tgz');
+const packageFile=join(root,'dist/access-kit-sdk-0.5.0.tgz');
 const text=async path=>readFile(path,'utf8');
 const git=(cwd,...args)=>execFileSync('git',args,{cwd,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
 async function prepare(publicRegistry=false,shortPrompt=false){
  const directory=await mkdtemp(join(tmpdir(),'access-kit-llm-qa-'));
  const packageSha256=hash(await readFile(packageFile));
- const snapshot=join(directory,'access-kit-sdk-0.4.0.tgz');if(!publicRegistry)await cp(packageFile,snapshot);
+ const snapshot=join(directory,'access-kit-sdk-0.5.0.tgz');if(!publicRegistry)await cp(packageFile,snapshot);
  const cases=[];
  for(const hosting of ['workers','pages']){
   const project=join(directory,hosting);await mkdir(join(project,'public'),{recursive:true});await mkdir(join(project,'scripts'));await mkdir(join(project,'src'));
@@ -55,7 +55,7 @@ async function prepare(publicRegistry=false,shortPrompt=false){
   const originals=hosting==='workers'?['src/worker.mjs','wrangler.jsonc']:['functions/api/echo.js','wrangler.toml'];
   const baseline={hosting,siteUrl,files:Object.fromEntries(await Promise.all(originals.map(async name=>[name,hash(await readFile(join(project,name)))])))};
   await write('.access-kit-qa-baseline.json',JSON.stringify(baseline,null,2));
-  const context={sdkVersion:'0.4.0',authOrigin:'https://auth.test',clientId:'site',siteUrl,hosting,assets:'dist',accessPolicy:'member',projectPath:project.replaceAll('\\','/'),packageFile:snapshot.replaceAll('\\','/'),packageSha256,localVerificationCommand:'npm run verify:access-kit',deploymentAllowed:false};
+  const context={sdkVersion:'0.5.0',authOrigin:'https://auth.test',clientId:'site',siteUrl,hosting,assets:'dist',accessPolicy:'member',projectPath:project.replaceAll('\\','/'),packageFile:snapshot.replaceAll('\\','/'),packageSha256,localVerificationCommand:'npm run verify:access-kit',deploymentAllowed:false};
   if(publicRegistry){delete context.packageFile;delete context.packageSha256;}
   if(publicRegistry||shortPrompt)await write('access-kit-context.json',JSON.stringify(context,null,2));
   if(shortPrompt)await cp(join(root,'docs/LLM_INSTALLATION.md'),join(project,'GUIDE.md'));
@@ -85,7 +85,7 @@ async function verify(directory){
  assert.deepEqual([settings.clientId,settings.authOrigin,settings.siteUrl,settings.accessPolicy],['site','https://auth.test',baseline.siteUrl,'member']);
  const state=JSON.parse(await text(join(project,'access-kit.install.json')));assert.equal(state.hosting,baseline.hosting);
  const sdk=join(project,'node_modules/access-kit-sdk');
- const metadata=JSON.parse(await text(join(sdk,'package.json')));assert.equal(metadata.version,'0.4.0');
+ const metadata=JSON.parse(await text(join(sdk,'package.json')));assert.equal(metadata.version,'0.5.0');
  const specifier=baseline.hosting==='workers'?'access-kit.worker.mjs':'functions/_middleware.js';
  const installed=await import(pathToFileURL(join(project,specifier)).href);
  const api=baseline.hosting==='pages'?await import(pathToFileURL(join(project,'functions/api/echo.js')).href):null;

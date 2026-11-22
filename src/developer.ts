@@ -73,7 +73,7 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
   if(services.results.some(s=>s.roster_id&&!choices.some(r=>r.id===s.roster_id))){for(const r of await availableRosters(c.env,identity.user,identity.admin,true))if(!choices.some(existing=>existing.id===r.id))choices.push(r);}
   const managedRosterIds=new Set(services.results.map(row=>row.roster_id));
   const rosters=identity.serviceOnly?choices.filter(row=>managedRosterIds.has(row.id)):choices;
-  return c.json({services:services.results.map(s=>({...s,canChangePolicy:identity.admin||s.owner_user_id===identity.user})),organizations:identity.serviceOnly?organizations.results.filter(row=>rosters.some(r=>r.organization_id===row.id)):organizations.results,rosters,defaultRosterId:identity.serviceOnly?null:await c.env.DB.prepare(defaultRosterSql).first<string>('id'),authOrigin:new URL(c.req.url).origin,version:'0.4.0',admin:identity.admin,serviceOnly:identity.serviceOnly});
+  return c.json({services:services.results.map(s=>({...s,canChangePolicy:identity.admin||s.owner_user_id===identity.user})),organizations:identity.serviceOnly?organizations.results.filter(row=>rosters.some(r=>r.organization_id===row.id)):organizations.results,rosters,defaultRosterId:identity.serviceOnly?null:await c.env.DB.prepare(defaultRosterSql).first<string>('id'),authOrigin:new URL(c.req.url).origin,version:'0.5.0',admin:identity.admin,serviceOnly:identity.serviceOnly});
  });
  app.post('/developer/services',async c=>{
   if(c.req.header('Origin')!==new URL(c.req.url).origin||c.req.header('X-Access-Kit-Action')!=='1')return c.json({error:'ORIGIN_DENIED'},403);
