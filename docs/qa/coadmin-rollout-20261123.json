@@ -1,0 +1,421 @@
+{
+  "at": "2026-11-22T17:06:24.544Z",
+  "source": "52f07c9331cf5a858ec1803fcd1991364ca36ec4",
+  "authOrigin": "https://access-kit.nslg-hub.workers.dev",
+  "health": {
+    "ok": true,
+    "service": "access-kit",
+    "version": "0.5.0"
+  },
+  "npm": {
+    "name": "access-kit-sdk",
+    "version": "0.5.0",
+    "publicNpm": true,
+    "archiveSha256": "752932e182e673be11f3841a89e4130c377b0791c096b4381970142aa4bf7950",
+    "registryShasum": "2145333b4208e1565ee5afd385924ca683e8ab4f",
+    "guides": [
+      {
+        "url": "https://unpkg.com/access-kit-sdk@0.5.0/docs/LLM_INSTALLATION.md",
+        "status": 200
+      },
+      {
+        "url": "https://unpkg.com/access-kit-sdk@0.5.0/docs/LLM_INDEPENDENT.md",
+        "status": 200
+      }
+    ]
+  },
+  "site": {
+    "origin": "https://ak-team-trial-20261123.nslg-hub.workers.dev",
+    "worker": "ak-team-trial-20261123",
+    "clientId": "app_gs547whNlBiS6Wdw",
+    "originalMainPreserved": true,
+    "assetsRunWorkerFirst": true,
+    "anonymousStatus": 401,
+    "doctor": {
+      "ok": true,
+      "runtime": "0.5.0",
+      "hosting": "workers",
+      "siteUrl": "https://ak-team-trial-20261123.nslg-hub.workers.dev/",
+      "assets": 6,
+      "checks": [
+        "generated-files",
+        "source-config",
+        "gate-settings",
+        "build-output",
+        "protected-routing"
+      ],
+      "next": "access-kit secret 후 deploy. 로그인은 배포 사이트에서 확인하세요."
+    }
+  },
+  "remote": {
+    "passed": 56,
+    "phases": [
+      {
+        "at": "2026-11-22T16:54:11.467Z",
+        "siteOrigin": "https://ak-team-trial-20261123.nslg-hub.workers.dev",
+        "sourceRosterUsed": false,
+        "syntheticIdentities": true,
+        "checks": [
+          {
+            "name": "coadmin sees only assigned service",
+            "passed": true
+          },
+          {
+            "name": "coadmin has no global admin",
+            "passed": true
+          },
+          {
+            "name": "three service administrators",
+            "passed": true
+          },
+          {
+            "name": "other service data denied",
+            "passed": true
+          },
+          {
+            "name": "other service admin grant denied",
+            "passed": true
+          },
+          {
+            "name": "other roster write denied",
+            "passed": true
+          },
+          {
+            "name": "other service configuration denied",
+            "passed": true
+          },
+          {
+            "name": "global role escalation denied",
+            "passed": true
+          },
+          {
+            "name": "global suspension denied",
+            "passed": true
+          },
+          {
+            "name": "coadmin authenticates to hosted site",
+            "passed": true
+          },
+          {
+            "name": "private roster member authenticates",
+            "passed": true
+          },
+          {
+            "name": "visitor gets no authorization code",
+            "passed": true
+          },
+          {
+            "name": "coadmin has no rights on other service authorization",
+            "passed": true
+          },
+          {
+            "name": "other service admits its own roster member",
+            "passed": true
+          },
+          {
+            "name": "hosted coadmin session",
+            "passed": true
+          },
+          {
+            "name": "hosted member session",
+            "passed": true
+          },
+          {
+            "name": "site receives verified service administrator role",
+            "passed": true
+          },
+          {
+            "name": "original binding preserved",
+            "passed": true
+          },
+          {
+            "name": "member does not become administrator",
+            "passed": true
+          },
+          {
+            "name": "anonymous GET blocked /",
+            "passed": true
+          },
+          {
+            "name": "anonymous HEAD blocked /",
+            "passed": true
+          },
+          {
+            "name": "member GET allowed /",
+            "passed": true
+          },
+          {
+            "name": "anonymous GET blocked /app.js",
+            "passed": true
+          },
+          {
+            "name": "anonymous HEAD blocked /app.js",
+            "passed": true
+          },
+          {
+            "name": "member GET allowed /app.js",
+            "passed": true
+          },
+          {
+            "name": "anonymous GET blocked /style.css",
+            "passed": true
+          },
+          {
+            "name": "anonymous HEAD blocked /style.css",
+            "passed": true
+          },
+          {
+            "name": "member GET allowed /style.css",
+            "passed": true
+          },
+          {
+            "name": "anonymous GET blocked /data.json",
+            "passed": true
+          },
+          {
+            "name": "anonymous HEAD blocked /data.json",
+            "passed": true
+          },
+          {
+            "name": "member GET allowed /data.json",
+            "passed": true
+          },
+          {
+            "name": "anonymous GET blocked /team.svg",
+            "passed": true
+          },
+          {
+            "name": "anonymous HEAD blocked /team.svg",
+            "passed": true
+          },
+          {
+            "name": "member GET allowed /team.svg",
+            "passed": true
+          },
+          {
+            "name": "anonymous GET blocked /download.txt",
+            "passed": true
+          },
+          {
+            "name": "anonymous HEAD blocked /download.txt",
+            "passed": true
+          },
+          {
+            "name": "member GET allowed /download.txt",
+            "passed": true
+          },
+          {
+            "name": "anonymous GET blocked /api/profile",
+            "passed": true
+          },
+          {
+            "name": "anonymous HEAD blocked /api/profile",
+            "passed": true
+          },
+          {
+            "name": "member GET allowed /api/profile",
+            "passed": true
+          },
+          {
+            "name": "anonymous GET blocked /api/echo",
+            "passed": true
+          },
+          {
+            "name": "anonymous HEAD blocked /api/echo",
+            "passed": true
+          },
+          {
+            "name": "member GET allowed /api/echo",
+            "passed": true
+          },
+          {
+            "name": "anonymous range blocked",
+            "passed": true
+          },
+          {
+            "name": "invalid cookie blocked",
+            "passed": true
+          },
+          {
+            "name": "protected dashboard dataset",
+            "passed": true
+          },
+          {
+            "name": "API method and body preserved",
+            "passed": true
+          },
+          {
+            "name": "visitor cannot mint site session",
+            "passed": true
+          }
+        ]
+      },
+      {
+        "at": "2026-11-22T16:58:32.519Z",
+        "checks": [
+          {
+            "name": "revoked coadmin cannot read console",
+            "passed": true
+          },
+          {
+            "name": "revoked coadmin cannot manage original service",
+            "passed": true
+          },
+          {
+            "name": "revoked coadmin gets no new authorization code",
+            "passed": true
+          },
+          {
+            "name": "revoked coadmin cannot renew gate session",
+            "passed": true
+          },
+          {
+            "name": "existing cookie remains bounded by five-minute lease",
+            "passed": true,
+            "detail": {
+              "immediateStatus": 200
+            }
+          }
+        ]
+      },
+      {
+        "at": "2026-11-22T17:01:56.251Z",
+        "checks": [
+          {
+            "name": "revoked coadmin cookie rejected after actual lease",
+            "passed": true,
+            "detail": {
+              "status": 403
+            }
+          },
+          {
+            "name": "member logout confirmed",
+            "passed": true
+          },
+          {
+            "name": "logged-out central token rejected",
+            "passed": true
+          }
+        ]
+      }
+    ]
+  },
+  "browser": {
+    "existingRealGoogleSession": true,
+    "newGooglePopupTested": false,
+    "admission": "입장 확인 완료 · 이 서비스의 관리자",
+    "dataRows": 4000,
+    "displayedRows": 300,
+    "filteredRows": 1,
+    "restoredRows": 300,
+    "profileStatus": 200,
+    "coadminConsoleAfterRevocation": 403,
+    "coadminSiteAfterRevocation": 403,
+    "privateRosterCrudAndTwoItemImport": true
+  },
+  "local": {
+    "testsPassed": 107,
+    "typecheckPassed": true
+  },
+  "cleanup": {
+    "at": "2026-11-22T17:04:11.834Z",
+    "syntheticUsersRemoved": 5,
+    "syntheticUsersRemaining": 0,
+    "temporaryServiceBRemoved": true,
+    "temporaryPrivateRostersRemoved": 2,
+    "hostedServiceRetained": true,
+    "hostedServiceRoster": "shared_org_changcheon",
+    "changcheonCount": 198
+  },
+  "preservation": {
+    "at": "2026-11-22T17:04:31.662Z",
+    "rosterCount": 198,
+    "rosterSha256": "8b1a127553f6aef89aa3915aebddbb0e6ab8b4deedb1953ca6a63d91b40ae749",
+    "allOriginalRowsPreserved": true,
+    "checks": [
+      {
+        "table": "roster_entries",
+        "originalRows": 198,
+        "preserved": true
+      },
+      {
+        "table": "member_seasons",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "member_organizations",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "access_rosters",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "default_access_roster",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "users",
+        "originalRows": 2,
+        "preserved": true
+      },
+      {
+        "table": "auth_identities",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "game_accounts",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "automatic_registrations",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "common_members",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "season_memberships",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "auth_operators",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "developers",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "application_owners",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "applications",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "application_rosters",
+        "originalRows": 1,
+        "preserved": true
+      }
+    ],
+    "unrelatedWorkersUnchanged": true,
+    "existingPagesUnchanged": true,
+    "oldAuthServerWritten": false
+  }
+}

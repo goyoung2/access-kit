@@ -51,6 +51,8 @@ npx access-kit help
 
 - [서비스 공동 관리자](docs/SERVICE_ADMINISTRATORS.md): SDK 0.5.0의 서버 템플릿과 마이그레이션 0009에 포함됩니다. 콘솔에서 여러 관리자를 지정하고 연결 명부를 함께 관리하며, 중앙 공유 원본은 서비스별 명시적 위임으로 보호합니다.
 
+- [공동 관리자 원격 배포·공개 npm 설치·호스팅 검증](docs/qa/coadmin-rollout-20261123.md) — 새 창천 서버 0.5.0에 반영했습니다. [팀 운영 시험 사이트](https://ak-team-trial-20261123.nslg-hub.workers.dev/)는 창천 명부를 공유하며 로그인 후 사용할 수 있습니다. 관리자 추가·해제, 다른 서비스 접근 차단, 기존 쿠키의 5분 재확인 후 차단을 검증했습니다.
+
 - [새 창천 서버·명부 198명·실제 Google 가입과 게이트 검증](docs/qa/changcheon-deploy-20261123.md).
 
 - [공유 연결·독립 운영의 짧은 LLM 설치 검증](docs/qa/independent-auth-20261118.md) — 102개 테스트와 두 새 프로젝트의 설치·게이트 검증. 실제 Google 로그인·원격 배포는 미실시.
