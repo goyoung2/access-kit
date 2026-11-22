@@ -5,6 +5,7 @@ import {randomToken,sha256Base64Url} from './crypto';
 import {parseRosterInput,rosterItem} from './roster-input';
 import type {RosterItem} from './roster-input';
 import {catalogAvailable} from './membership-catalog';
+import {serviceRosterAuthority} from './service-authority';
 
 const id=z.string().trim().min(1).max(128);
 const context=z.object({realm:z.string().trim().min(1).max(64),seasonId:id,organizationId:id});
@@ -24,25 +25,28 @@ export class RosterError extends Error {constructor(message:string,readonly stat
 const authority=`${activeOperator} OR EXISTS(SELECT 1 FROM member_managers mm JOIN users u ON u.id=mm.user_id WHERE mm.user_id=? AND mm.organization_id=? AND u.status='active' AND ${catalogAvailable('organization','mm.organization_id')})`;
 export const rosterSelect=`SELECT r.*,g.user_id AS linked_user_id,m.status AS member_status FROM roster_entries r LEFT JOIN game_accounts g ON g.realm=r.realm AND g.game_uid=r.game_uid LEFT JOIN common_members m ON m.user_id=g.user_id`;
 const selectRows=rosterSelect;
-const contextAccessSql=`SELECT (${authority}) AS allowed,
+function authorityFor(actor:string,c:RosterContext,serviceId?:string){return serviceId?serviceRosterAuthority(actor,serviceId,c.organizationId):{sql:authority,values:[actor,actor,c.organizationId]};}
+function contextAccessSql(sql:string){return `SELECT (${sql}) AS allowed,
  EXISTS(SELECT 1 FROM member_seasons s,member_organizations o WHERE s.id=? AND s.status IN ('draft','active') AND o.id=? AND ${catalogAvailable('season','s.id')} AND ${catalogAvailable('organization','o.id')}) AS valid`;
-const contextGuardSql=`(${authority}) AND EXISTS(SELECT 1 FROM member_seasons s WHERE s.id=? AND s.status IN ('draft','active') AND ${catalogAvailable('season','s.id')}) AND EXISTS(SELECT 1 FROM member_organizations o WHERE o.id=? AND ${catalogAvailable('organization','o.id')})`;
+}
+function contextGuard(actor:string,c:RosterContext,serviceId?:string){const rule=authorityFor(actor,c,serviceId);return {sql:`(${rule.sql}) AND EXISTS(SELECT 1 FROM member_seasons s WHERE s.id=? AND s.status IN ('draft','active') AND ${catalogAvailable('season','s.id')}) AND EXISTS(SELECT 1 FROM member_organizations o WHERE o.id=? AND ${catalogAvailable('organization','o.id')})`,values:[...rule.values,c.seasonId,c.organizationId]};}
 
 export async function rosterRows(env:Env,actor:string){
  return (await env.DB.prepare(`${selectRows} WHERE (${activeOperator} OR EXISTS(SELECT 1 FROM member_managers mm JOIN users u ON u.id=mm.user_id WHERE mm.user_id=? AND mm.organization_id=r.organization_id AND u.status='active' AND ${catalogAvailable('organization','mm.organization_id')})) ORDER BY r.nickname,r.game_uid`).bind(actor,actor).all<RosterRow>()).results;
 }
 
-async function authorize(env:Env,actor:string,c:RosterContext){
- const access=await env.DB.prepare(contextAccessSql)
-  .bind(actor,actor,c.organizationId,c.seasonId,c.organizationId).first<{allowed:number;valid:number}>();
+async function authorize(env:Env,actor:string,c:RosterContext,serviceId?:string){
+ const rule=authorityFor(actor,c,serviceId);
+ const access=await env.DB.prepare(contextAccessSql(rule.sql))
+  .bind(...rule.values,c.seasonId,c.organizationId).first<{allowed:number;valid:number}>();
  checkAccess(access);
 }
 function checkAccess(access:{readonly allowed:number;readonly valid:number}|null):asserts access is {readonly allowed:number;readonly valid:number}{
  if(!access?.allowed)throw new RosterError('담당 소속의 명부만 관리할 수 있습니다.',403);
  if(!access.valid)throw new RosterError('준비 중 또는 진행 중인 시즌과 등록된 소속을 선택하세요.',409);
 }
-function guardContext(tx:Transaction,actor:string,c:RosterContext){
- tx.require(contextGuardSql,actor,actor,c.organizationId,c.seasonId,c.organizationId);
+function guardContext(tx:Transaction,actor:string,c:RosterContext,serviceId?:string){
+ const rule=contextGuard(actor,c,serviceId);tx.require(rule.sql,...rule.values);
 }
 function guardRow(tx:Transaction,row:RosterRow){
  tx.require('EXISTS(SELECT 1 FROM roster_entries WHERE id=? AND revision=? AND organization_id=? AND status=?)',row.id,row.revision,row.organization_id,row.status);
@@ -74,15 +78,16 @@ function writeEntry(env:Env,tx:Transaction,actor:string,c:RosterContext,item:Ros
  }
  syncMembership(env,tx,actor,c,item,status);return entryId;
 }
-async function preview(env:Env,actor:string,c:RosterContext,text:string){
+async function preview(env:Env,actor:string,c:RosterContext,text:string,serviceId?:string){
  const input=parseRosterInput(text);
- const snapshot=await env.DB.prepare(`WITH access AS (${contextAccessSql})
+ const rule=authorityFor(actor,c,serviceId);
+ const snapshot=await env.DB.prepare(`WITH access AS (${contextAccessSql(rule.sql)})
   SELECT allowed,valid,CASE WHEN allowed AND valid THEN (
    SELECT json_group_array(json_object('game_uid',r.game_uid,'nickname',r.nickname,'organization_id',r.organization_id,'status',r.status,'revision',r.revision))
    FROM json_each(?) j CROSS JOIN roster_entries r
    WHERE r.realm=? AND r.game_uid=CAST(j.value AS TEXT) AND r.season_id=?
   ) ELSE '[]' END AS current FROM access`)
-  .bind(actor,actor,c.organizationId,c.seasonId,c.organizationId,JSON.stringify(input.items.map(item=>item.gameUid)),c.realm,c.seasonId)
+  .bind(...rule.values,c.seasonId,c.organizationId,JSON.stringify(input.items.map(item=>item.gameUid)),c.realm,c.seasonId)
   .first<{allowed:number;valid:number;current:string}>();
  checkAccess(snapshot);
  // This JSON is generated by the fixed projection above, not supplied by the caller.
@@ -104,18 +109,19 @@ async function preview(env:Env,actor:string,c:RosterContext,text:string){
  return {items,errors:input.errors,duplicateCount:input.duplicateCount,counts,ready,fingerprint};
 }
 
-export async function mutateRoster(env:Env,actor:string,action:z.infer<typeof rosterAction>){
+export async function mutateRoster(env:Env,actor:string,action:z.infer<typeof rosterAction>,serviceId?:string){
  if(action.action==='preview'||action.action==='import'){
-  const c=context.parse(action),result=await preview(env,actor,c,action.text);
+  const c=context.parse(action),result=await preview(env,actor,c,action.text,serviceId);
   if(action.action==='preview')return result;
   if(!result.ready)throw new RosterError('오류·충돌을 수정하고 미리보기를 다시 확인하세요.',409);
   if(action.fingerprint!==result.fingerprint)throw new RosterError('미리보기 이후 명부가 바뀌었습니다. 다시 미리보기를 실행하세요.',409);
   const tx=atomicMutation(env);
   // Set-based writes keep large imports in one bounded batch without thousands of result objects.
   const rows=JSON.stringify(result.items),now=Date.now();
-  tx.require(`${contextGuardSql} AND NOT EXISTS(SELECT 1 FROM json_each(?) j LEFT JOIN roster_entries r ON r.realm=? AND r.season_id=? AND r.game_uid=CAST(json_extract(j.value,'$.gameUid') AS TEXT)
+  const rule=contextGuard(actor,c,serviceId);
+  tx.require(`${rule.sql} AND NOT EXISTS(SELECT 1 FROM json_each(?) j LEFT JOIN roster_entries r ON r.realm=? AND r.season_id=? AND r.game_uid=CAST(json_extract(j.value,'$.gameUid') AS TEXT)
    WHERE (json_extract(j.value,'$.revision') IS NULL AND r.id IS NOT NULL)
-   OR (json_extract(j.value,'$.revision') IS NOT NULL AND (r.id IS NULL OR r.revision<>json_extract(j.value,'$.revision') OR r.status<>'active' OR r.organization_id<>?)))`,actor,actor,c.organizationId,c.seasonId,c.organizationId,rows,c.realm,c.seasonId,c.organizationId);
+   OR (json_extract(j.value,'$.revision') IS NOT NULL AND (r.id IS NULL OR r.revision<>json_extract(j.value,'$.revision') OR r.status<>'active' OR r.organization_id<>?)))`,...rule.values,rows,c.realm,c.seasonId,c.organizationId);
   const changed=result.items.filter(item=>item.kind==='add'||item.kind==='update');
   if(changed.length){
   const changes=JSON.stringify(changed);
@@ -138,7 +144,7 @@ export async function mutateRoster(env:Env,actor:string,action:z.infer<typeof ro
  let old:RosterRow|null=null;
  if(action.action!=='create'){
   old=await readEntry(env,action.id);if(!old)throw new RosterError('명부 항목을 찾지 못했습니다.',409);
-  await authorize(env,actor,{realm:old.realm,seasonId:old.season_id,organizationId:old.organization_id});
+  await authorize(env,actor,{realm:old.realm,seasonId:old.season_id,organizationId:old.organization_id},serviceId);
   if(old.revision!==action.revision)throw new RosterError('다른 관리자가 변경했습니다. 새로고침 후 다시 시도하세요.',409);
  }
  let c:RosterContext,item:RosterItem,status:'active'|'deleted';
@@ -153,9 +159,9 @@ export async function mutateRoster(env:Env,actor:string,action:z.infer<typeof ro
    if(old.status===status)throw new RosterError('이미 변경된 항목입니다. 목록을 새로고침하세요.',409);
    break;
  }
- await authorize(env,actor,c);const tx=atomicMutation(env);guardContext(tx,actor,c);
+ await authorize(env,actor,c,serviceId);const tx=atomicMutation(env);guardContext(tx,actor,c,serviceId);
  if(!old&&await env.DB.prepare('SELECT id FROM roster_entries WHERE realm=? AND game_uid=? AND season_id=?').bind(c.realm,item.gameUid,c.seasonId).first())throw new RosterError('이 UID는 해당 시즌에 이미 등록되어 있습니다. 기존 항목을 수정하거나 삭제 목록에서 복구하세요.',409);
- if(old)guardContext(tx,actor,{realm:old.realm,seasonId:old.season_id,organizationId:old.organization_id});
+ if(old)guardContext(tx,actor,{realm:old.realm,seasonId:old.season_id,organizationId:old.organization_id},serviceId);
  const entryId=writeEntry(env,tx,actor,c,item,old,status);
  audit(env,tx,actor,action.action,{id:entryId,...c,nickname:item.nickname,gameUid:item.gameUid,status});await tx.commit();
  return {ok:true,entry:await readEntry(env,entryId)};

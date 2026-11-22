@@ -2,7 +2,7 @@ import type {Env} from './types';
 import {membershipOverviewSql,membershipOverview} from './common-admin';
 import {rosterSelect,rosterRows} from './console-roster';
 
-type ConsoleIdentity={readonly user:string;readonly name:string;readonly superadmin:boolean;readonly scopes:readonly string[];readonly developer:boolean};
+type ConsoleIdentity={readonly user:string;readonly name:string;readonly superadmin:boolean;readonly scopes:readonly string[];readonly developer:boolean;readonly serviceOnly?:boolean};
 
 /** SQL and columns are code-owned. Serialize once in D1 instead of materializing every row in JS. */
 function jsonRows(sql:string,columns:readonly string[],filter='1'){
@@ -12,14 +12,16 @@ function jsonRows(sql:string,columns:readonly string[],filter='1'){
 export async function consoleData(env:Env,identity:ConsoleIdentity){
  const [applications,members,seasons,organizations,assignments,services]=membershipOverviewSql;
  const all=identity.superadmin;
+ // Resolve the small permission set outside the deeply nested JSON projection.
+ const managed=!all&&identity.developer?(await env.DB.prepare('SELECT client_id FROM service_managers WHERE user_id=?').bind(identity.user).all<{client_id:string}>()).results.map(row=>row.client_id):[];
  const scoped=`organization_id IN (SELECT value FROM scopes)`;
- const visibleServices=all?'1':identity.developer?`client_id IN (SELECT client_id FROM application_owners WHERE user_id=(SELECT user FROM viewer))`:'0';
+ const visibleServices=all?'1':identity.developer?'client_id IN (SELECT client_id FROM managed_services)':'0';
  const serviceSql=`SELECT * FROM (${services}) WHERE ${visibleServices}`;
  const catalogFields=['id','name','revision','deleted_at','roster_count','member_count','manager_count','service_count'];
  const fields=[
   ['applications',jsonRows(applications,['user_id','realm','game_uid','nickname','status','requested_at','reviewed_at','reviewed_by','display_name','pending_duplicates','registered_user'],all?'1':identity.scopes.length?`status='pending' AND registered_user IS NULL`:'0')],
   ['members',jsonRows(members,['id','display_name','status','realm','game_uid','nickname','roster_nickname','nickname_mismatch'],all?'1':`id IN (SELECT user_id FROM (${assignments}) WHERE ${scoped})`)],
-  ['seasons',jsonRows(seasons,['id','name','status',...catalogFields.slice(2)])],
+  ['seasons',jsonRows(seasons,['id','name','status',...catalogFields.slice(2)],identity.serviceOnly?'0':'1')],
   ['organizations',jsonRows(organizations,catalogFields,all?'1':'id IN (SELECT value FROM scopes)')],
   ['assignments',jsonRows(assignments,['user_id','season_id','organization_id','status','updated_at','updated_by'],all?'1':scoped)],
   ['services',jsonRows(serviceSql,['client_id','name','mode','organization_id','roster_id','roster_name'])],
@@ -30,9 +32,10 @@ export async function consoleData(env:Env,identity:ConsoleIdentity){
   ['brands',jsonRows('SELECT * FROM login_branding',['client_id','title','description','logo_url','accent','theme','updated_at'],`client_id IN (SELECT client_id FROM (${serviceSql}))`)],
   ['roster',jsonRows(rosterSelect+' ORDER BY r.nickname,r.game_uid',['id','realm','game_uid','nickname','season_id','organization_id','status','revision','updated_at','updated_by','linked_user_id','member_status'],all?'1':scoped)],
  ];
- try{return await env.DB.prepare(`WITH viewer AS (SELECT ? AS user,? AS identity),scopes AS (SELECT value FROM json_each(?))
+ try{return await env.DB.prepare(`WITH viewer AS (SELECT ? AS user,? AS identity),scopes AS (SELECT value FROM json_each(?)),
+ managed_services AS (SELECT value AS client_id FROM json_each(?))
  SELECT json_object(${fields.map(([name,value])=>`'${name}',${value}`).join(',')}) AS snapshot`)
-  .bind(identity.user,JSON.stringify(identity),JSON.stringify(identity.scopes)).first<string>('snapshot');
+  .bind(identity.user,JSON.stringify(identity),JSON.stringify(identity.scopes),JSON.stringify(managed)).first<string>('snapshot');
  }catch(error){
   if(!(error instanceof Error)||!/SQLITE_TOOBIG|string or blob too big/i.test(error.message))throw error;
   // D1 caps a single value at 2 MB. Large histories retain the original complete row-based response.
@@ -43,12 +46,13 @@ export async function consoleData(env:Env,identity:ConsoleIdentity){
 async function consoleRows(env:Env,i:ConsoleIdentity){
  const overview=await membershipOverview(env);
  if(!i.superadmin){
+  if(i.serviceOnly)overview.seasons=[];
   const ids=new Set(overview.assignments.filter(row=>i.scopes.includes(String(row.organization_id))).map(row=>row.user_id));
   overview.members=overview.members.filter(row=>ids.has(row.id));
   overview.assignments=overview.assignments.filter(row=>i.scopes.includes(String(row.organization_id)));
   overview.organizations=overview.organizations.filter(row=>i.scopes.includes(String(row.id)));
   overview.applications=i.scopes.length?overview.applications.filter(row=>row.status==='pending'&&!row.registered_user):[];
-  const owned=(await env.DB.prepare('SELECT client_id FROM application_owners WHERE user_id=?').bind(i.user).all<{client_id:string}>()).results;
+  const owned=(await env.DB.prepare('SELECT client_id FROM service_managers WHERE user_id=?').bind(i.user).all<{client_id:string}>()).results;
   const ownedIds=new Set(owned.map(row=>row.client_id));
   overview.services=i.developer?overview.services.filter(row=>ownedIds.has(String(row.client_id))):[];
  }

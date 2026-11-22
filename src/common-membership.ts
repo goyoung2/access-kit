@@ -14,8 +14,7 @@ export async function commonAccess(env:Env,userId:string,clientId:string,require
  const row=await env.DB.prepare(`SELECT u.id,COALESCE(registration.nickname,g.nickname,u.display_name) AS display_name,u.avatar_url,u.status,${effectiveMemberStatusSql} AS member_status,
   a.name,a.redirect_uris,a.status AS app_status,t.expires_at,
   EXISTS(SELECT 1 FROM auth_operators o WHERE o.user_id=u.id) AS operator,
-  EXISTS(SELECT 1 FROM application_owners owner WHERE owner.client_id=a.client_id AND owner.user_id=u.id AND (
-   EXISTS(SELECT 1 FROM developers d WHERE d.user_id=u.id AND d.status='active') OR EXISTS(SELECT 1 FROM auth_operators op WHERE op.user_id=u.id))) AS service_developer,
+  EXISTS(SELECT 1 FROM service_managers manager WHERE manager.client_id=a.client_id AND manager.user_id=u.id) AS service_developer,
   EXISTS(SELECT 1 FROM access_rosters r WHERE r.id=? AND ${usableRosterSql} AND (
    (r.organization_id IS NULL AND EXISTS(SELECT 1 FROM access_roster_entries entry WHERE entry.roster_id=r.id AND entry.game_uid=g.game_uid AND entry.status='active'))
    OR EXISTS(SELECT 1 FROM (${activeRosterSql}) shared WHERE shared.organization_id=r.organization_id AND shared.realm=g.realm AND shared.game_uid=g.game_uid))) AS roster_member,

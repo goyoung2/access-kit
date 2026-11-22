@@ -12,6 +12,7 @@ import {atomicMutation,activeOperator} from './atomic-mutation';
 import {rosterAction,mutateRoster,RosterError} from './console-roster';
 import {catalogAction,mutateCatalog,catalogAvailable} from './membership-catalog';
 import {consoleData} from './console-data';
+import {managesService,serviceManagementSql} from './service-authority';
 type C=Context<{Bindings:Env}>;
 const scopeList=z.array(z.string());
 export async function consoleIdentity(c:C){
@@ -20,11 +21,12 @@ export async function consoleIdentity(c:C){
  const active=await c.env.DB.prepare(`WITH session AS (${sessionSelectSql}) SELECT u.id AS user,u.display_name,
   EXISTS(SELECT 1 FROM auth_operators WHERE user_id=u.id) AS superadmin,
   (SELECT json_group_array(organization_id) FROM member_managers WHERE user_id=u.id AND ${catalogAvailable('organization','organization_id')}) AS scopes,
-  EXISTS(SELECT 1 FROM developers WHERE user_id=u.id AND status='active') AS developer
+  EXISTS(SELECT 1 FROM developers WHERE user_id=u.id AND status='active') AS independent_developer,
+  EXISTS(SELECT 1 FROM service_managers WHERE user_id=u.id) AS service_administrator
   FROM session s JOIN users u ON u.id=s.user_id WHERE s.session_kind='firebase' AND u.status='active'`)
-  .bind(hash,now,now-SESSION_ABSOLUTE_TTL_MS).first<{user:string;display_name:string;superadmin:number;scopes:string;developer:number}>();
+  .bind(hash,now,now-SESSION_ABSOLUTE_TTL_MS).first<{user:string;display_name:string;superadmin:number;scopes:string;independent_developer:number;service_administrator:number}>();
  if(!active)return null;
- return {user:active.user,name:active.display_name,superadmin:Boolean(active.superadmin),scopes:scopeList.parse(JSON.parse(active.scopes)),developer:Boolean(active.developer)};
+ return {user:active.user,name:active.display_name,superadmin:Boolean(active.superadmin),scopes:scopeList.parse(JSON.parse(active.scopes)),developer:Boolean(active.independent_developer||active.service_administrator),serviceOnly:!active.independent_developer&&Boolean(active.service_administrator)};
 }
 const roleInput=z.object({userId:z.string().min(1),role:z.enum(['superadmin','manager','developer']),enabled:z.boolean(),organizationId:z.string().optional()});
 export function registerConsole(app:Hono<{Bindings:Env}>){
@@ -89,9 +91,9 @@ export function registerConsole(app:Hono<{Bindings:Env}>){
  });
  app.post('/console/branding',async c=>{
   const i=await consoleIdentity(c);if(!i)return c.json({error:'관리 권한이 없습니다.'},403);const a=brandingInput.parse(await c.req.json());
-  if(!i.superadmin&&(!i.developer||!await c.env.DB.prepare('SELECT client_id FROM application_owners WHERE client_id=? AND user_id=?').bind(a.clientId,i.user).first()))return c.json({error:'본인 서비스만 설정할 수 있습니다.'},403);
+  if(!await managesService(c.env,i.user,a.clientId))return c.json({error:'담당 서비스만 설정할 수 있습니다.'},403);
   const transaction=atomicMutation(c.env);
-  transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM application_owners o JOIN developers d ON d.user_id=o.user_id JOIN users u ON u.id=d.user_id WHERE o.client_id=? AND o.user_id=? AND d.status='active' AND u.status='active')`,i.user,a.clientId,i.user);
+  transaction.require(serviceManagementSql,a.clientId,i.user,i.user);
   transaction.add(c.env.DB.prepare('INSERT INTO login_branding VALUES(?,?,?,?,?,?,?) ON CONFLICT(client_id) DO UPDATE SET title=excluded.title,description=excluded.description,logo_url=excluded.logo_url,accent=excluded.accent,theme=excluded.theme,updated_at=excluded.updated_at').bind(a.clientId,a.title,a.description,a.logoUrl,a.accent,a.theme,Date.now()),c.env.DB.prepare("INSERT INTO auth_events VALUES(?,?,?,'console.branding',?,?)").bind('evt_'+randomToken(10),i.user,a.clientId,JSON.stringify({title:a.title,theme:a.theme}),Date.now()));await transaction.commit();return c.json({ok:true});
  });
  app.get('/public/branding',async c=>{const id=c.req.query('client_id')||'';if(!await c.env.DB.prepare("SELECT client_id FROM applications WHERE client_id=? AND status='active'").bind(id).first())return c.json({error:'NOT_FOUND'},404);c.header('Access-Control-Allow-Origin','*');c.header('Cache-Control','public,max-age=300');return c.json(await getBranding(c.env,id));});

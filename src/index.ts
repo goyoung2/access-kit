@@ -14,6 +14,7 @@ import browserSource from './browser-source';
 import legacyBrowserSource from './browser-source-v010';
 import {publicGuidePage} from './guide-page';
 import {installationInstructions} from './llm-instructions';
+import {registerServiceAdministrators} from './service-administrators';
 
 const app=new Hono<{Bindings:Env}>();
 app.use('*',async(c,next)=>{
@@ -36,6 +37,7 @@ registerConsole(app);
 registerCommonRoutes(app);
 registerDeveloperRoutes(app);
 registerDeveloperRosters(app);
+registerServiceAdministrators(app);
 app.get('/',c=>c.redirect('/auth/firebase'));
 app.get('/guide',c=>c.html(publicGuidePage()));
 app.get('/guide/llm',c=>c.text(installationInstructions(new URL(c.req.url).origin,c.req.query())));

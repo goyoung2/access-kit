@@ -108,6 +108,7 @@ test('migration preserves legacy IDs and restrictions and derives an unambiguous
  const migration=await readFile(new URL('../migrations/0008_service_rosters.sql',import.meta.url),'utf8');for(const statement of migrationStatements(migration))await f.DB.prepare(statement).run();
  assert.deepEqual(await f.DB.prepare('SELECT * FROM roster_entries').all().then(r=>r.results),before.results);
  assert.equal((await f.DB.prepare('SELECT roster_id FROM default_access_roster').first())?.roster_id,'shared_legacy-alliance');
+ const current=await readFile(new URL('../migrations/0009_service_administrators.sql',import.meta.url),'utf8');for(const statement of migrationStatements(current))await f.DB.prepare(statement).run();
  assert.equal((await commonAccess(f.env,'user','site'))?.access.allowed,true);
  await f.DB.prepare("UPDATE common_members SET status='suspended' WHERE user_id='user'").run();
  assert.equal((await commonAccess(f.env,'user','site'))?.access.allowed,false);
