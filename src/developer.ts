@@ -62,7 +62,7 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
  });
  app.get('/developer/install',async c=>{
   const identity=await developer(c);
-  if(!identity){const user=await findSessionUser(c.env,parseCookies(c.req.header('Cookie')).accesskit_sid);return user?c.text('개발자 접근 권한이 필요합니다.',403):c.redirect('/auth/firebase?developer=1');}
+  if(!identity){const user=await findSessionUser(c.env,parseCookies(c.req.header('Cookie')).accesskit_sid);return user?c.text('기본 명부의 회원으로 가입하면 서비스를 등록할 수 있습니다. 방문자는 운영자의 서비스 등록 초대를 이용하세요.',403):c.redirect('/auth/firebase?developer=1');}
   return c.html(installationPage());
  });
  app.get('/developer/services',async c=>{
@@ -73,7 +73,7 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
   if(services.results.some(s=>s.roster_id&&!choices.some(r=>r.id===s.roster_id))){for(const r of await availableRosters(c.env,identity.user,identity.admin,true))if(!choices.some(existing=>existing.id===r.id))choices.push(r);}
   const managedRosterIds=new Set(services.results.map(row=>row.roster_id));
   const rosters=identity.serviceOnly?choices.filter(row=>managedRosterIds.has(row.id)):choices;
-  return c.json({services:services.results.map(s=>({...s,canChangePolicy:identity.admin||s.owner_user_id===identity.user})),organizations:identity.serviceOnly?organizations.results.filter(row=>rosters.some(r=>r.organization_id===row.id)):organizations.results,rosters,defaultRosterId:identity.serviceOnly?null:await c.env.DB.prepare(defaultRosterSql).first<string>('id'),authOrigin:new URL(c.req.url).origin,version:'0.5.0',admin:identity.admin,serviceOnly:identity.serviceOnly});
+  return c.json({services:services.results.map(s=>({...s,canChangePolicy:identity.admin||s.owner_user_id===identity.user})),organizations:identity.serviceOnly?organizations.results.filter(row=>rosters.some(r=>r.organization_id===row.id)):organizations.results,rosters,defaultRosterId:identity.serviceOnly?null:await c.env.DB.prepare(defaultRosterSql).first<string>('id'),authOrigin:new URL(c.req.url).origin,version:'0.6.0',admin:identity.admin,serviceOnly:identity.serviceOnly});
  });
  app.post('/developer/services',async c=>{
   if(c.req.header('Origin')!==new URL(c.req.url).origin||c.req.header('X-Access-Kit-Action')!=='1')return c.json({error:'ORIGIN_DENIED'},403);
@@ -98,7 +98,7 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
   const transaction=atomicMutation(c.env);
   if(mode==='season')transaction.require(catalogAvailable('organization','?'),organizationId);
   if(mode==='roster'&&(owns||identity.admin||!b.clientId))transaction.require(rosterGuard,rosterId,identity.user,identity.user);
-  if(!b.clientId)transaction.require(`${activeOperator} OR EXISTS(SELECT 1 FROM developers d JOIN users u ON u.id=d.user_id WHERE d.user_id=? AND d.status='active' AND u.status='active')`,identity.user,identity.user);
+  if(!b.clientId)transaction.require('EXISTS(SELECT 1 FROM service_creators WHERE user_id=?)',identity.user);
   if(b.clientId) {
    transaction.require(serviceManagementSql,id,identity.user,identity.user);
    if(!identity.admin&&!owns)transaction.require('EXISTS(SELECT 1 FROM common_application_policies p LEFT JOIN application_rosters b ON b.client_id=p.client_id WHERE p.client_id=? AND p.mode=? AND p.organization_id IS ? AND b.roster_id IS ?)',id,previousPolicy?.mode??null,previousPolicy?.organization_id??null,previousPolicy?.roster_id??null);

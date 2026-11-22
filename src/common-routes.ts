@@ -76,7 +76,7 @@ export function registerCommonRoutes(app:Hono<{Bindings:Env}>,verify=verifyGoogl
   const application=await c.env.DB.prepare('SELECT nickname,realm,game_uid,status FROM member_applications WHERE user_id=?').bind(userId).first();
   const admin=await isPlatformAdmin(c.env,userId);
   const manager=await c.env.DB.prepare('SELECT user_id FROM member_managers WHERE user_id=? LIMIT 1').bind(userId).first();
-  const developer=await c.env.DB.prepare("SELECT user_id FROM developers WHERE user_id=? AND status='active'").bind(userId).first();
+  const developer=await c.env.DB.prepare('SELECT user_id FROM service_creators WHERE user_id=? UNION SELECT user_id FROM service_managers WHERE user_id=? LIMIT 1').bind(userId,userId).first();
   const request=await requestRow(c);
   const serviceAccess=request?await diagnoseApplicationAccess(c.env,userId,request.client_id):null;
   return c.json({loggedIn:true,user,member,application,admin,serviceAccess,requestExpired:Boolean(c.req.query('request'))&&!request,consoleAccess:admin||Boolean(manager)||Boolean(developer)});

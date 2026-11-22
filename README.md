@@ -2,11 +2,11 @@
 
 **Google 간편 로그인 + 닉네임·CID 명부 대조 + 서버 게이트**를 한 세트로 제공하는 인증 도구입니다. 창천 개발자는 기존 창천 인증 서버와 명부를 공유합니다. 다른 맹은 **자기 서버·DB·Firebase에서 명부와 가입자·CID 연결·회원 상태·관리자 권한을 독립 관리**하고, 같은 맹의 여러 사이트가 그 환경을 공유합니다. 게이트는 각 사이트 서버에 설치합니다.
 
-공개 SDK: [access-kit-sdk@0.5.0](https://www.npmjs.com/package/access-kit-sdk). 독립 서버 설치 도구를 포함합니다. [기존 공개 npm 설치·게이트 검증](docs/qa/npm-short-prompt-20261117.md)과 [독립 운영 검증](docs/qa/independent-auth-20261118.md)을 확인할 수 있습니다.
+공개 SDK: [access-kit-sdk@0.6.0](https://www.npmjs.com/package/access-kit-sdk). 독립 서버 설치 도구를 포함합니다. [기존 공개 npm 설치·게이트 검증](docs/qa/npm-short-prompt-20261117.md)과 [독립 운영 검증](docs/qa/independent-auth-20261118.md)을 확인할 수 있습니다.
 
 ## LLM에게 설치 맡기기
 
-두 경로를 제공합니다. **공유 연결**은 기존 인증 서버에 사이트 SDK를 연결합니다. **독립 운영**은 자기 인증 서버·DB·관리자 페이지를 만든 뒤 사이트 SDK를 연결합니다. SDK 0.5.0에는 독립 서버 생성·검사·마이그레이션·첫 관리자 지정 도구와 서비스 개발자 역할이 포함됩니다. 두 방식 모두 공개 npm의 버전 고정 안내를 사용합니다.
+두 경로를 제공합니다. **공유 연결**은 기존 인증 서버에 사이트 SDK를 연결합니다. **독립 운영**은 자기 인증 서버·DB·관리자 페이지를 만든 뒤 사이트 SDK를 연결합니다. SDK 0.6.0에는 독립 서버 생성·검사·마이그레이션·첫 관리자 지정 도구와 서비스 개발자 역할이 포함됩니다. 두 방식 모두 공개 npm의 버전 고정 안내를 사용합니다.
 
 공유 연결 — 창천 등 기존 명부 사용:
 
@@ -17,7 +17,7 @@
 기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.
 서비스 연결 정보는 기존 설정이나 설치 스튜디오에서 확인하고, 사람이 필요한 로그인 단계만 요청하세요.
 
-https://unpkg.com/access-kit-sdk@0.5.0/docs/LLM_INSTALLATION.md
+https://unpkg.com/access-kit-sdk@0.6.0/docs/LLM_INSTALLATION.md
 ```
 
 안내 링크는 **공개 npm 패키지에 포함된 버전 고정 문서**입니다. GitHub 초대나 로그인 없이 읽으며, 중앙 서버를 배포하지 않아도 최신 SDK 설치 절차를 제공합니다. 중앙 인증 서버 주소와 서비스 ID는 운영자가 별도로 제공합니다.
@@ -27,31 +27,33 @@ https://unpkg.com/access-kit-sdk@0.5.0/docs/LLM_INSTALLATION.md
 ```text
 Access Kit으로 내 명부와 회원 정보를 내 서버·DB에서 독립 관리하도록 설치해 주세요.
 아래 안내를 읽고 인증 서버·관리자 페이지·사이트 SDK를 연결한 뒤 가입 분류와 게이트를 검증하세요.
-https://unpkg.com/access-kit-sdk@0.5.0/docs/LLM_INDEPENDENT.md
+https://unpkg.com/access-kit-sdk@0.6.0/docs/LLM_INDEPENDENT.md
 ```
 
 [독립 LLM 안내](docs/LLM_INDEPENDENT.md) · [독립 운영 절차](docs/INDEPENDENT_AUTH.md). 독립 운영도 공개 패키지의 안내 링크로 시작합니다. 자기 Firebase 프로젝트와 클라우드 계정은 운영자가 준비합니다.
 
-처음 한 번 운영자에게 개발자 권한을 받고 [설치 스튜디오](https://access-kit.nslg-hub.workers.dev/developer/install)에서 서비스를 등록합니다. 필요한 연결 정보는 중앙 주소·서비스 ID·사이트 URL입니다. SDK 설치가 회원 승인이나 관리자 권한을 부여하지 않습니다. 상세 [LLM 안내](docs/LLM_INSTALLATION.md)에는 입력값·검증 기준·복구 절차가 있습니다.
+창천 기본 명부에 CID가 있는 가입자는 별도 개발자 승인 없이 [설치 스튜디오](https://access-kit.nslg-hub.workers.dev/developer/install)에서 서비스를 등록합니다. 필요한 연결 정보는 중앙 주소·서비스 ID·사이트 URL입니다. SDK 설치가 회원 승인이나 관리자 권한을 부여하지 않습니다. 상세 [LLM 안내](docs/LLM_INSTALLATION.md)에는 입력값·검증 기준·복구 절차가 있습니다.
 
 ## 직접 설치
 
 Node.js 22 LTS 이상에서 공개 npm의 정확한 버전을 설치합니다. GitHub 초대나 소비자의 npm 로그인은 필요 없습니다.
 
 ```sh
-npm install --save-exact access-kit-sdk@0.5.0
+npm install --save-exact access-kit-sdk@0.6.0
 npx access-kit help
 ```
 
 [설치](docs/INSTALL.md) · [Workers / Pages 시작](docs/QUICKSTART.md) · [기존 서버 어댑터](docs/ADAPTERS.md) · [업데이트·복구](docs/UPGRADE.md)
 
-모든 보호 HTML·자산·API는 서버 게이트를 통과해야 합니다. Google 로그인 후 **닉네임과 게임 CID 두 항목**으로 가입합니다. 진행 중인 시즌의 유효한 명부에 CID가 있으면 맹원, 없으면 방문자로 자동 가입하며 새 가입의 관리자 승인은 필요 없습니다. 닉네임은 자격 판정에 사용하지 않고, 명부와 다르면 `/console#members`에 관리자용 확인 표시를 보여줍니다. 명부는 `/console#roster`에서 관리합니다. 창천 기본 명부는 새 중앙 서버의 DB에서 관리합니다. 기존 서버를 업그레이드할 때는 `0009_service_administrators.sql`까지 순서대로 적용하며 npm 설치만으로 원격 DB가 바뀌지 않습니다.
+모든 보호 HTML·자산·API는 서버 게이트를 통과해야 합니다. Google 로그인 후 **닉네임과 게임 CID 두 항목**으로 가입합니다. 진행 중인 시즌의 유효한 명부에 CID가 있으면 맹원, 없으면 방문자로 자동 가입하며 새 가입의 관리자 승인은 필요 없습니다. 닉네임은 자격 판정에 사용하지 않고, 명부와 다르면 `/console#members`에 관리자용 확인 표시를 보여줍니다. 명부는 `/console#roster`에서 관리합니다. 창천 기본 명부는 새 중앙 서버의 DB에서 관리합니다. 기존 서버를 업그레이드할 때는 `0010_member_services_and_reservations.sql`까지 순서대로 적용하며 npm 설치만으로 원격 DB가 바뀌지 않습니다.
 
 ## 운영과 검증
 
-- [서비스 공동 관리자](docs/SERVICE_ADMINISTRATORS.md): SDK 0.5.0의 서버 템플릿과 마이그레이션 0009에 포함됩니다. 콘솔에서 여러 관리자를 지정하고 연결 명부를 함께 관리하며, 중앙 공유 원본은 서비스별 명시적 위임으로 보호합니다.
+창천 기본 명부 회원은 개발자 승인 없이 자기 서비스를 등록하고 공동 관리자를 추가할 수 있습니다. 공유 원본 명부 조회·수정은 사용자님의 별도 서비스별 위임이 필요합니다. 가입 전 권한 지정은 콘솔 **관리자 · 권한 → 가입 전 권한 예약**에서 CID·역할을 선택하고 일회용 링크를 전달합니다. 수신자가 가입 후 링크를 수락해야 적용됩니다. [권한 예약과 공동 관리자 안내](docs/SERVICE_ADMINISTRATORS.md#가입-전-권한-지정).
 
-- [공동 관리자 원격 배포·공개 npm 설치·호스팅 검증](docs/qa/coadmin-rollout-20261123.md) — 새 창천 서버 0.5.0에 반영했습니다. [팀 운영 시험 사이트](https://ak-team-trial-20261123.nslg-hub.workers.dev/)는 창천 명부를 공유하며 로그인 후 사용할 수 있습니다. 관리자 추가·해제, 다른 서비스 접근 차단, 기존 쿠키의 5분 재확인 후 차단을 검증했습니다.
+- [서비스 공동 관리자](docs/SERVICE_ADMINISTRATORS.md): SDK 0.6.0의 서버 템플릿과 마이그레이션 0009에 포함됩니다. 콘솔에서 여러 관리자를 지정하고 연결 명부를 함께 관리하며, 중앙 공유 원본은 서비스별 명시적 위임으로 보호합니다.
+
+- [공동 관리자 원격 배포·공개 npm 설치·호스팅 검증](docs/qa/coadmin-rollout-20261123.md) — 새 창천 서버 0.6.0에 반영했습니다. [팀 운영 시험 사이트](https://ak-team-trial-20261123.nslg-hub.workers.dev/)는 창천 명부를 공유하며 로그인 후 사용할 수 있습니다. 관리자 추가·해제, 다른 서비스 접근 차단, 기존 쿠키의 5분 재확인 후 차단을 검증했습니다.
 
 - [새 창천 서버·명부 198명·실제 Google 가입과 게이트 검증](docs/qa/changcheon-deploy-20261123.md).
 

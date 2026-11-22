@@ -21,7 +21,8 @@ export async function consoleIdentity(c:C){
  const active=await c.env.DB.prepare(`WITH session AS (${sessionSelectSql}) SELECT u.id AS user,u.display_name,
   EXISTS(SELECT 1 FROM auth_operators WHERE user_id=u.id) AS superadmin,
   (SELECT json_group_array(organization_id) FROM member_managers WHERE user_id=u.id AND ${catalogAvailable('organization','organization_id')}) AS scopes,
-  EXISTS(SELECT 1 FROM developers WHERE user_id=u.id AND status='active') AS independent_developer,
+  (EXISTS(SELECT 1 FROM developers WHERE user_id=u.id AND status='active') OR
+   (NOT EXISTS(SELECT 1 FROM auth_operators WHERE user_id=u.id) AND EXISTS(SELECT 1 FROM service_creators WHERE user_id=u.id))) AS independent_developer,
   EXISTS(SELECT 1 FROM service_managers WHERE user_id=u.id) AS service_administrator
   FROM session s JOIN users u ON u.id=s.user_id WHERE s.session_kind='firebase' AND u.status='active'`)
   .bind(hash,now,now-SESSION_ABSOLUTE_TTL_MS).first<{user:string;display_name:string;superadmin:number;scopes:string;independent_developer:number;service_administrator:number}>();

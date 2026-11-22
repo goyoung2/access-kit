@@ -26,7 +26,7 @@ type Actor={readonly user:string;readonly admin:boolean;readonly serviceId?:stri
 type Roster={readonly id:string;readonly name:string;readonly owner_user_id:string|null;readonly organization_id:string|null;readonly status:'active'|'deleted';readonly revision:number};
 type Entry={readonly id:string;readonly game_uid:string;readonly nickname:string;readonly status:'active'|'deleted';readonly revision:number};
 export class DeveloperRosterError extends Error {constructor(message:string,readonly status:403|404|409){super(message);}}
-const activeDeveloper=`${activeOperator} OR EXISTS(SELECT 1 FROM developers d JOIN users u ON u.id=d.user_id WHERE d.user_id=? AND d.status='active' AND u.status='active')`;
+const activeDeveloper=`${activeOperator} OR EXISTS(SELECT 1 FROM service_creators WHERE user_id=?)`;
 const ownerGuard=`EXISTS(SELECT 1 FROM access_rosters WHERE id=? AND organization_id IS NULL AND (owner_user_id=? OR ${activeOperator}))`;
 async function owned(env:Env,actor:Actor,rosterId:string){
  const roster=await env.DB.prepare('SELECT * FROM access_rosters WHERE id=?').bind(rosterId).first<Roster>();

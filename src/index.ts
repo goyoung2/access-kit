@@ -15,6 +15,7 @@ import legacyBrowserSource from './browser-source-v010';
 import {publicGuidePage} from './guide-page';
 import {installationInstructions} from './llm-instructions';
 import {registerServiceAdministrators} from './service-administrators';
+import {registerPermissionReservations} from './permission-reservations';
 
 const app=new Hono<{Bindings:Env}>();
 app.use('*',async(c,next)=>{
@@ -38,11 +39,12 @@ registerCommonRoutes(app);
 registerDeveloperRoutes(app);
 registerDeveloperRosters(app);
 registerServiceAdministrators(app);
+registerPermissionReservations(app);
 app.get('/',c=>c.redirect('/auth/firebase'));
 app.get('/guide',c=>c.html(publicGuidePage()));
 app.get('/guide/llm',c=>c.text(installationInstructions(new URL(c.req.url).origin,c.req.query())));
 app.get('/robots.txt',c=>c.text('User-agent: *\nDisallow: /\n'));
-app.get('/api/health',c=>c.json({ok:true,service:'access-kit',version:'0.5.0'}));
+app.get('/api/health',c=>c.json({ok:true,service:'access-kit',version:'0.6.0'}));
 // The browser runtime contains no member data, keys, or fixed authentication host.
 app.get('/sdk/v0.1.0/access-kit.js',c=>new Response(legacyBrowserSource,{headers:{'Content-Type':'text/javascript; charset=utf-8','Cache-Control':'public, max-age=31536000, immutable','Access-Control-Allow-Origin':'*','X-Robots-Tag':'noindex'}}));
 app.get('/sdk/v0.3.1/access-kit.js',c=>new Response(browserSource,{headers:{'Content-Type':'text/javascript; charset=utf-8','Cache-Control':'public, max-age=31536000, immutable','Access-Control-Allow-Origin':'*','X-Robots-Tag':'noindex'}}));

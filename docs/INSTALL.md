@@ -8,12 +8,12 @@
 
 1. Node.js 22 LTS 이상을 설치하고 `node --version`, `npm --version`을 확인합니다.
 2. 프로젝트 폴더에서 아래 명령으로 SDK를 설치합니다. 해당 버전이 npm에 게시된 뒤 사용할 수 있습니다. E404이면 운영자에게 게시 버전을 확인합니다.
-3. 사용할 중앙 인증 서버의 개발자 초대 링크를 열고 Google 로그인 후 **초대 수락**을 누릅니다. 링크는 7일 동안 한 번 사용합니다. 기존 사용자는 운영자가 권한을 부여할 수도 있습니다. SDK 설치만으로 중앙 서버 사용 권한이나 회원 자격이 부여되지는 않습니다.
+3. 중앙 인증 서버에서 Google 로그인·닉네임/CID 가입을 완료합니다. 기본 명부 회원이면 개발자 승인 없이 설치 스튜디오에서 자기 서비스를 등록할 수 있습니다. 운영자는 방문자 예외나 가입 전 권한을 CID와 일회용 초대 링크로 지정할 수 있습니다. SDK 설치만으로 중앙 서버 사용 권한이나 회원 자격이 부여되지는 않습니다.
 4. 기존 프로젝트를 먼저 빌드합니다. 처음 만드는 사이트는 [새 프로젝트 시작](QUICKSTART.md)을 사용합니다.
 
 ```sh
 npm view access-kit-sdk versions --json
-npm install --save-exact access-kit-sdk@0.5.0
+npm install --save-exact access-kit-sdk@0.6.0
 npx access-kit help
 ```
 
