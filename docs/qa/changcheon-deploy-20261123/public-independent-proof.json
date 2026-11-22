@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "mode": "independent",
+  "checks": [
+    "generated authentication Worker and own D1 classify member and visitor",
+    "installed generated gate blocks anonymous HTML, data and API",
+    "visitor denied by generated central authorization flow",
+    "real PKCE/token/session flow admits member and preserves API body, binding and export",
+    "own roster delete denies and restore allows through generated server",
+    "own member suspension is enforced",
+    "logout revokes token and captured cookie"
+  ],
+  "realGoogleLogin": false,
+  "remoteDeployment": false,
+  "npmPublished": false,
+  "at": "2026-11-22T15:40:15.169Z"
+}

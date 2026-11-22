@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "hosting": "workers",
+  "runtime": "0.4.0",
+  "anonymousRequests": 32,
+  "checks": [
+    "anonymous GET/HEAD/Range/invalid-cookie across built assets and API",
+    "central wrong-affiliation token denied",
+    "PKCE exchange and real SDK session cookie",
+    "approved roster member receives existing private data",
+    "original API method/body and binding preserved",
+    "named export and scheduled preserved",
+    "bounded permission lease reused locally",
+    "central roster removal denies at lease boundary",
+    "service denial preserves central login",
+    "restored roster allows access",
+    "global suspension denies after renewed lease",
+    "logout revokes central token and clears browser cookie",
+    "captured cookie rejected in same runtime after logout",
+    "central token rejected after logout"
+  ],
+  "realGoogleLogin": false,
+  "remoteDeployment": false,
+  "at": "2026-11-22T15:34:15.105Z"
+}

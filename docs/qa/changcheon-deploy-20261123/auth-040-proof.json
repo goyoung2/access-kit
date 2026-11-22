@@ -1,0 +1,10 @@
+{
+  "at": "2026-11-22T15:27:47.503Z",
+  "health": {
+    "ok": true,
+    "service": "access-kit",
+    "version": "0.4.0"
+  },
+  "independentGuideVersion": "0.4.0",
+  "newServerOnly": true
+}

@@ -1,0 +1,19 @@
+{
+  "at": "2026-11-22T15:04:15.702Z",
+  "account": "fcb80d4ce686ca017d2c5bc9e297f86e",
+  "databaseId": "3dac3da2-382a-4e9f-a8a3-630669412d2b",
+  "sourceSha256": "38c510526ac94086457d23593b14dc083253035ac60b5adbddb3a436252c71db",
+  "count": 198,
+  "duplicates": 0,
+  "errors": 0,
+  "allPairsMatch": true,
+  "defaultRoster": {
+    "roster_id": "shared_org_changcheon",
+    "organization_id": "org_changcheon",
+    "name": "창천"
+  },
+  "seasonName": "2026-11-22 명부",
+  "clientId": "access-kit-check",
+  "authOrigin": "https://access-kit.nslg-hub.workers.dev",
+  "siteOrigin": "https://access-kit-check.nslg-hub.workers.dev"
+}

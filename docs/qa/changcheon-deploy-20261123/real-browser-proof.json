@@ -1,0 +1,14 @@
+{
+  "at": "2026-11-22T15:23:17.929Z",
+  "googleLoginObserved": true,
+  "changcheonMember": true,
+  "nicknameMatches": true,
+  "checkSiteHeading": "로그인·게이트 통과",
+  "protectedDataStatus": 200,
+  "gateRuntime": "0.4.0",
+  "consoleStatus": 200,
+  "consoleMembers": 1,
+  "consoleRosterCount": 198,
+  "operatorConfigured": true,
+  "browser": "Playwright DOM"
+}

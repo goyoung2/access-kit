@@ -1,0 +1,191 @@
+{
+  "at": "2026-11-22T15:21:08.635Z",
+  "rosterCount": 198,
+  "scope": "Hosted real Worker+D1+PKCE+SDK gate; synthetic preauthenticated QA identities; personal Google signup verified separately",
+  "checks": [
+    {
+      "name": "member-changed signup",
+      "passed": true
+    },
+    {
+      "name": "member-changed classification",
+      "passed": true
+    },
+    {
+      "name": "member-changed no approval pending",
+      "passed": true
+    },
+    {
+      "name": "member-changed nickname flag private",
+      "passed": true
+    },
+    {
+      "name": "member-changed admin blocked",
+      "passed": true
+    },
+    {
+      "name": "member-equal signup",
+      "passed": true
+    },
+    {
+      "name": "member-equal classification",
+      "passed": true
+    },
+    {
+      "name": "member-equal no approval pending",
+      "passed": true
+    },
+    {
+      "name": "member-equal nickname flag private",
+      "passed": true
+    },
+    {
+      "name": "member-equal admin blocked",
+      "passed": true
+    },
+    {
+      "name": "visitor signup",
+      "passed": true
+    },
+    {
+      "name": "visitor classification",
+      "passed": true
+    },
+    {
+      "name": "visitor no approval pending",
+      "passed": true
+    },
+    {
+      "name": "visitor nickname flag private",
+      "passed": true
+    },
+    {
+      "name": "visitor admin blocked",
+      "passed": true
+    },
+    {
+      "name": "duplicate signup",
+      "passed": true
+    },
+    {
+      "name": "member-changed authorize start",
+      "passed": true
+    },
+    {
+      "name": "member code",
+      "passed": true
+    },
+    {
+      "name": "PKCE exchange",
+      "passed": true
+    },
+    {
+      "name": "central member check",
+      "passed": true
+    },
+    {
+      "name": "visitor authorize start",
+      "passed": true
+    },
+    {
+      "name": "visitor no code",
+      "passed": true
+    },
+    {
+      "name": "site session",
+      "passed": true
+    },
+    {
+      "name": "bounded seven-day cookie",
+      "passed": true
+    },
+    {
+      "name": "member /",
+      "passed": true
+    },
+    {
+      "name": "anonymous /",
+      "passed": true
+    },
+    {
+      "name": "invalid cookie /",
+      "passed": true
+    },
+    {
+      "name": "member /asset.svg",
+      "passed": true
+    },
+    {
+      "name": "anonymous /asset.svg",
+      "passed": true
+    },
+    {
+      "name": "invalid cookie /asset.svg",
+      "passed": true
+    },
+    {
+      "name": "member /protected.json",
+      "passed": true
+    },
+    {
+      "name": "anonymous /protected.json",
+      "passed": true
+    },
+    {
+      "name": "invalid cookie /protected.json",
+      "passed": true
+    },
+    {
+      "name": "member /api/echo",
+      "passed": true
+    },
+    {
+      "name": "anonymous /api/echo",
+      "passed": true
+    },
+    {
+      "name": "invalid cookie /api/echo",
+      "passed": true
+    },
+    {
+      "name": "range protected HEAD",
+      "passed": true
+    },
+    {
+      "name": "range protected GET",
+      "passed": true
+    },
+    {
+      "name": "API body preservation",
+      "passed": true
+    },
+    {
+      "name": "visitor cannot mint cookie",
+      "passed": true
+    },
+    {
+      "name": "admin mismatch visible",
+      "passed": true
+    },
+    {
+      "name": "suspension denies new session",
+      "passed": true
+    },
+    {
+      "name": "restore allows new session",
+      "passed": true
+    },
+    {
+      "name": "logout",
+      "passed": true
+    },
+    {
+      "name": "token revoked",
+      "passed": true
+    },
+    {
+      "name": "logout replay has bounded cross-isolate lease",
+      "passed": true
+    }
+  ]
+}

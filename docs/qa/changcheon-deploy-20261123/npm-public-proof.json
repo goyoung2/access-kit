@@ -1,0 +1,19 @@
+{
+  "at": "2026-11-22T15:34:49.274Z",
+  "package": "access-kit-sdk",
+  "version": "0.4.0",
+  "publisher": "goyoung",
+  "tarball": "https://registry.npmjs.org/access-kit-sdk/-/access-kit-sdk-0.4.0.tgz",
+  "sha256": "98003aa8374fdeb4255bf8dff69ff18a583bb760c0fe2d705e4ea3d65325b944",
+  "canonicalTarballStatus": 200,
+  "guides": [
+    {
+      "url": "https://unpkg.com/access-kit-sdk@0.4.0/docs/LLM_INSTALLATION.md",
+      "status": 200
+    },
+    {
+      "url": "https://unpkg.com/access-kit-sdk@0.4.0/docs/LLM_INDEPENDENT.md",
+      "status": 200
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "at": "2026-11-22T15:40:15.277Z",
+  "version": "0.4.0",
+  "archiveSha256": "98003aa8374fdeb4255bf8dff69ff18a583bb760c0fe2d705e4ea3d65325b944",
+  "guideSource": "unpkg version-pinned documents",
+  "publicRegistry": true,
+  "realGoogleLogin": false,
+  "remoteDeployment": false,
+  "method": "Primary LLM followed documented installation steps in three fresh consumer fixtures; verification harness unchanged",
+  "cases": [
+    {
+      "mode": "shared",
+      "hosting": "workers",
+      "registryInstall": true,
+      "passed": true
+    },
+    {
+      "mode": "shared",
+      "hosting": "pages",
+      "registryInstall": true,
+      "passed": true
+    },
+    {
+      "mode": "independent",
+      "hosting": "workers",
+      "registryInstall": true,
+      "passed": true
+    }
+  ]
+}
