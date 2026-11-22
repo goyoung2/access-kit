@@ -5,7 +5,7 @@ function message(text,tone='info'){const e=$('#status');e.textContent=text;e.dat
 function options(el,rows){el.replaceChildren(...rows.map(x=>new Option(x.name,x.id)));}
 function dirty(){return selected&&($('#name').value.trim()!==selected.name||$('#url').value!==JSON.parse(selected.redirect_uris)[0]||$('#mode').value!==selected.mode||($('#mode').value==='roster'&&$('#organization').value!==selected.roster_id));}
 function settings(){return {clientId:selected.client_id,authOrigin:data.authOrigin,siteUrl:JSON.parse(selected.redirect_uris)[0],accessPolicy:selected.mode==='admin'?'admin':'member'};}
-function prompt(){return ['아래 공식 안내를 읽고 이 사이트에 Access Kit을 설치해 주세요.','기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.','서비스 연결 정보는 아래 값을 사용하세요. 사람이 필요한 로그인 단계만 요청하고, 원격 배포는 별도 허락을 받으세요.','','https://unpkg.com/access-kit-sdk@'+data.version+'/docs/LLM_INSTALLATION.md','','<access-kit-context>',JSON.stringify({sdkVersion:data.version,...settings(),deploymentAllowed:false},null,2),'</access-kit-context>'].join('\n');}
+function prompt(){return ['아래 공식 안내를 읽고 이 사이트에 Access Kit을 설치해 주세요.','기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.','서비스 연결 정보는 아래 값을 사용하세요. 사람이 필요한 로그인 단계만 요청하세요.','','https://unpkg.com/access-kit-sdk@'+data.version+'/docs/LLM_INSTALLATION.md','','<access-kit-context>',JSON.stringify({sdkVersion:data.version,...settings()},null,2),'</access-kit-context>'].join('\n');}
 function connection(){
  const ready=Boolean(selected),changed=Boolean(dirty());
  $('#connection-empty').hidden=ready;$('#connection-values').hidden=!ready;$('#prompt-preview').hidden=!ready;$('#manual-install').hidden=!ready;
@@ -17,7 +17,9 @@ function mode(){
  const value=$('#mode').value,season=value==='roster';
  $('#organization-label').hidden=!season;$('#organization').required=season;$('#organization').disabled=!data.rosters.some(r=>r.status==='active');
  $('#policy-help').textContent=({approved:'기존 중앙 승인 회원 기준입니다. 새 서비스는 명부 기준을 권장합니다.',roster:'선택한 명부의 CID만 이 서비스의 회원으로 이용합니다. 서비스 소유자는 이 서비스의 개발자로 접근합니다.',admin:'중앙 인증기의 최고 관리자만 이용하는 기존 정책입니다.'})[value]||'이 사이트를 이용할 사람을 선택하세요.';
- $('#policy-lock-note').hidden=true;$('#organization-empty').hidden=!season||data.rosters.some(r=>r.status==='active');
+ const policyLocked=selected?.canChangePolicy===false;
+ $('#policy-lock-note').hidden=!policyLocked;$('#organization-empty').hidden=!season||data.rosters.some(r=>r.status==='active');
+ if(policyLocked){$('#mode').disabled=true;$('#organization').disabled=true;$('#policy-lock-note').textContent='공동 관리자는 서비스 이름과 주소를 수정할 수 있습니다. 연결 명부 변경은 소유자가 처리합니다.';}
  const unavailable=season&&selected&&selected.roster_id&&!data.rosters.some(r=>r.id===selected.roster_id&&r.status==='active');
  $('#organization-unavailable').hidden=!unavailable;
  connection();
@@ -25,7 +27,7 @@ function mode(){
 function rosterOptions(){return [{id:'',name:'명부를 선택하세요'},...data.rosters.filter(r=>r.status==='active').map(r=>({id:r.id,name:(r.owner_user_id?'내 명부 · ':'공유 · ')+r.name+(r.is_default?' (기본값)':'')}))];}
 function reset(){selected=null;$('#service-form').reset();$('#mode').disabled=false;$('#mode').value='roster';options($('#organization'),rosterOptions());$('#organization').value=data.defaultRosterId||'';$('#manual-install').open=false;mode();}
 function show(){
- const raw=data.services.find(x=>x.client_id===$('#existing').value);selected=raw?{...raw,mode:raw.mode==='season'?'roster':raw.mode}:null;
+ const raw=data.services.find(x=>x.client_id===$('#existing').value);selected=raw?{...raw,storedMode:raw.mode,mode:raw.mode==='season'?'roster':raw.mode}:null;
  if(!selected){reset();message('');return;}
  $('#name').value=selected.name;$('#url').value=JSON.parse(selected.redirect_uris)[0];$('#mode').value=selected.mode;$('#mode').disabled=false;
  options($('#organization'),rosterOptions());
@@ -68,9 +70,9 @@ async function load(id){
  loaded=false;$('#service-fields').disabled=true;$('#copy-all').disabled=true;$('#retry-load').hidden=true;
  const response=await fetch('/developer/services');if(!response.ok)throw Error(response.status===403?'개발자 권한을 확인해 주세요.':'연결 정보를 불러오지 못했습니다. 다시 시도해 주세요.');
  data=await response.json();loaded=true;$('#admin').hidden=!data.admin;$('#member-admin').hidden=!data.admin;$('#catalog-link').hidden=!data.admin;
- options($('#existing'),[{id:'',name:'새 서비스 등록'},...data.services.map(x=>({id:x.client_id,name:x.name}))]);$('#service-picker').hidden=!data.services.length;
+ options($('#existing'),[...(!data.serviceOnly?[{id:'',name:'새 서비스 등록'}]:[]),...data.services.map(x=>({id:x.client_id,name:x.name}))]);$('#service-picker').hidden=!data.services.length;
  $('#service-fields').disabled=false;
- if(id){$('#existing').value=id;show();}else reset();
+ if(id||data.serviceOnly&&data.services.length){$('#existing').value=id||data.services[0].client_id;show();}else reset();
 }
 $('#service-form').onsubmit=async e=>{
  e.preventDefault();if(saving||!data)return;
@@ -79,7 +81,7 @@ $('#service-form').onsubmit=async e=>{
  if(url.protocol!=='https:'||url.username||url.password||url.pathname!=='/'||url.search||url.hash){message('사이트 주소는 https://도메인/ 형식으로 입력하세요.','error');return;}
  saving=true;$('#save-service').disabled=true;connection();
  try{
-  const response=await fetch('/developer/services',{method:'POST',headers:{'Content-Type':'application/json','X-Access-Kit-Action':'1'},body:JSON.stringify({clientId:$('#existing').value||undefined,name:$('#name').value.trim(),siteUrl:url.href,mode:$('#mode').value,organizationId:null,rosterId:$('#mode').value==='roster'?$('#organization').value:undefined})});
+  const response=await fetch('/developer/services',{method:'POST',headers:{'Content-Type':'application/json','X-Access-Kit-Action':'1'},body:JSON.stringify({clientId:$('#existing').value||undefined,name:$('#name').value.trim(),siteUrl:url.href,mode:selected?.canChangePolicy===false?selected.storedMode:$('#mode').value,organizationId:selected?.canChangePolicy===false?selected.organization_id:null,rosterId:$('#mode').value==='roster'?$('#organization').value:undefined})});
   const body=await response.json();
   if(!response.ok)throw Error(body.error==='ROSTER_REQUIRED'?'사용할 수 있는 공유 명부 또는 내 명부를 선택하세요.':response.status===403?'이 서비스를 수정할 권한을 확인해 주세요.':response.status===409?'다른 곳에서 설정이 바뀌었습니다. 새로고침 후 확인하세요.':'서비스를 저장하지 못했습니다. 다시 시도해 주세요.');
   await load(body.clientId);message('저장했습니다. LLM 설치 지시문을 복사하세요.','success');

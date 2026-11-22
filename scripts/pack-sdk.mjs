@@ -15,7 +15,7 @@ const staging=await mkdtemp(join(tmpdir(),'access-kit-pack-'));
 try{
  await cp('packages/sdk',join(staging,'sdk'),{recursive:true});
  await mkdir(join(staging,'sdk/docs'));
- for(const name of ['INSTALL.md','QUICKSTART.md','UPGRADE.md','ADAPTERS.md','CONSOLE.md','ROSTER.md','SERVICE_ROSTERS.md','LLM_INSTALLATION.md','INDEPENDENT_AUTH.md','LLM_INDEPENDENT.md'])await copyFile('docs/'+name,join(staging,'sdk/docs',name));
+ for(const name of ['INSTALL.md','QUICKSTART.md','UPGRADE.md','ADAPTERS.md','CONSOLE.md','ROSTER.md','SERVICE_ROSTERS.md','SERVICE_ADMINISTRATORS.md','LLM_INSTALLATION.md','INDEPENDENT_AUTH.md','LLM_INDEPENDENT.md'])await copyFile('docs/'+name,join(staging,'sdk/docs',name));
  // Only the dry-run Worker bundle and schema files enter the distributable. No DB or env files.
  const auth=join(staging,'sdk/auth'),bundle=join(staging,'bundle');await mkdir(join(auth,'migrations'),{recursive:true});
  execFileSync(process.execPath,[resolve('node_modules/wrangler/bin/wrangler.js'),'deploy','--dry-run','--config',resolve('wrangler.jsonc'),'--outdir',bundle],{stdio:'inherit'});

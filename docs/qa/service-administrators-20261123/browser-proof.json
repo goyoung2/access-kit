@@ -1,0 +1,31 @@
+{
+  "at": "2026-11-22T16:25:58.314Z",
+  "environment": "Local Hono + real Miniflare D1; Playwright DOM; synthetic preauthenticated identities",
+  "realGoogleLogin": false,
+  "remoteDeployment": false,
+  "checks": {
+    "ownerAddedBobAndCarolByCid": true,
+    "threeAdministratorsObserved": true,
+    "coadminCreatedEditedDeletedRestoredRosterMember": true,
+    "fileChooserJsonPreviewAndImport": true,
+    "rosterCountAfterImport": 3,
+    "ownServiceStatus": 200,
+    "otherServiceStatus": 403,
+    "consoleListsOnlyAssignedService": true,
+    "revokedAdministratorConsoleStatus": 403,
+    "revokedAdministratorServiceStatus": 403,
+    "centralSharedSourceHiddenWithoutDelegation": true,
+    "centralOperatorGrantedSharedRosterInConsole": true,
+    "coadminEditedSharedRosterAfterDelegation": true,
+    "sharedSourceHiddenAgainAfterConsoleRevoke": true,
+    "invalidJsonMessageVisible": true,
+    "mobileViewport": 390,
+    "mobileDocumentWidth": 375,
+    "tableScrollWidth": 520,
+    "minButtonHeight": 44
+  },
+  "screenshots": [
+    "E:/Codex/access-kit/.wrangler/service-coadmins/desktop-coadmin.png",
+    "E:/Codex/access-kit/.wrangler/service-coadmins/mobile-latest.png"
+  ]
+}

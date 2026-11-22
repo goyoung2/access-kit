@@ -29,6 +29,7 @@ test('three service administrators share one roster; grants, revocation and ever
  const snapshot=await(await f.request('carol','/console/services/a')).json();assert.equal(snapshot.administrators.length,3);
  assert.equal((await f.request('bob','/console/data')).status,200);
  const data=await(await f.request('bob','/console/data')).json();assert.deepEqual(data.services.map((s:{client_id:string})=>s.client_id),['a']);assert.equal(data.users.length,0);
+ const install=await(await f.request('bob','/developer/services')).json();assert.deepEqual(install.rosters.map((r:{id:string})=>r.id),['ra']);assert.equal(install.serviceOnly,true);
  const entry=await f.request('bob','/console/services/a/roster',{action:'entry',revision:1,nickname:'Member A',gameUid:'123'});assert.equal(entry.status,200,await entry.clone().text());
  const roster=await(await f.request('carol','/console/services/a')).json();assert.equal(roster.entries[0].nickname,'Member A');
  assert.equal((await f.request('carol','/console/services/a/roster',{action:'entry',revision:roster.roster.revision,entryId:roster.entries[0].id,entryRevision:roster.entries[0].revision,nickname:'Changed',gameUid:'123'})).status,200);
@@ -39,6 +40,8 @@ test('three service administrators share one roster; grants, revocation and ever
   assert.equal((await f.request(who,'/developer/services',{clientId:'b',name:'Stolen',siteUrl:'https://stolen.test/'})).status,403);
   assert.equal((await f.request(who,'/console/branding',{clientId:'b',title:'Stolen',description:'',logoUrl:'',accent:'#4657cf',theme:'light'})).status,403);
   assert.equal((await f.request(who,'/console/role',{userId:who,role:'superadmin',enabled:true})).status,403);
+  assert.equal((await f.request(who,'/developer/services',{name:'Unauthorized service',siteUrl:'https://new.test/'})).status,403);
+  assert.equal((await f.request(who,'/developer/rosters',{action:'create',name:'Unauthorized roster'})).status,403);
  }
  assert.equal((await f.request('bob','/console/services/a/admins',{userId:'alice',enabled:false})).status,409);
  assert.equal((await commonAccess(f.env,'bob','a'))?.user?.serviceDeveloper,true);assert.equal((await commonAccess(f.env,'bob','b'))?.access.allowed,false);
@@ -47,6 +50,9 @@ test('three service administrators share one roster; grants, revocation and ever
  assert.equal((await f.request('bob','/console/data')).status,403);
  assert.equal((await commonAccess(f.env,'bob','a'))?.access.allowed,false);
  assert.equal((await f.request('carol','/console/services/a')).status,200);
+ await f.request('alice','/console/services/a/admins',{userId:'eve',enabled:true});
+ const mixed=await(await f.request('eve','/developer/services')).json();assert.deepEqual(mixed.rosters.map((r:{id:string})=>r.id).sort(),['ra','rb']);
+ assert.equal(mixed.services.find((s:{client_id:string})=>s.client_id==='a').canChangePolicy,false);assert.equal(mixed.services.find((s:{client_id:string})=>s.client_id==='b').canChangePolicy,true);
 });
 
 test('shared roster service administrators edit only the bound affiliation and cannot change the binding or global membership state',async t=>{

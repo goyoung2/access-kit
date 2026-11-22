@@ -13,7 +13,7 @@ SDK **0.4.0** — Google 로그인, 중앙 명부의 승인 회원 접근 게이
 ```text
 아래 공식 안내를 읽고 이 사이트에 Access Kit을 설치해 주세요.
 기존 기능과 중앙 명부의 접근 제한을 유지하고, npm 설치부터 빌드·익명 차단·허용 회원 입장·로그아웃까지 검증하세요.
-서비스 연결 정보는 기존 설정이나 설치 스튜디오에서 확인하고, 사람이 필요한 로그인 단계만 요청하세요. 원격 배포는 별도 허락을 받으세요.
+서비스 연결 정보는 기존 설정이나 설치 스튜디오에서 확인하고, 사람이 필요한 로그인 단계만 요청하세요.
 
 https://unpkg.com/access-kit-sdk@0.4.0/docs/LLM_INSTALLATION.md
 ```
@@ -25,7 +25,7 @@ https://unpkg.com/access-kit-sdk@0.4.0/docs/LLM_INSTALLATION.md
 자기 명부·회원·DB를 독립 관리하려면 다음 지시문을 전달하세요.
 
 ```text
-아래 공식 안내를 읽고 Access Kit의 독립 인증 서버·관리자 페이지·사이트 SDK를 설치하고 가입 분류와 게이트까지 검증해 주세요. 원격 변경·배포는 별도 허락을 받으세요.
+아래 공식 안내를 읽고 Access Kit의 독립 인증 서버·관리자 페이지·사이트 SDK를 설치하고 가입 분류와 게이트까지 검증해 주세요.
 https://unpkg.com/access-kit-sdk@0.4.0/docs/LLM_INDEPENDENT.md
 ```
 
