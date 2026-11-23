@@ -1,5 +1,5 @@
 {
-  "at": "2026-11-23T05:31:39.870Z",
+  "at": "2026-11-23T06:06:37.714Z",
   "source": "71dceccdc6fee78ab9bc75eab4a0fc8ac9062d2a",
   "local": {
     "initialRed": {
@@ -323,9 +323,41 @@
     "oldAuthServerWritten": false
   },
   "npm": {
-    "status": "awaiting-authentication",
+    "at": "2026-11-23T06:06:26.940Z",
+    "package": "access-kit-sdk",
     "version": "0.6.1",
     "archiveSha256": "b73c7e41ab93e01e419514ce6e537c7fbee3b56035d80013f8c04196a15425be",
-    "files": 36
+    "registryShasum": "d98b408a7098a3d32f69ecbd15d942677e77c885",
+    "anonymousPublicInstall": true,
+    "guides": [
+      {
+        "url": "https://unpkg.com/access-kit-sdk@0.6.1/docs/LLM_INSTALLATION.md",
+        "status": 200
+      },
+      {
+        "url": "https://unpkg.com/access-kit-sdk@0.6.1/docs/LLM_INDEPENDENT.md",
+        "status": 200
+      }
+    ],
+    "doctor": {
+      "ok": true,
+      "runtime": "0.6.1",
+      "hosting": "workers",
+      "siteUrl": "https://ak-team-trial-20261123.nslg-hub.workers.dev/",
+      "assets": 1,
+      "checks": [
+        "generated-files",
+        "source-config",
+        "gate-settings",
+        "build-output",
+        "protected-routing"
+      ],
+      "next": "access-kit secret 후 deploy. 로그인은 배포 사이트에서 확인하세요."
+    },
+    "remoteConsumerDeploy": false,
+    "status": "public-install-verified",
+    "files": 36,
+    "registryLatest": "0.6.1",
+    "cliPublishExitCode": 0
   }
 }
