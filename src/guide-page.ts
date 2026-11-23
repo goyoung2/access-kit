@@ -5,7 +5,7 @@ export function publicGuidePage(){return `<!doctype html><html lang="ko"><head><
 <main><aside aria-label="안내 목차"><p><a href="#install">설치</a></p><p><a href="#policy">입장 조건</a></p><p><a href="#adapters">기존 서버 연결</a></p><p><a href="#upgrade">업데이트 · 복구</a></p></aside><article>
 <span class="tag">GOOGLE SIGN-IN / SDK / CLI</span><h1>내 사이트에 인증 연결하기</h1><p>Access Kit은 Google 로그인과 승인 회원 접근을 연결합니다. SDK 설치에는 GitHub 초대나 npm 로그인이 필요하지 않습니다. 이 안내도 로그인 없이 읽을 수 있습니다.</p>
 <section id="llm"><h2>LLM에게 설치 맡기기</h2><p>프로젝트를 연 코딩 LLM에게 공식 지시문 전체를 전달하세요. 기존 연결 보존, 호스팅 조사, SDK 설치와 검증까지 안내합니다. 연결 정보가 없다면 LLM이 필요한 항목을 안내합니다.</p><p><a href="/guide/llm">공식 설치 지시문 전체 열기 ↗</a></p><button id="copy-llm" type="button">LLM 설치 지시문 복사</button><p id="copy-status" role="status" aria-live="polite"></p></section><section id="install"><h2>설치</h2><p>Node.js 22 LTS 이상을 준비하고 프로젝트 폴더에서 실행하세요. 아래 명령은 npm에 해당 버전이 게시된 뒤 사용할 수 있습니다. E404가 나오면 인증 서버 운영자에게 게시 버전을 확인하세요.</p><pre>npm view access-kit-sdk versions --json
-npm install --save-exact access-kit-sdk@0.6.0
+npm install --save-exact access-kit-sdk@0.6.1
 npx access-kit help</pre>
 <p>기본 명부 회원은 별도 개발자 승인 없이 <a href="/developer/install">설치 스튜디오</a>에서 사이트 주소와 입장 조건을 선택합니다. SDK 설치와 중앙 서버 사용 권한은 별개입니다.</p>
 <pre>npm install --save-dev wrangler@4.160.1

@@ -1,18 +1,26 @@
 import {developerStyle} from './developer-style';
 
 export const permissionReservationScript=String.raw`
-let reservationScope='';
+let reservationScope='',reservationGeneration=0;
 const reservationRoles={developer:'서비스 등록 허용',manager:'회원 관리자',superadmin:'최고 관리자',service_admin:'서비스 공동 관리자'};
 function reservationEndpoint(){return reservationScope?'/console/services/'+encodeURIComponent(reservationScope)+'/invitations':'/console/permission-reservations';}
-async function reservationApi(body){const r=await fetch(reservationEndpoint(),body?{method:'POST',headers:{'Content-Type':'application/json','X-Access-Kit-Action':'1'},body:JSON.stringify(body)}:{});const d=await r.json();if(!r.ok)throw Error(d.error||'권한 예약을 처리하지 못했습니다.');return d;}
+async function reservationApi(body,cursor){const r=await fetch(reservationEndpoint()+(cursor?'?cursor='+encodeURIComponent(cursor):''),body?{method:'POST',headers:{'Content-Type':'application/json','X-Access-Kit-Action':'1'},body:JSON.stringify(body)}:{});const d=await r.json();if(!r.ok)throw Error(d.error||'권한 예약을 처리하지 못했습니다.');return d;}
+function reservationTable(rows){return table(['CID · 권한','상태','관리'],rows.map(r=>{const state=r.redeemed_at?'수락 완료':r.revoked_at?'취소됨':r.expires_at<=Date.now()?'만료됨':'수락 대기';return '<tr><td>'+esc(r.game_uid)+'<br><small>'+esc(reservationRoles[r.role])+' · '+esc(r.client_id?data.services.find(s=>s.client_id===r.client_id)?.name||'해당 서비스':r.organization_id?data.organizations.find(o=>o.id===r.organization_id)?.name||'담당 소속':'이 인증 환경')+'</small></td><td>'+badge(state)+'</td><td>'+(state==='수락 대기'?button('reservation-revoke',r.id,'예약 취소','danger'):'—')+'</td></tr>';}).join(''))+(rows.length?'':'<p class="empty">예약된 권한이 없습니다.</p>');}
 async function openPermissionReservations(clientId=''){
- reservationScope=clientId;const result=await reservationApi();
- dialog('<h2>가입 전 권한 예약</h2><p>CID와 권한을 지정하고 초대 링크를 전달하세요. 상대방이 로그인·가입 후 링크를 수락해야 적용됩니다. 링크는 7일 동안 한 번 사용할 수 있습니다.</p><label>대상 게임 CID<input id="reservation-cid" inputmode="numeric" maxlength="32" required></label>'+(clientId?'<p>권한: 이 서비스의 공동 관리자</p>':'<label>권한<select id="reservation-role">'+Object.entries(reservationRoles).map(([v,n])=>'<option value="'+v+'">'+n+'</option>').join('')+'</select></label><label id="reservation-org-label" hidden>담당 소속<select id="reservation-org">'+liveOrganizations().map(o=>'<option value="'+esc(o.id)+'">'+esc(o.name)+'</option>').join('')+'</select></label><label id="reservation-service-label" hidden>담당 서비스<select id="reservation-service">'+data.services.map(s=>'<option value="'+esc(s.client_id)+'">'+esc(s.name)+'</option>').join('')+'</select></label>')+'<h3>최근 예약</h3>'+table(['CID · 권한','상태','관리'],result.reservations.map(r=>{const state=r.redeemed_at?'수락 완료':r.revoked_at?'취소됨':r.expires_at<=Date.now()?'만료됨':'수락 대기';return '<tr><td>'+esc(r.game_uid)+'<br><small>'+esc(reservationRoles[r.role])+' · '+esc(r.client_id?data.services.find(s=>s.client_id===r.client_id)?.name||'해당 서비스':r.organization_id?data.organizations.find(o=>o.id===r.organization_id)?.name||'담당 소속':'이 인증 환경')+'</small></td><td>'+badge(state)+'</td><td>'+(state==='수락 대기'?button('reservation-revoke',r.id,'예약 취소','danger'):'—')+'</td></tr>';}).join(''))+(result.reservations.length?'':'<p class="empty">예약된 권한이 없습니다.</p>'),async()=>{
+ reservationScope=clientId;const generation=++reservationGeneration,result=await reservationApi();if(generation!==reservationGeneration)return;
+ let rows=result.reservations,nextCursor=result.nextCursor;
+ dialog('<h2>가입 전 권한 예약</h2><p>CID와 권한을 지정하고 초대 링크를 전달하세요. 상대방이 로그인·가입 후 링크를 수락해야 적용됩니다. 링크는 7일 동안 한 번 사용할 수 있습니다.</p><label>대상 게임 CID<input id="reservation-cid" inputmode="numeric" maxlength="32" required></label>'+(clientId?'<p>권한: 이 서비스의 공동 관리자</p>':'<label>권한<select id="reservation-role">'+Object.entries(reservationRoles).map(([v,n])=>'<option value="'+v+'">'+n+'</option>').join('')+'</select></label><label id="reservation-org-label" hidden>담당 소속<select id="reservation-org">'+liveOrganizations().map(o=>'<option value="'+esc(o.id)+'">'+esc(o.name)+'</option>').join('')+'</select></label><label id="reservation-service-label" hidden>담당 서비스<select id="reservation-service">'+data.services.map(s=>'<option value="'+esc(s.client_id)+'">'+esc(s.name)+'</option>').join('')+'</select></label>')+'<h3>권한 예약</h3><div id="reservation-list">'+reservationTable(rows)+'</div><p id="reservation-count">'+rows.length+'건 표시</p><button id="reservation-more" type="button"'+(nextCursor?'':' hidden')+'>더 불러오기</button>',async()=>{
   const role=clientId?'service_admin':$('#reservation-role').value,body={action:'create',role,gameUid:$('#reservation-cid').value.trim()};
   if(role==='service_admin')body.clientId=clientId||$('#reservation-service').value;
   if(role==='manager')body.organizationId=$('#reservation-org').value;
   const created=await reservationApi(body);dialog('<h2>초대 링크를 전달하세요</h2><p>아직 권한은 부여되지 않았습니다. 지정한 CID로 가입하고 이 링크를 수락해야 적용됩니다. 링크는 다시 표시되지 않습니다.</p><label>일회용 초대 링크<input id="reservation-link" readonly value="'+esc(created.url)+'"></label><button id="reservation-copy" type="button">초대 링크 복사</button>');
   $('#reservation-link').select();$('#reservation-copy').onclick=()=>run(async()=>{await navigator.clipboard.writeText(created.url);$('#reservation-copy').textContent='복사했습니다';});
+ });
+ $('#reservation-more').onclick=()=>run(async()=>{
+  const more=$('#reservation-more');more.disabled=true;
+  try{const page=await reservationApi(undefined,nextCursor);if(generation!==reservationGeneration||!$('#dialog').open||!$('#reservation-list'))return;
+   rows=[...rows,...page.reservations];nextCursor=page.nextCursor;$('#reservation-list').innerHTML=reservationTable(rows);$('#reservation-count').textContent=rows.length+'건 표시';more.hidden=!nextCursor;$('#dialog-status').textContent='';
+  }finally{more.disabled=false;}
  });
  if(!clientId){const sync=()=>{$('#reservation-org-label').hidden=$('#reservation-role').value!=='manager';$('#reservation-service-label').hidden=$('#reservation-role').value!=='service_admin';};$('#reservation-role').onchange=sync;sync();}
 }

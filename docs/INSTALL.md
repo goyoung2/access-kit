@@ -13,7 +13,7 @@
 
 ```sh
 npm view access-kit-sdk versions --json
-npm install --save-exact access-kit-sdk@0.6.0
+npm install --save-exact access-kit-sdk@0.6.1
 npx access-kit help
 ```
 

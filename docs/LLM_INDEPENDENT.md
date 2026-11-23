@@ -1,13 +1,13 @@
 # 독립 운영을 LLM에 맡기기
 
-SDK 0.6.0부터 `auth` 설치 도구와 독립 서버 실행본을 공개 npm 패키지로 제공합니다. 자기 Firebase·서버·DB를 사용합니다.
+SDK 0.6.1부터 `auth` 설치 도구와 독립 서버 실행본을 공개 npm 패키지로 제공합니다. 자기 Firebase·서버·DB를 사용합니다.
 
 ## 짧은 지시문
 
 ```text
 Access Kit으로 내 명부와 회원 정보를 내 서버·DB에서 독립 관리하도록 설치해 주세요.
 아래 안내를 읽고 인증 서버·관리자 페이지·사이트 SDK를 연결한 뒤 가입 분류와 게이트를 검증하세요. 다른 맹의 DB는 사용하지 마세요.
-https://unpkg.com/access-kit-sdk@0.6.0/docs/LLM_INDEPENDENT.md
+https://unpkg.com/access-kit-sdk@0.6.1/docs/LLM_INDEPENDENT.md
 ```
 
 위 링크 또는 설치된 `node_modules/access-kit-sdk/docs/LLM_INDEPENDENT.md`에서 상세 절차를 읽습니다.
@@ -21,7 +21,7 @@ https://unpkg.com/access-kit-sdk@0.6.0/docs/LLM_INDEPENDENT.md
 
 사용자 지시와 저장소 지침이 우선합니다. Git root/branch/HEAD/dirty, 기존 사이트 빌드·테스트·호스팅·Access Kit 설정을 먼저 확인하고 보존하세요. 기존 독립 환경은 재생성하지 않습니다. 다른 맹의 데이터·세션·토큰·운영 DB를 복사하거나 재사용하지 마세요. 사용자가 요청한 설치·배포 범위에 따라 자기 계정에서 진행하고, 이미 받은 지시의 허락을 반복해서 묻지 마세요. 다른 서비스의 설정·DB 변경이나 npm 게시는 포함하지 않습니다.
 
-1. context.packageFile/packageSha256이 있으면 SHA256을 직접 확인하고 해당 tarball을 npm install --save-exact로 설치하세요. 공개 설치라면 auth 명령과 auth/template.json을 포함하는 게시된 정확한 버전을 먼저 확인합니다. 기본 공개 설치는 npm view access-kit-sdk@0.6.0 version 확인 후 npm install --save-exact access-kit-sdk@0.6.0을 실행합니다. 실패를 임의의 다른 패키지나 수동 인증 재구현으로 우회하지 마세요.
+1. context.packageFile/packageSha256이 있으면 SHA256을 직접 확인하고 해당 tarball을 npm install --save-exact로 설치하세요. 공개 설치라면 auth 명령과 auth/template.json을 포함하는 게시된 정확한 버전을 먼저 확인합니다. 기본 공개 설치는 npm view access-kit-sdk@0.6.1 version 확인 후 npm install --save-exact access-kit-sdk@0.6.1을 실행합니다. 실패를 임의의 다른 패키지나 수동 인증 재구현으로 우회하지 마세요.
 2. 설치된 docs/INDEPENDENT_AUTH.md를 읽으세요. 자기 Cloudflare 계정·자기 Firebase 프로젝트의 웹 설정·실제 인증 도메인을 확인합니다. 값이 제공되지 않았다면 필요한 외부 입력만 요청하고 로컬 설치·빌드 조사는 계속하세요. 비밀번호·Firebase Admin 개인키·실제 명부를 채팅이나 Git에 넣지 마세요. Google 로그인과 클라우드 계정 승인은 사람이 수행하도록 안내하세요.
 3. npm install --save-dev wrangler@4.160.1 후 npx access-kit auth init --directory 별도폴더 --name 실제영문이름 --auth-origin 자기HTTPS주소 --firebase-project-id 자기프로젝트 --firebase-api-key 웹API키 --firebase-auth-domain 자기인증호스트 --firebase-app-id 웹앱ID --plan 으로 검토합니다. context.auth가 있으면 해당 필드를 사용합니다. 새 비어 있는 하위 폴더에 같은 명령에서 --plan을 제거해 생성합니다. init은 원격 서버나 DB를 생성하지 않습니다.
 4. npx access-kit auth doctor --directory 별도폴더 --local, auth migrate --directory 별도폴더 --local을 실행합니다. 생성 폴더에서 npm install, npm run build를 실행합니다. 빌드는 dry-run입니다. 실제 Google 로그인·원격 설치가 허용되면 안내에 따라 자기 계정의 새 D1·승인 도메인을 구성하고 실제 DB UUID로 doctor를 확인한 뒤 허용된 원격 작업만 합니다. placeholder DB ID를 원격 배포하지 마세요.

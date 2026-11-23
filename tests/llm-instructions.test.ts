@@ -16,7 +16,7 @@ test('official LLM instructions are public without Firebase/DB, with typed conne
  const output=await response.text();
  const [,payload]=output.split('<access-kit-context>\n');assert.ok(payload);
  const context=JSON.parse(payload.split('\n</access-kit-context>')[0]);
- assert.deepEqual(context,{sdkVersion:'0.6.0',authOrigin:'https://auth.test',clientId:'site',siteUrl:'https://site.test/',hosting:'pages',assets:'build'});
+ assert.deepEqual(context,{sdkVersion:'0.6.1',authOrigin:'https://auth.test',clientId:'site',siteUrl:'https://site.test/',hosting:'pages',assets:'build'});
  assert.equal(output.includes('never-reflect'),false);
  for(const query of ['site_url=http://site.test/','site_url=https://site.test/path','hosting=unknown','client_id=bad%0Acommand'])assert.equal((await app.request('https://auth.test/guide/llm?'+query,{},{} as Env)).status,400);
 });
@@ -40,7 +40,7 @@ test('administrator service instructions carry the SDK administrator policy inst
 test('independent public instructions do not bind a new operator to the guide host or its service IDs',async()=>{
  const output=await(await app.request('https://changcheon.test/guide/llm?mode=independent&client_id=foreign',{},{} as Env)).text();
  const context=JSON.parse(output.split('<access-kit-context>\n')[1].split('\n</access-kit-context>')[0]);
- assert.deepEqual(context,{sdkVersion:'0.6.0',mode:'independent'});
+ assert.deepEqual(context,{sdkVersion:'0.6.1',mode:'independent'});
  assert.equal((await app.request('https://auth.test/guide/llm?mode=invalid',{},{} as Env)).status,400);
 });
 

@@ -1,6 +1,6 @@
 {
   "name": "access-kit-sdk",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Google sign-in, approved-member access gates and installation CLI for Access Kit",
   "type": "module",
   "license": "MIT",

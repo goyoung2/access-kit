@@ -18,6 +18,10 @@ const reservationInput=z.discriminatedUnion('role',[
 ]);
 const createInput=z.object({gameUid:z.string().regex(/^\d{1,32}$/).transform(v=>v.replace(/^0+(?=\d)/,''))}).and(reservationInput);
 const tokenInput=z.object({token:z.string().regex(/^[A-Za-z0-9_-]{43}$/)});
+const pageCursor=z.string().min(1).max(512).regex(/^[A-Za-z0-9_-]+$/).transform((value,ctx):unknown=>{
+ try{return JSON.parse(atob(value.replaceAll('-','+').replaceAll('_','/')));}
+ catch(error){if(!(error instanceof Error))throw error;ctx.addIssue({code:'custom',message:'목록 위치를 확인해 주세요.'});return z.NEVER;}
+}).pipe(z.object({createdAt:z.number().int().nonnegative(),id:z.string().min(1).max(192)}));
 type Actor={readonly user:string;readonly superadmin:boolean};
 type Reservation={readonly id:string;readonly game_uid:string;readonly role:'developer'|'superadmin'|'manager'|'service_admin';readonly client_id:string|null;readonly organization_id:string|null;readonly created_by:string;readonly created_at:number;readonly expires_at:number;readonly revoked_at:number|null;readonly redeemed_by:string|null;readonly redeemed_at:number|null};
 const columns='id,game_uid,role,client_id,organization_id,created_by,created_at,expires_at,revoked_at,redeemed_by,redeemed_at';
@@ -27,10 +31,16 @@ function authority(tx:ReturnType<typeof atomicMutation>,actor:string,role:Reserv
  else tx.require(activeOperator,actor);
 }
 async function canReserve(env:Env,actor:Actor,role:Reservation['role'],clientId:string|null){return actor.superadmin||(role==='service_admin'&&Boolean(clientId)&&await managesService(env,actor.user,clientId??''));}
-export async function reservationList(env:Env,actor:Actor,clientId?:string){
+export async function reservationList(env:Env,actor:Actor,clientId?:string,cursor?:string){
  if(clientId){if(!await managesService(env,actor.user,clientId))throw denied();}
  else if(!actor.superadmin)throw denied();
- return (await env.DB.prepare('SELECT '+columns+' FROM permission_reservations'+(clientId?' WHERE client_id=?':'')+' ORDER BY created_at DESC LIMIT 100').bind(...(clientId?[clientId]:[])).all<Reservation>()).results;
+ const after=pageCursor.optional().parse(cursor),predicates:string[]=[],values:(string|number)[]=[];
+ if(clientId){predicates.push('client_id=?');values.push(clientId);}
+ if(after){predicates.push('(created_at<? OR (created_at=? AND id<?))');values.push(after.createdAt,after.createdAt,after.id);}
+ const result=(await env.DB.prepare('SELECT '+columns+' FROM permission_reservations'+(predicates.length?' WHERE '+predicates.join(' AND '):'')+' ORDER BY created_at DESC,id DESC LIMIT 101').bind(...values).all<Reservation>()).results;
+ const reservations=result.slice(0,100),last=reservations.at(-1);
+ const nextCursor=result.length>100&&last?btoa(JSON.stringify({createdAt:last.created_at,id:last.id})).replaceAll('+','-').replaceAll('/','_').replace(/=+$/,''):null;
+ return {reservations,nextCursor};
 }
 export async function reservePermission(env:Env,actor:Actor,body:unknown,origin:string,scope?:string){
  const input=createInput.parse(body),clientId=input.role==='service_admin'?input.clientId:null,organizationId=input.role==='manager'?input.organizationId:null;
@@ -60,7 +70,7 @@ async function invitation(env:Env,token:string){
 export function registerPermissionReservations(app:Hono<{Bindings:Env}>){
  app.get('/permissions/invitation',c=>c.html(permissionInvitationPage()));
  for(const path of ['/console/permission-reservations','/console/services/:clientId/invitations']){
-  app.get(path,async c=>{const actor=await consoleIdentity(c);if(!actor)throw denied();return c.json({reservations:await reservationList(c.env,actor,c.req.param('clientId'))});});
+  app.get(path,async c=>{const actor=await consoleIdentity(c);if(!actor)throw denied();return c.json(await reservationList(c.env,actor,c.req.param('clientId'),c.req.query('cursor')));});
   app.post(path,async c=>{
    const actor=await consoleIdentity(c);if(!actor)throw denied();
    const body=z.object({action:z.enum(['create','revoke']),id:z.string().min(1).optional()}).passthrough().parse(await c.req.json()),scope=c.req.param('clientId');

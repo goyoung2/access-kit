@@ -57,8 +57,19 @@ export async function mutateMembership(env:Env,actor:string,action:z.infer<typeo
    // Preserve the source account's authority before moving its only Google login.
    statements.push(q(`INSERT INTO auth_operators(user_id,role,created_at,created_by_user_id) SELECT ?,role,created_at,created_by_user_id FROM auth_operators WHERE user_id=? ON CONFLICT(user_id) DO NOTHING`,target,action.userId));
    statements.push(q(`INSERT INTO member_managers(user_id,organization_id,granted_by,created_at) SELECT ?,organization_id,granted_by,created_at FROM member_managers WHERE user_id=? ON CONFLICT(user_id,organization_id) DO NOTHING`,target,action.userId));
-   statements.push(q(`INSERT INTO developers(user_id,status) SELECT ?,status FROM developers WHERE user_id=? AND status='active' ON CONFLICT(user_id) DO UPDATE SET status='active'`,target,action.userId));
+   statements.push(q(`INSERT INTO developers(user_id,status) SELECT ?,status FROM developers WHERE user_id=?
+    ON CONFLICT(user_id) DO UPDATE SET status=CASE WHEN developers.status='inactive' OR excluded.status='inactive' THEN 'inactive' ELSE 'active' END`,target,action.userId));
    statements.push(q('UPDATE application_owners SET user_id=? WHERE user_id=?',target,action.userId));
+   statements.push(q('UPDATE access_rosters SET owner_user_id=? WHERE owner_user_id=?',target,action.userId));
+   statements.push(q(`INSERT INTO application_administrators(client_id,user_id,granted_by,created_at)
+    SELECT a.client_id,?,a.granted_by,a.created_at FROM application_administrators a WHERE a.user_id=?
+     AND NOT EXISTS(SELECT 1 FROM application_owners o WHERE o.client_id=a.client_id AND o.user_id=?)
+    ON CONFLICT(client_id,user_id) DO NOTHING`,target,action.userId,target));
+   statements.push(q('DELETE FROM application_administrators WHERE user_id=?',action.userId));
+   // Pending invitations follow the person whose Google identity is being linked;
+   // accepted/cancelled audit records keep their original actor IDs.
+   statements.push(q('UPDATE developer_invitations SET created_by=? WHERE created_by=? AND redeemed_by IS NULL AND expires_at>?',target,action.userId,now));
+   statements.push(q('UPDATE permission_reservations SET created_by=? WHERE created_by=? AND redeemed_at IS NULL AND revoked_at IS NULL AND expires_at>?',target,action.userId,now));
    statements.push(q('DELETE FROM auth_operators WHERE user_id=?',action.userId));
    statements.push(q('DELETE FROM member_managers WHERE user_id=?',action.userId));
    statements.push(q('DELETE FROM developers WHERE user_id=?',action.userId));

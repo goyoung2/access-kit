@@ -54,7 +54,11 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
   const b=z.object({token:z.string().regex(/^[A-Za-z0-9_-]{43}$/)}).parse(await c.req.json()),hash=await sha256Base64Url(b.token),now=Date.now();
   // Single atomic UPDATE wins a race. The transaction grants only the recorded recipient.
   const results=await c.env.DB.batch([
-   c.env.DB.prepare('UPDATE developer_invitations SET redeemed_by=?,redeemed_at=? WHERE token_hash=? AND expires_at>? AND redeemed_by IS NULL').bind(user,now,hash,now),
+   c.env.DB.prepare(`UPDATE developer_invitations SET redeemed_by=?,redeemed_at=?
+    WHERE token_hash=? AND expires_at>? AND redeemed_by IS NULL
+     AND EXISTS(SELECT 1 FROM auth_operators issuer JOIN users u ON u.id=issuer.user_id WHERE issuer.user_id=developer_invitations.created_by AND u.status='active')
+     AND EXISTS(SELECT 1 FROM users WHERE id=? AND status='active')
+     AND NOT EXISTS(SELECT 1 FROM common_members WHERE user_id=? AND status='suspended')`).bind(user,now,hash,now,user,user),
    c.env.DB.prepare("INSERT INTO developers(user_id,status) SELECT redeemed_by,'active' FROM developer_invitations WHERE token_hash=? AND redeemed_by=? AND redeemed_at=? AND changes()=1 ON CONFLICT(user_id) DO UPDATE SET status='active'").bind(hash,user,now),
   ]);
   if(results[0]?.meta.changes!==1)return c.json({error:'INVITATION_EXPIRED_OR_USED'},409);
@@ -73,7 +77,7 @@ export function registerDeveloperRoutes(app:Hono<{Bindings:Env}>){
   if(services.results.some(s=>s.roster_id&&!choices.some(r=>r.id===s.roster_id))){for(const r of await availableRosters(c.env,identity.user,identity.admin,true))if(!choices.some(existing=>existing.id===r.id))choices.push(r);}
   const managedRosterIds=new Set(services.results.map(row=>row.roster_id));
   const rosters=identity.serviceOnly?choices.filter(row=>managedRosterIds.has(row.id)):choices;
-  return c.json({services:services.results.map(s=>({...s,canChangePolicy:identity.admin||s.owner_user_id===identity.user})),organizations:identity.serviceOnly?organizations.results.filter(row=>rosters.some(r=>r.organization_id===row.id)):organizations.results,rosters,defaultRosterId:identity.serviceOnly?null:await c.env.DB.prepare(defaultRosterSql).first<string>('id'),authOrigin:new URL(c.req.url).origin,version:'0.6.0',admin:identity.admin,serviceOnly:identity.serviceOnly});
+  return c.json({services:services.results.map(s=>({...s,canChangePolicy:identity.admin||s.owner_user_id===identity.user})),organizations:identity.serviceOnly?organizations.results.filter(row=>rosters.some(r=>r.organization_id===row.id)):organizations.results,rosters,defaultRosterId:identity.serviceOnly?null:await c.env.DB.prepare(defaultRosterSql).first<string>('id'),authOrigin:new URL(c.req.url).origin,version:'0.6.1',admin:identity.admin,serviceOnly:identity.serviceOnly});
  });
  app.post('/developer/services',async c=>{
   if(c.req.header('Origin')!==new URL(c.req.url).origin||c.req.header('X-Access-Kit-Action')!=='1')return c.json({error:'ORIGIN_DENIED'},403);
