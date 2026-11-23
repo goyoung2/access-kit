@@ -1,0 +1,331 @@
+{
+  "at": "2026-11-23T05:31:39.870Z",
+  "source": "71dceccdc6fee78ab9bc75eab4a0fc8ac9062d2a",
+  "local": {
+    "initialRed": {
+      "failed": 8,
+      "passed": 0
+    },
+    "focusedPassed": 19,
+    "fullSuitePassed": 122,
+    "finalCorePassed": 9,
+    "additionalDialogRegressionPassed": 1,
+    "typecheckPassed": true,
+    "intermittentLocalD1TransportFailureObserved": true,
+    "transportRootCauseConfirmed": false
+  },
+  "remote": {
+    "at": "2026-11-23T05:17:15.432Z",
+    "isolatedRemote": true,
+    "syntheticIdentities": true,
+    "freshGoogleLoginTested": false,
+    "productionMemberDataUsed": false,
+    "checks": [
+      {
+        "name": "issuer revocation succeeds",
+        "passed": true
+      },
+      {
+        "name": "revoked issuer legacy invitation denied",
+        "passed": true
+      },
+      {
+        "name": "revoked invitation never grants registration",
+        "passed": true
+      },
+      {
+        "name": "valid legacy invitation still works",
+        "passed": true
+      },
+      {
+        "name": "legacy invitation remains single use",
+        "passed": true
+      },
+      {
+        "name": "private roster created",
+        "passed": true
+      },
+      {
+        "name": "owned service created",
+        "passed": true
+      },
+      {
+        "name": "other service created",
+        "passed": true
+      },
+      {
+        "name": "source coadmin assigned",
+        "passed": true
+      },
+      {
+        "name": "pending scoped invitation created",
+        "passed": true
+      },
+      {
+        "name": "link approval succeeds",
+        "passed": true
+      },
+      {
+        "name": "Google identity retains canonical member ID",
+        "passed": true
+      },
+      {
+        "name": "linked owner manages service",
+        "passed": true
+      },
+      {
+        "name": "private source edit right preserved",
+        "passed": true
+      },
+      {
+        "name": "private roster ID preserved",
+        "passed": true
+      },
+      {
+        "name": "coadmin role preserved on other service",
+        "passed": true
+      },
+      {
+        "name": "old source session invalidated",
+        "passed": true
+      },
+      {
+        "name": "pending invitation follows linked actor",
+        "passed": true
+      },
+      {
+        "name": "pending invitation did not grant sibling service",
+        "passed": true
+      },
+      {
+        "name": "first page bounded to100",
+        "passed": true
+      },
+      {
+        "name": "next cursor provided",
+        "passed": true
+      },
+      {
+        "name": "older pending invitation visible",
+        "passed": true
+      },
+      {
+        "name": "no duplicated page records",
+        "passed": true
+      },
+      {
+        "name": "last page is terminal",
+        "passed": true
+      },
+      {
+        "name": "malformed cursor rejected",
+        "passed": true
+      },
+      {
+        "name": "new coadmin cannot read global invitation history",
+        "passed": true
+      },
+      {
+        "name": "scope still enforced on pagination",
+        "passed": true
+      }
+    ]
+  },
+  "browser": {
+    "at": "2026-11-23T05:26:48.418Z",
+    "isolatedRemote": true,
+    "firstPageRows": 100,
+    "afterNextPageRows": 102,
+    "cancelDialogOpened": true,
+    "cancelConfirmed": true,
+    "afterCancelPendingRows": 0,
+    "afterCancelCancelledRows": 101,
+    "mobile390": {
+      "pageOverflow": false,
+      "dialogFits": true
+    },
+    "productionAuthenticatedBrowserRetested": false
+  },
+  "remoteCleanup": {
+    "at": "2026-11-23T05:26:18.418Z",
+    "createdWorkerRemoved": true,
+    "createdDatabaseRemoved": true,
+    "productionMemberDataWritten": false
+  },
+  "production": {
+    "at": "2026-11-23T05:26:49.800Z",
+    "healthStatus": 200,
+    "health": {
+      "ok": true,
+      "service": "access-kit",
+      "version": "0.6.1"
+    },
+    "migration": "0011_permission_reservation_pagination.sql",
+    "source": "71dceccdc6fee78ab9bc75eab4a0fc8ac9062d2a",
+    "anonymousGateStatus": 401,
+    "productionMemberDataWritten": false,
+    "privateBackupSaved": true
+  },
+  "preservation": {
+    "at": "2026-11-23T05:26:22.380Z",
+    "allOriginalRowsPreserved": true,
+    "checks": [
+      {
+        "table": "users",
+        "originalRows": 2,
+        "preserved": true
+      },
+      {
+        "table": "auth_identities",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "memberships",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "applications",
+        "originalRows": 2,
+        "preserved": true
+      },
+      {
+        "table": "auth_operators",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "user_reauthentication",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "common_members",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "game_accounts",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "member_applications",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "member_organizations",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "member_seasons",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "season_memberships",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "member_approval_receipts",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "developers",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "application_owners",
+        "originalRows": 2,
+        "preserved": true
+      },
+      {
+        "table": "developer_invitations",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "member_managers",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "login_branding",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "roster_entries",
+        "originalRows": 198,
+        "preserved": true
+      },
+      {
+        "table": "catalog_state",
+        "originalRows": 2,
+        "preserved": true
+      },
+      {
+        "table": "automatic_registrations",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "access_rosters",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "access_roster_entries",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "application_rosters",
+        "originalRows": 2,
+        "preserved": true
+      },
+      {
+        "table": "default_access_roster",
+        "originalRows": 1,
+        "preserved": true
+      },
+      {
+        "table": "common_application_policies",
+        "originalRows": 2,
+        "preserved": true
+      },
+      {
+        "table": "application_administrators",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "service_roster_grants",
+        "originalRows": 0,
+        "preserved": true
+      },
+      {
+        "table": "permission_reservations",
+        "originalRows": 0,
+        "preserved": true
+      }
+    ],
+    "rosterCount": 198,
+    "rosterSha256": "8b1a127553f6aef89aa3915aebddbb0e6ab8b4deedb1953ca6a63d91b40ae749",
+    "unrelatedWorkersUnchanged": true,
+    "existingPagesUnchanged": true,
+    "oldAuthServerWritten": false
+  },
+  "npm": {
+    "status": "awaiting-authentication",
+    "version": "0.6.1",
+    "archiveSha256": "b73c7e41ab93e01e419514ce6e537c7fbee3b56035d80013f8c04196a15425be",
+    "files": 36
+  }
+}

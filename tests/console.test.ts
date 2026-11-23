@@ -4,6 +4,30 @@ import {createAuthFixture} from './auth-fixture';
 import {createSession} from '../src/store';
 import app from '../src/index';
 import {consolePage} from '../src/console-ui';
+import {runInNewContext} from 'node:vm';
+
+test('dialog reservation cancel reaches the revoke endpoint and closes after confirmation',async()=>{
+ type Element={onclick?: (event:unknown)=>unknown;open:boolean;hidden:boolean;disabled:boolean;textContent:string;innerHTML:string;className:string;focus:()=>void;showModal:()=>void;close:()=>void};
+ const elements=new Map<string,Element>();
+ for(const id of ['dialog','dialog-content','dialog-status','cancel','confirm','message','nav','refresh','logout','content']){
+  const element:Element={open:false,hidden:false,disabled:false,textContent:'',innerHTML:'',className:'',focus:()=>{},showModal:()=>{element.open=true;},close:()=>{element.open=false;}};
+  elements.set('#'+id,element);
+ }
+ const mutations:{url:string;body:unknown}[]=[];
+ runInNewContext(consolePage().split('<script type="module">')[1]?.split('</script>')[0]??'',{
+  document:{querySelector:(selector:string)=>elements.get(selector)??null},location:{hash:'#roles'},window:{addEventListener:()=>{}},
+  fetch:(url:string,options?:{body?:string})=>{
+   if(!options?.body)return new Promise(()=>{}); // Initial console load is outside this event-routing test.
+   mutations.push({url,body:JSON.parse(options.body)});
+   return Promise.resolve({ok:true,json:async()=>({ok:true})});
+  },
+ });
+ const clicked={dataset:{action:'reservation-revoke',id:'grant-old'}};
+ elements.get('#dialog-content')?.onclick?.({target:{closest:()=>clicked}});
+ await elements.get('#confirm')?.onclick?.(undefined);
+ assert.deepEqual(mutations,[{url:'/console/permission-reservations',body:{action:'revoke',id:'grant-old'}}]);
+ assert.equal(elements.get('#dialog')?.open,false);
+});
 
 test('console runtime script parses and login contains no management navigation',async t=>{
  new Function(consolePage().split('<script type="module">')[1].split('</script>')[0]);
